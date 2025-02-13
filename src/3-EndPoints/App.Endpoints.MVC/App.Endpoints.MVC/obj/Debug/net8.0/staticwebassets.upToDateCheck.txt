@@ -1,0 +1,125 @@
+wwwroot\css\site.css
+wwwroot\favicon.ico
+wwwroot\images\Categories\asbabkeshi\1.webp
+wwwroot\images\Categories\khodro\1.webp
+wwwroot\images\Categories\sakhteman\1.webp
+wwwroot\images\Categories\salamti\1.webp
+wwwroot\images\Categories\sayer\1.webp
+wwwroot\images\Categories\tamirat\1.webp
+wwwroot\images\Categories\tamizkari\1.webp
+wwwroot\images\HomeServices\amoozesh\1.webp
+wwwroot\images\HomeServices\barbari\1.webp
+wwwroot\images\HomeServices\barghkari\1.webp
+wwwroot\images\HomeServices\carwash\1.webp
+wwwroot\images\HomeServices\Computer\1.webp
+wwwroot\images\HomeServices\event\1.webp
+wwwroot\images\HomeServices\khayati\1.webp
+wwwroot\images\HomeServices\khodro\1.webp
+wwwroot\images\HomeServices\lavazemkhanegi\1.webp
+wwwroot\images\HomeServices\lolekeshi\1.webp
+wwwroot\images\HomeServices\Mobile\1.webp
+wwwroot\images\HomeServices\nezafat\1.webp
+wwwroot\images\HomeServices\pet\1.webp
+wwwroot\images\HomeServices\pezeshki\1.webp
+wwwroot\images\HomeServices\saramyesh\1.webp
+wwwroot\images\HomeServices\shoshtosho\1.webp
+wwwroot\images\HomeServices\taamiratsakhteman\1.webp
+wwwroot\images\SubHomeServices\Barbari\Asbab keshi khavar\1.jpg
+wwwroot\images\SubHomeServices\Barbari\Asbab keshi khavar\2.jpg
+wwwroot\images\SubHomeServices\khodro\carwash\1.jpg
+wwwroot\images\SubHomeServices\khodro\carwash\2.jpg
+wwwroot\images\SubHomeServices\khodro\khdamat khodro\1.jpg
+wwwroot\images\SubHomeServices\khodro\khdamat khodro\2.jpg
+wwwroot\images\SubHomeServices\Sakhteman\barghkari\cheragh.jpg
+wwwroot\images\SubHomeServices\Sakhteman\barghkari\simkeshi.jpg
+wwwroot\images\SubHomeServices\Sakhteman\garmayesh sarmayesh\coolerabi.jpg
+wwwroot\images\SubHomeServices\Sakhteman\garmayesh sarmayesh\pakgegarm.jpg
+wwwroot\images\SubHomeServices\Sakhteman\garmayesh sarmayesh\shofazh.jpg
+wwwroot\images\SubHomeServices\Sakhteman\lole keshi\pomp ab.jpg
+wwwroot\images\SubHomeServices\Sakhteman\lole keshi\shiralat.jpg
+wwwroot\images\SubHomeServices\Sakhteman\lole keshi\takhliye chah.jpg
+wwwroot\images\SubHomeServices\Sakhteman\tamiratsakhteman\banaie.jpg
+wwwroot\images\SubHomeServices\Sakhteman\tamiratsakhteman\kaqazdivari.jpg
+wwwroot\images\SubHomeServices\Sakhteman\tamiratsakhteman\sangkari.jpg
+wwwroot\images\SubHomeServices\salamati\dampezeshki\1.jpg
+wwwroot\images\SubHomeServices\salamati\pezeshki\1.jpg
+wwwroot\images\SubHomeServices\salamati\pezeshki\2.jpg
+wwwroot\images\SubHomeServices\Sayer\amoozesh\1.jpg
+wwwroot\images\SubHomeServices\Sayer\amoozesh\2.jpg
+wwwroot\images\SubHomeServices\Sayer\event\1.jpg
+wwwroot\images\SubHomeServices\Sayer\event\2.jpeg
+wwwroot\images\SubHomeServices\Sayer\khayati lebas\1.jpg
+wwwroot\images\SubHomeServices\Sayer\khayati lebas\2.png
+wwwroot\images\SubHomeServices\TamiratAshia\khadamat computer\1.webp
+wwwroot\images\SubHomeServices\TamiratAshia\khadamat computer\2.webp
+wwwroot\images\SubHomeServices\TamiratAshia\mobile\1.jpg
+wwwroot\images\SubHomeServices\TamiratAshia\mobile\2.jpg
+wwwroot\images\SubHomeServices\TamiratAshia\nasb va taamirat\1.jpg
+wwwroot\images\SubHomeServices\TamiratAshia\nasb va taamirat\2.jpg
+wwwroot\images\SubHomeServices\tamizkari\nezafat\rah pele.jpg
+wwwroot\images\SubHomeServices\tamizkari\nezafat\service adi.jpg
+wwwroot\images\SubHomeServices\tamizkari\nezafat\service vizhe.jpg
+wwwroot\images\SubHomeServices\tamizkari\shostosho\ghalishoie.jpg
+wwwroot\images\SubHomeServices\tamizkari\shostosho\khoshkshoie.jpg
+wwwroot\images\SubHomeServices\tamizkari\shostosho\shostesho dar mahal.jpg
+wwwroot\images\User\Admin\admin.png
+wwwroot\images\User\Customer\ali.jpg
+wwwroot\images\User\Expert\shahin.png
+wwwroot\js\site.js
+wwwroot\lib\bootstrap\dist\css\bootstrap.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+wwwroot\lib\bootstrap\LICENSE
+wwwroot\lib\jquery\dist\jquery.js
+wwwroot\lib\jquery\dist\jquery.min.js
+wwwroot\lib\jquery\dist\jquery.min.map
+wwwroot\lib\jquery\LICENSE.txt
+wwwroot\lib\jquery-validation\dist\additional-methods.js
+wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+wwwroot\lib\jquery-validation\dist\jquery.validate.js
+wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+wwwroot\lib\jquery-validation\LICENSE.md
+wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js
+wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js
+wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
