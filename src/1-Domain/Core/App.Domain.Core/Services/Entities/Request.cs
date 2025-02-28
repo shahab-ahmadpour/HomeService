@@ -41,15 +41,13 @@ namespace App.Domain.Core.Services.Entities
         public DateTime ExecutionDate { get; set; }
 
         [Required]
-        [MaxLength(255)]
-        public string EnvironmentImage { get; set; } = null!;
-
-        [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [Required]
         public bool IsEnabled { get; set; } = true;
 
         public ICollection<Proposal> Proposals { get; set; } = new List<Proposal>();
+
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

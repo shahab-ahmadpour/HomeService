@@ -1,0 +1,122 @@
+﻿@model App.Domain.Core.DTO.Requests.CreateRequestDto
+
+@{
+    Layout = "~/Views/Shared/_CustomerPanelLayout.cshtml";
+    ViewData["Title"] = "ثبت سفارش جدید";
+}
+
+<h2 class="section-title">ثبت سفارش جدید</h2>
+<div class="order-card">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <!-- CustomerId مخفی از مدل -->
+        <input type="hidden" asp-for="CustomerId" />
+
+        <!-- انتخاب SubHomeService -->
+        <div class="form-group">
+            <label for="SubHomeServiceId" class="form-label">سرویس موردنظر</label>
+            <select asp-for="SubHomeServiceId" class="form-control" required>
+                <option value="">-- انتخاب کنید --</option>
+                @foreach (var service in ViewBag.SubHomeServices)
+                {
+                    <option value="@service.Id">@service.Name</option>
+                }
+            </select>
+            <span asp-validation-for="SubHomeServiceId" class="text-danger"></span>
+        </div>
+
+        <!-- توضیحات -->
+        <div class="form-group">
+            <label for="Description" class="form-label">توضیحات سفارش</label>
+            <textarea asp-for="Description" class="form-control" rows="4" placeholder="جزئیات سفارش خود را وارد کنید..." required></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <!-- تاریخ سررسید -->
+        <div class="form-group">
+            <label for="Deadline" class="form-label">تاریخ سررسید</label>
+            <input type="date" asp-for="Deadline" class="form-control" required />
+            <span asp-validation-for="Deadline" class="text-danger"></span>
+        </div>
+
+        <!-- تاریخ اجرا -->
+        <div class="form-group">
+            <label for="ExecutionDate" class="form-label">تاریخ اجرا</label>
+            <input type="date" asp-for="ExecutionDate" class="form-control" required />
+            <span asp-validation-for="ExecutionDate" class="text-danger"></span>
+        </div>
+
+        <!-- دکمه ثبت -->
+        <button type="submit" class="btn-submit">ثبت سفارش</button>
+    </form>
+</div>
+
+<style>
+    .section-title {
+        color: #1e3a8a;
+        font-weight: 700;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .order-card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+        padding: 25px;
+        max-width: 700px;
+        margin: 20px auto;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #1e3a8a;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .form-control {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        width: 100%;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #1e3a8a;
+            outline: none;
+            box-shadow: 0 0 5px rgba(30, 58, 138, 0.3);
+        }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .btn-submit {
+        background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        width: 100%;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+        .btn-submit:hover {
+            background: linear-gradient(45deg, #16317a, #2563eb);
+        }
+
+    .text-danger {
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+</style>

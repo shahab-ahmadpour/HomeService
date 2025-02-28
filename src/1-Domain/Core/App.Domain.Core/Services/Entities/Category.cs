@@ -21,6 +21,7 @@ namespace App.Domain.Core.Services.Entities
         [Required, MaxLength(255)]
         public string ImagePath { get; set; }
         public bool IsActive { get; set; } = true;
+
         public List<HomeService> HomeServices { get; set; } = new();
     }
 }

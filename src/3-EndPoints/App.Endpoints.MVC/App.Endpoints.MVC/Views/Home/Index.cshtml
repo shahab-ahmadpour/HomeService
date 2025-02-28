@@ -1,8 +1,54 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<App.Domain.Core.DTO.HomeServices.HomeServiceDto>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "صفحه اصلی";
+}
+<h2 class="section-title">سرویس مورد نظر رو انتخاب کنید</h2>
+<main>
+    <section class="services-section">
+        <div class="container">
+            @if (Model == null || !Model.Any())
+            {
+                <p class="no-data">هیچ سرویسی پیدا نشد!</p>
+            }
+            else
+            {
+                <div class="service-grid">
+                    @foreach (var homeService in Model)
+                    {
+                        <div class="service-card">
+                            <div class="service-image">
+                                <img src="@(string.IsNullOrEmpty(homeService.ImagePath) ? "/images/homeservices/default.jpg" : homeService.ImagePath)" alt="@homeService.Name" class="service-img" />
+                            </div>
+                            <div class="service-content">
+                                <h3 class="service-title">@homeService.Name</h3>
+                                @if (homeService.SubHomeServices == null || !homeService.SubHomeServices.Any())
+                                {
+                                    <p class="no-subservices">بدون زیرمجموعه</p>
+                                }
+                                else
+                                {
+                                    <ul class="sub-services">
+                                        @foreach (var subService in homeService.SubHomeServices)
+                                        {
+                                            <li class="sub-service-item">
+                                                <a href="@Url.Action("Order", "Customer", new { subServiceId = subService.Id })" class="sub-service-link">
+                                                    <span class="sub-service-name">@subService.Name</span>
+                                                    <span class="sub-service-price">@subService.BasePrice.ToString("N0") تومان</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                <a href="@Url.Action("Services", "Customer")" class="explore-btn">مشاهده همه سرویس‌ها</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+</main>
+
+<link rel="stylesheet" href="~/css/home.css">

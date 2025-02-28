@@ -13,25 +13,29 @@ namespace App.Domain.Core.Users.Entities
     public class AppUser : IdentityUser<int>
     {
         [Required, MaxLength(50)]
-        public string FirstName { get; set; } = null!;
+        public string FirstName { get; set; } = "Default";
+
         [Required, MaxLength(50)]
-        public string LastName { get; set; } = null!;
+        public string LastName { get; set; } = "Default";
+
         [Required, Column(TypeName = "decimal(18,2)")]
         public decimal AccountBalance { get; set; } = 0;
+
         public string ProfilePicture { get; set; } = "default.png";
         public bool IsEnabled { get; set; } = false;
         public bool IsConfirmed { get; set; } = false;
-        [Required, EmailAddress]
-        public string Email { get; set; } = null!;
 
-        [Required]
-        public string PasswordHash { get; set; } = null!;
+        [Required, EmailAddress]
+        public override string Email { get; set; } = string.Empty;
+
         public DateTime CreatedAt { get; set; }
 
-        public UserRole Role { get; set; }
+        [Required]
+        public UserRole Role { get; set; } = UserRole.Customer;
 
         public Customer? Customer { get; set; }
         public Expert? Expert { get; set; }
         public Admin? Admin { get; set; }
     }
+
 }

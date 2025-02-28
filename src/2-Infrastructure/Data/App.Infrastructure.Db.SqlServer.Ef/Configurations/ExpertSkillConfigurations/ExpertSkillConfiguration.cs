@@ -26,7 +26,35 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.ExpertSkillConfigura
                 .WithMany(s => s.ExpertSkills)
                 .HasForeignKey(es => es.SkillId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+
+            builder.HasData(
+                new ExpertSkill
+                {
+                    Id = 1,
+                    ExpertId = 1,
+                    SkillId = 1
+                },
+
+                new ExpertSkill
+                {
+                    Id = 2,
+                    ExpertId = 1,
+                    SkillId = 2
+                },
+
+                new ExpertSkill
+                {
+                    Id = 3,
+                    ExpertId = 2,
+                    SkillId = 3
+                }
+
+
+            );
+
         }
+        
     }
 
 }

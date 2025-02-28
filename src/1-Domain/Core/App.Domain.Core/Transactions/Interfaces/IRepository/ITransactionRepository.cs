@@ -1,4 +1,4 @@
-﻿using App.Domain.Core._ِDTO.Transactions;
+﻿using App.Domain.Core.DTO.Transactions;
 using App.Domain.Core.Transactions.Entities;
 using System;
 using System.Collections.Generic;

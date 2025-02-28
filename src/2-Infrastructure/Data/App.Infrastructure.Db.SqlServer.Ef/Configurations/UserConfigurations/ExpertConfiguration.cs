@@ -23,17 +23,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.UserConfigurations
                 .HasForeignKey<Expert>(e => e.AppUserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.ToTable("Experts");
-
-            builder.HasData(new Expert
-            {
-                Id = 1,
-                AppUserId = 3,
-                PhoneNumber = "09302226858",
-                Address = "koche mahnaz",
-                City = "Tehran",
-                State = "Tehran",
-            });
         }
     }
 }

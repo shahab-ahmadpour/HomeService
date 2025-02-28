@@ -22,6 +22,392 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("App.Domain.Core.Locations.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "تبریز",
+                            ProvinceId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "ارومیه",
+                            ProvinceId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "اردبیل",
+                            ProvinceId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "اصفهان",
+                            ProvinceId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "کرج",
+                            ProvinceId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "ایلام",
+                            ProvinceId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "بوشهر",
+                            ProvinceId = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "تهران",
+                            ProvinceId = 8
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "شهرکرد",
+                            ProvinceId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "بیرجند",
+                            ProvinceId = 10
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "مشهد",
+                            ProvinceId = 11
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "بجنورد",
+                            ProvinceId = 12
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "اهواز",
+                            ProvinceId = 13
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "زنجان",
+                            ProvinceId = 14
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "سمنان",
+                            ProvinceId = 15
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "زاهدان",
+                            ProvinceId = 16
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "شیراز",
+                            ProvinceId = 17
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "قزوین",
+                            ProvinceId = 18
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "قم",
+                            ProvinceId = 19
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "سنندج",
+                            ProvinceId = 20
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "کرمان",
+                            ProvinceId = 21
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "کرمانشاه",
+                            ProvinceId = 22
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Name = "یاسوج",
+                            ProvinceId = 23
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "گرگان",
+                            ProvinceId = 24
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Name = "رشت",
+                            ProvinceId = 25
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Name = "خرم‌آباد",
+                            ProvinceId = 26
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Name = "ساری",
+                            ProvinceId = 27
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Name = "اراک",
+                            ProvinceId = 28
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Name = "بندرعباس",
+                            ProvinceId = 29
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Name = "همدان",
+                            ProvinceId = 30
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Name = "یزد",
+                            ProvinceId = 31
+                        });
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Locations.Province", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Provinces");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "آذربایجان شرقی"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "آذربایجان غربی"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "اردبیل"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "اصفهان"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "البرز"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "ایلام"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "بوشهر"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "تهران"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "چهارمحال و بختیاری"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "خراسان جنوبی"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "خراسان رضوی"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "خراسان شمالی"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "خوزستان"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "زنجان"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "سمنان"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "سیستان و بلوچستان"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "فارس"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "قزوین"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "قم"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "کردستان"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "کرمان"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Name = "کرمانشاه"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Name = "کهگیلویه و بویراحمد"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "گلستان"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Name = "گیلان"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Name = "لرستان"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Name = "مازندران"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Name = "مرکزی"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Name = "هرمزگان"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Name = "همدان"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Name = "یزد"
+                        });
+                });
+
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -340,6 +726,9 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.Property<int>("RequestId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RequestId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
@@ -352,7 +741,47 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("RequestId")
                         .IsUnique();
 
+                    b.HasIndex("RequestId1");
+
                     b.ToTable("Orders", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 487, DateTimeKind.Utc).AddTicks(6697),
+                            CustomerId = 1,
+                            ExpertId = 1,
+                            FinalPrice = 450m,
+                            IsActive = true,
+                            PaymentStatus = 0,
+                            ProposalId = 1,
+                            RequestId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 487, DateTimeKind.Utc).AddTicks(6702),
+                            CustomerId = 1,
+                            ExpertId = 1,
+                            FinalPrice = 600m,
+                            IsActive = true,
+                            PaymentStatus = 0,
+                            ProposalId = 2,
+                            RequestId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 487, DateTimeKind.Utc).AddTicks(6704),
+                            CustomerId = 2,
+                            ExpertId = 2,
+                            FinalPrice = 780m,
+                            IsActive = true,
+                            PaymentStatus = 0,
+                            ProposalId = 3,
+                            RequestId = 3
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Proposal", b =>
@@ -384,6 +813,9 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -403,11 +835,60 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
 
                     b.HasIndex("ExpertId");
 
+                    b.HasIndex("OrderId");
+
                     b.HasIndex("RequestId");
 
                     b.HasIndex("SkillId");
 
                     b.ToTable("Proposals", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6157),
+                            Description = "پیشنهاد انجام خدمات برای درخواست بنایی",
+                            ExecutionDate = new DateTime(2025, 3, 5, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6153),
+                            ExpertId = 1,
+                            IsEnabled = true,
+                            OrderId = 1,
+                            Price = 450000m,
+                            RequestId = 1,
+                            ResponseTime = new DateTime(2025, 3, 1, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6156),
+                            SkillId = 1,
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6160),
+                            Description = "پیشنهاد انجام خدمات برای درخواست کاغذ دیواری",
+                            ExecutionDate = new DateTime(2025, 3, 3, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6159),
+                            ExpertId = 1,
+                            IsEnabled = true,
+                            OrderId = 2,
+                            Price = 600000m,
+                            RequestId = 2,
+                            ResponseTime = new DateTime(2025, 3, 1, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6160),
+                            SkillId = 2,
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6163),
+                            Description = "پیشنهاد انجام خدمات برای درخواست سنگ کاری",
+                            ExecutionDate = new DateTime(2025, 3, 7, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6162),
+                            ExpertId = 2,
+                            IsEnabled = false,
+                            OrderId = 3,
+                            Price = 780000m,
+                            RequestId = 3,
+                            ResponseTime = new DateTime(2025, 3, 2, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6163),
+                            SkillId = 3,
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Request", b =>
@@ -434,11 +915,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("EnvironmentImage")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
                     b.Property<DateTime>("ExecutionDate")
                         .HasColumnType("datetime2");
 
@@ -460,6 +936,44 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("SubHomeServiceId");
 
                     b.ToTable("Requests", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1442),
+                            CustomerId = 1,
+                            Deadline = new DateTime(2025, 3, 5, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1436),
+                            Description = "درخواست بنایی ساختمان",
+                            ExecutionDate = new DateTime(2025, 3, 3, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1442),
+                            IsEnabled = true,
+                            Status = 0,
+                            SubHomeServiceId = 10
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1446),
+                            CustomerId = 1,
+                            Deadline = new DateTime(2025, 3, 7, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1445),
+                            Description = "درخواست کاغذ دیواری",
+                            ExecutionDate = new DateTime(2025, 3, 5, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1446),
+                            IsEnabled = true,
+                            Status = 0,
+                            SubHomeServiceId = 11
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1449),
+                            CustomerId = 2,
+                            Deadline = new DateTime(2025, 3, 10, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1448),
+                            Description = "درخواست سنگ کاری",
+                            ExecutionDate = new DateTime(2025, 3, 8, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1449),
+                            IsEnabled = true,
+                            Status = 0,
+                            SubHomeServiceId = 12
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Review", b =>
@@ -475,11 +989,17 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<int>("ExpertId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -499,6 +1019,41 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .IsUnique();
 
                     b.ToTable("Reviews", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Comment = "خیلی عالی بود سرموقع انجام شد",
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 488, DateTimeKind.Utc).AddTicks(800),
+                            CustomerId = 1,
+                            ExpertId = 1,
+                            IsApproved = false,
+                            OrderId = 1,
+                            Rating = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Comment = "سرویس خوبی انجام دادن فقط یکم تو تحویل سرویس تاخیر داشتن",
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 488, DateTimeKind.Utc).AddTicks(803),
+                            CustomerId = 1,
+                            ExpertId = 1,
+                            IsApproved = false,
+                            OrderId = 2,
+                            Rating = 4
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Comment = "فوق العاده بود همه چی",
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 488, DateTimeKind.Utc).AddTicks(804),
+                            CustomerId = 2,
+                            ExpertId = 2,
+                            IsApproved = false,
+                            OrderId = 3,
+                            Rating = 5
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.SubHomeService", b =>
@@ -988,6 +1543,26 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("SkillId");
 
                     b.ToTable("ExpertSkills", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ExpertId = 1,
+                            SkillId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ExpertId = 1,
+                            SkillId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ExpertId = 2,
+                            SkillId = 3
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Skills.Entities.Skill", b =>
@@ -1011,6 +1586,26 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("SubHomeServiceId");
 
                     b.ToTable("Skills", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "بنایی",
+                            SubHomeServiceId = 10
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "کاغذ دیواری",
+                            SubHomeServiceId = 11
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "سنگ کاری",
+                            SubHomeServiceId = 12
+                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Transactions.Entities.Transaction", b =>
@@ -1076,14 +1671,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Admins", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppUserId = 1
-                        });
+                    b.ToTable("Admins");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Users.Entities.AppUser", b =>
@@ -1149,7 +1737,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -1194,69 +1781,120 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             AccountBalance = 1000m,
-                            ConcurrencyStamp = "1465aede-5b2b-4cf5-a836-4d3ed9320d91",
-                            CreatedAt = new DateTime(2025, 2, 13, 20, 11, 53, 592, DateTimeKind.Utc).AddTicks(3582),
-                            Email = "admin@example.com",
+                            ConcurrencyStamp = "3dc51e8b-7ca8-4738-a1b1-86d1a7aab177",
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 488, DateTimeKind.Utc).AddTicks(7771),
+                            Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
                             IsConfirmed = false,
                             IsEnabled = true,
                             LastName = "User",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAECuUVFTlYlvrYAuIk9avyJbVpDc7lL9faSfafFT0d5R5UdFaI6VAGw7IJVDgzZT/1A==",
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDw+MTrzIYPTPlKj+OMGz3MMTjAtuAccrOeIVZSxSI0lRdpcBnx4Ki+btJdCHpjlbQ==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "images\\User\\Admin\\admin.png",
                             Role = 3,
+                            SecurityStamp = "9fc31881-dca6-492c-922c-dfd707727388",
                             TwoFactorEnabled = false,
-                            UserName = "admin"
+                            UserName = "admin@gmail.com"
                         },
                         new
                         {
                             Id = 2,
                             AccessFailedCount = 0,
                             AccountBalance = 500m,
-                            ConcurrencyStamp = "90cf2eae-1cec-44ec-9533-0de2870a3348",
-                            CreatedAt = new DateTime(2025, 2, 13, 20, 11, 53, 647, DateTimeKind.Utc).AddTicks(7202),
-                            Email = "ali@example.com",
+                            ConcurrencyStamp = "3e4ddbdd-3c5c-4e1a-941a-12f7cd012201",
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 545, DateTimeKind.Utc).AddTicks(3779),
+                            Email = "ali@gmail.com",
                             EmailConfirmed = false,
-                            FirstName = "Ali",
+                            FirstName = "علی",
                             IsConfirmed = false,
                             IsEnabled = true,
-                            LastName = "Abasi",
+                            LastName = "عباسی",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ALI@EXAMPLE.COM",
-                            NormalizedUserName = "ALI123",
-                            PasswordHash = "AQAAAAIAAYagAAAAELzocLBZlRfW31gA0nSgTL9Rq3Sier18zc/Q2BQj6+NIGVlmdPtMCOyXcCzBSqUHFw==",
+                            NormalizedEmail = "ALI@GMAIL.COM",
+                            NormalizedUserName = "ALI@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI/p3D//Q7NUD8LvSfpxmuBBfyywST6O1VoiWR3iqvUQ3G88cezz6hHqY3tAfvCC8A==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "images\\User\\Customer\\ali.jpg",
                             Role = 1,
+                            SecurityStamp = "8613464b-e30a-400a-aeac-c1a3a8eb277c",
                             TwoFactorEnabled = false,
-                            UserName = "ali123"
+                            UserName = "ali@gmail.com"
                         },
                         new
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            AccountBalance = 750m,
-                            ConcurrencyStamp = "1f878c9c-c892-47c5-85d0-9e0913da9753",
-                            CreatedAt = new DateTime(2025, 2, 13, 20, 11, 53, 703, DateTimeKind.Utc).AddTicks(4202),
-                            Email = "shahin@example.com",
+                            AccountBalance = 650m,
+                            ConcurrencyStamp = "9948f5bf-98e2-4295-b074-c7580fcc9d73",
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 601, DateTimeKind.Utc).AddTicks(4536),
+                            Email = "sina47@gmail.com",
                             EmailConfirmed = false,
-                            FirstName = "Shahin",
+                            FirstName = "سینا",
                             IsConfirmed = false,
                             IsEnabled = true,
-                            LastName = "Hasani",
+                            LastName = "مرادی",
                             LockoutEnabled = false,
-                            NormalizedEmail = "SHAHIN@EXAMPLE.COM",
-                            NormalizedUserName = "SHAHIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH7ZLvdGBryBIr4rQ8YRhSLtf37yC13VsdDSm/SWgZFmAINvqnLcFL6EdKh9MHGJWA==",
+                            NormalizedEmail = "SINA47@GMAIL.COM",
+                            NormalizedUserName = "SINA47@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPfGdviAcaITsXJnlQT2PcnDZswMHEptfh04xaOclWrFJ6OsRvpMhwYqZOI+Nyl8eQ==",
+                            PhoneNumberConfirmed = false,
+                            ProfilePicture = "images\\User\\Customer\\sina.png",
+                            Role = 1,
+                            SecurityStamp = "e028a20c-38fb-4ec6-b777-cd1f4dfdcb16",
+                            TwoFactorEnabled = false,
+                            UserName = "sina47@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AccessFailedCount = 0,
+                            AccountBalance = 750m,
+                            ConcurrencyStamp = "26fcbff9-365b-4b56-8202-074fc5c99245",
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 657, DateTimeKind.Utc).AddTicks(8385),
+                            Email = "shahin@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "شاهین",
+                            IsConfirmed = false,
+                            IsEnabled = true,
+                            LastName = "حسنی",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "SHAHIN@GMAIL.COM",
+                            NormalizedUserName = "SHAHIN@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAkfVAAWaqBcPG9v+SRcwd5sAx+6XoDv5h+Fz3dpOMmsMgQUSV7867Flz8NcH0VFPg==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "images\\User\\Expert\\shahin.png",
                             Role = 2,
+                            SecurityStamp = "cbd7e1a2-b995-4717-8728-0c3aea9642e4",
                             TwoFactorEnabled = false,
-                            UserName = "shahin"
+                            UserName = "shahin@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AccessFailedCount = 0,
+                            AccountBalance = 100m,
+                            ConcurrencyStamp = "4df45e40-ac5f-4101-a698-273ea5a81b84",
+                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 714, DateTimeKind.Utc).AddTicks(4846),
+                            Email = "karimi@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "فاطمه",
+                            IsConfirmed = false,
+                            IsEnabled = true,
+                            LastName = "کریمی",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "KARIMI@GMAIL.COM",
+                            NormalizedUserName = "KARIMI@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJkSodK+fZ0/C4JLvetbhNCQkf9F8H0VlMzDTQ2TmM168J7DN3Eqoa3xze3N2N4d1Q==",
+                            PhoneNumberConfirmed = false,
+                            ProfilePicture = "images\\User\\Expert\\fatemeh.png",
+                            Role = 2,
+                            SecurityStamp = "aed21c49-9e13-471f-b262-18f59bdbf6b0",
+                            TwoFactorEnabled = false,
+                            UserName = "karimi@gmail.com"
                         });
                 });
 
@@ -1302,11 +1940,20 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 1,
-                            Address = "shabnam yekom",
+                            Address = "شبنم یکم",
                             AppUserId = 2,
-                            City = "Tehran",
+                            City = "تهران",
                             PhoneNumber = "09121232165",
-                            State = "Tehran"
+                            State = "تهران"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "پونک",
+                            AppUserId = 3,
+                            City = "تهران",
+                            PhoneNumber = "09195638521",
+                            State = "تهران"
                         });
                 });
 
@@ -1346,17 +1993,26 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Experts", (string)null);
+                    b.ToTable("Experts");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Address = "koche mahnaz",
-                            AppUserId = 3,
-                            City = "Tehran",
+                            Address = "کوچه مهناز",
+                            AppUserId = 4,
+                            City = "تهران",
                             PhoneNumber = "09302226858",
-                            State = "Tehran"
+                            State = "تهران"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "تهران پارس",
+                            AppUserId = 5,
+                            City = "تهران",
+                            PhoneNumber = "09356985214",
+                            State = "تهران"
                         });
                 });
 
@@ -1388,6 +2044,26 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Expert",
+                            NormalizedName = "EXPERT"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -1472,6 +2148,33 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 4,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 5,
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -1491,6 +2194,17 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Locations.City", b =>
+                {
+                    b.HasOne("App.Domain.Core.Locations.Province", "Province")
+                        .WithMany("Cities")
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Province");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.HomeService", b =>
@@ -1530,6 +2244,10 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("App.Domain.Core.Services.Entities.Request", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("RequestId1");
+
                     b.Navigation("Customer");
 
                     b.Navigation("Expert");
@@ -1547,6 +2265,12 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("App.Domain.Core.Services.Entities.Order", "Order")
+                        .WithMany("Proposals")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("App.Domain.Core.Services.Entities.Request", "Request")
                         .WithMany("Proposals")
                         .HasForeignKey("RequestId")
@@ -1560,6 +2284,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .IsRequired();
 
                     b.Navigation("Expert");
+
+                    b.Navigation("Order");
 
                     b.Navigation("Request");
 
@@ -1764,6 +2490,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("App.Domain.Core.Locations.Province", b =>
+                {
+                    b.Navigation("Cities");
+                });
+
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Category", b =>
                 {
                     b.Navigation("HomeServices");
@@ -1774,8 +2505,15 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.Navigation("SubHomeServices");
                 });
 
+            modelBuilder.Entity("App.Domain.Core.Services.Entities.Order", b =>
+                {
+                    b.Navigation("Proposals");
+                });
+
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Request", b =>
                 {
+                    b.Navigation("Orders");
+
                     b.Navigation("Proposals");
                 });
 

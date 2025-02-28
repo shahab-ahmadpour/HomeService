@@ -1,4 +1,4 @@
-﻿using App.Domain.Core._ِDTO.SubHomeServices;
+﻿using App.Domain.Core.DTO.SubHomeServices;
 using App.Domain.Core.Services.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,10 +10,12 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
 {
     public interface ISubHomeServiceRepository
     {
-        Task<bool> CreateAsync(CreateSubHomeServiceDto dto, CancellationToken cancellationToken);
+        Task<bool> CreateAsync(SubHomeService subHomeService, CancellationToken cancellationToken);
         Task<bool> UpdateAsync(int id, UpdateSubHomeServiceDto dto, CancellationToken cancellationToken);
         Task<SubHomeServiceDto> GetAsync(int id, CancellationToken cancellationToken);
         Task<List<SubHomeServiceListItemDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
+        Task<bool> ExistsAsync(int id, CancellationToken cancellationToken);
+        List<SubHomeService> GetAllServices();
     }
 }

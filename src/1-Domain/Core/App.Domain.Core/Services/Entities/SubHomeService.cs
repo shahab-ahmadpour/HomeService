@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace App.Domain.Core.Services.Entities
 {
@@ -28,8 +29,8 @@ namespace App.Domain.Core.Services.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal BasePrice { get; set; }
 
-        [Required, MaxLength(255)]
-        public string ImagePath { get; set; } = null!;
+        [MaxLength(255)]
+        public string ImagePath { get; set; }
 
         [Required, ForeignKey("HomeService")]
         public int HomeServiceId { get; set; }

@@ -23,13 +23,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.UserConfigurations
                 .HasForeignKey<Admin>(a => a.AppUserId) 
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.ToTable("Admins");
-
-            builder.HasData(new Admin
-            {
-                Id = 1,
-                AppUserId = 1
-            });
         }
     }
 

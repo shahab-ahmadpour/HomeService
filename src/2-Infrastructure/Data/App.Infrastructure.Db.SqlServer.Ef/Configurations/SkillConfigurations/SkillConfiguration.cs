@@ -30,6 +30,13 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.SkillConfigurations
                 .WithOne(es => es.Skill)
                 .HasForeignKey(es => es.SkillId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.HasData(
+
+                new Skill { Id = 1, SubHomeServiceId = 10, Name = "بنایی" },
+                new Skill { Id = 2, SubHomeServiceId = 11, Name = "کاغذ دیواری" },
+                new Skill { Id = 3, SubHomeServiceId = 12, Name = "سنگ کاری" }
+
+                );
         }
     }
 }

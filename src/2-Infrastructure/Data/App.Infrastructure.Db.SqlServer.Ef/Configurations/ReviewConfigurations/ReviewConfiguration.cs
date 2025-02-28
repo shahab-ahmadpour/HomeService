@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.ReviewConfigurations
 {
@@ -39,6 +40,42 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.ReviewConfigurations
                 .WithOne()
                 .HasForeignKey<Review>(r => r.OrderId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasData(
+                new Review
+                {
+                    Id = 1,
+                    CustomerId = 1,
+                    ExpertId = 1,
+                    OrderId = 1,
+                    Rating = 5,
+                    Comment = "خیلی عالی بود سرموقع انجام شد",
+                    IsApproved = false,
+                    CreatedAt = DateTime.UtcNow
+                },
+                new Review
+                {
+                    Id = 2,
+                    CustomerId = 1,
+                    ExpertId = 1,
+                    OrderId = 2,
+                    Rating = 4,
+                    Comment = "سرویس خوبی انجام دادن فقط یکم تو تحویل سرویس تاخیر داشتن",
+                    IsApproved = false,
+                    CreatedAt = DateTime.UtcNow
+                },
+                new Review
+                {
+                    Id = 3,
+                    CustomerId = 2,
+                    ExpertId = 2,
+                    OrderId = 3,
+                    Rating = 5,
+                    Comment = "فوق العاده بود همه چی",
+                    IsApproved= false,
+                    CreatedAt = DateTime.UtcNow
+                }
+            );
         }
     }
 }

@@ -24,7 +24,8 @@ namespace App.Domain.Core.Services.Entities
 
         [Required]
         public int RequestId { get; set; }
-
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
         [Required]
         public Request Request { get; set; } = null!;
 

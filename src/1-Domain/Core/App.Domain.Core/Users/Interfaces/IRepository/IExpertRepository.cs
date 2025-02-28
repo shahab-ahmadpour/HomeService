@@ -1,0 +1,19 @@
+﻿using App.Domain.Core.DTO.Users.AppUsers;
+using App.Domain.Core.DTO.Users.Experts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace App.Domain.Core.Users.Interfaces.IRepository
+{
+    public interface IExpertRepository
+    {
+        Task<ExpertDto> GetByIdAsync(int id, CancellationToken cancellationToken);
+        Task<List<ExpertDto>> GetAllAsync(CancellationToken cancellationToken);
+        Task<bool> CreateAsync(CreateExpertDto dto, CancellationToken cancellationToken);
+        Task<bool> UpdateAsync(int id, UpdateExpertDto dto, CancellationToken cancellationToken);
+        Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
+    }
+}

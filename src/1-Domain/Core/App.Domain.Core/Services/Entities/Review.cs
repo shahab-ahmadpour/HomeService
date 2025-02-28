@@ -15,14 +15,10 @@ namespace App.Domain.Core.Services.Entities
 
         [Required]
         public int CustomerId { get; set; }
-
-        [Required]
         public Customer Customer { get; set; } = null!;
 
         [Required]
         public int ExpertId { get; set; }
-
-        [Required]
         public Expert Expert { get; set; } = null!;
 
         [Required]
@@ -32,11 +28,14 @@ namespace App.Domain.Core.Services.Entities
         public Order Order { get; set; } = null!;
 
         [Required]
-        [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5.")]
+        [Range(1, 5)]
         public int Rating { get; set; }
 
+        [MaxLength(1000)]
+        public string? Comment { get; set; }
+
+        public bool IsApproved { get; set; } = false;
         [Required]
-        [MaxLength(500)]
-        public string Comment { get; set; } = null!;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

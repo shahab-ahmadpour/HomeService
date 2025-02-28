@@ -32,17 +32,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.UserConfigurations
                 .WithOne(o => o.Customer)
                 .HasForeignKey(o => o.CustomerId);
 
-            builder.HasData(
-                new Customer
-                {
-                    Id = 1,
-                    AppUserId = 2,
-                    PhoneNumber = "09121232165",
-                    Address = "shabnam yekom",
-                    City = "Tehran",
-                    State = "Tehran",
-                }
-            );
         }
     }
 }

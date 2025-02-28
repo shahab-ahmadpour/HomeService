@@ -28,8 +28,9 @@ namespace App.Domain.Core.Services.Entities
         public Request Request { get; set; } = null!;
 
         [ForeignKey("Proposal")]
-        public int ProposalId { get; set; }
+        public int ProposalId { get; set; } 
         public Proposal Proposal { get; set; } = null!;
+        public ICollection<Proposal> Proposals { get; set; } = new List<Proposal>();
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

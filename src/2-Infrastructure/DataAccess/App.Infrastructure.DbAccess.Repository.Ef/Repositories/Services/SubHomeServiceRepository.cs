@@ -1,8 +1,9 @@
-﻿using App.Domain.Core._ِDTO.SubHomeServices;
+﻿using App.Domain.Core.DTO.SubHomeServices;
 using App.Domain.Core.Services.Entities;
 using App.Domain.Core.Services.Interfaces.IRepository;
 using App.Infrastructure.Db.SqlServer.Ef;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,74 +15,122 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
     public class SubHomeServiceRepository : ISubHomeServiceRepository
     {
         private readonly AppDbContext _dbContext;
+        private readonly ILogger _logger;
 
-        public SubHomeServiceRepository(AppDbContext dbContext)
+        public SubHomeServiceRepository(AppDbContext dbContext, ILogger logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
-        public async Task<bool> CreateAsync(CreateSubHomeServiceDto dto, CancellationToken cancellationToken)
+        public async Task<bool> CreateAsync(SubHomeService subHomeService, CancellationToken cancellationToken)
         {
+            _logger.Information("Creating new SubHomeService with name: {Name}", subHomeService.Name);
+
             try
             {
-                var subHomeService = new SubHomeService
-                {
-                    Name = dto.Name,
-                    Description = dto.Description,
-                    ImagePath = dto.ImagePath,
-                    BasePrice = dto.BasePrice,
-                    HomeServiceId = dto.HomeServiceId,
-                    IsActive = true
-                };
-
-                await _dbContext.SubHomeServices.AddAsync(subHomeService, cancellationToken);
+                _dbContext.SubHomeServices.Add(subHomeService);
                 await _dbContext.SaveChangesAsync(cancellationToken);
+                _logger.Information("SubHomeService with name {Name} created successfully.", subHomeService.Name);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.Error(ex, "Error creating SubHomeService with name: {Name}", subHomeService.Name);
                 return false;
             }
         }
+
         public async Task<bool> UpdateAsync(int id, UpdateSubHomeServiceDto dto, CancellationToken cancellationToken)
         {
-            var subHomeService = await _dbContext.SubHomeServices.FindAsync(id);
-            if (subHomeService == null) return false;
+            _logger.Information("Updating SubHomeService with Id: {Id}", id);
+
+            var subHomeService = await _dbContext.SubHomeServices
+                .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
+
+            if (subHomeService == null)
+            {
+                _logger.Warning("SubHomeService with Id: {Id} not found.", id);
+                return false;
+            }
 
             subHomeService.Name = dto.Name;
             subHomeService.Description = dto.Description;
-            subHomeService.ImagePath = dto.ImagePath;
+            subHomeService.Views = dto.Views;
             subHomeService.BasePrice = dto.BasePrice;
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
+
+            if (!string.IsNullOrEmpty(dto.ImagePath))
+            {
+                subHomeService.ImagePath = dto.ImagePath;
+            }
+            else
+            {
+                _logger.Warning("ImagePath is empty, keeping the existing ImagePath: {ImagePath}", subHomeService.ImagePath);
+            }
+
+            subHomeService.IsActive = dto.IsActive;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync(cancellationToken);
+                _logger.Information("SubHomeService with Id: {Id} updated successfully.", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error updating SubHomeService with Id: {Id}.", id);
+                return false;
+            }
         }
+
+
 
         public async Task<SubHomeServiceDto> GetAsync(int id, CancellationToken cancellationToken)
         {
+            _logger.Information("Fetching SubHomeService with Id: {Id}", id);
+
             var subHomeService = await _dbContext.SubHomeServices
-                .Where(s => s.Id == id && s.IsActive)
+                .Where(s => s.Id == id)
+                .Include(s => s.HomeService) 
                 .Select(s => new SubHomeServiceDto
-                {
+        {
                     Id = s.Id,
                     Name = s.Name,
                     Description = s.Description,
-                    ImagePath = s.ImagePath,
+                    Views = s.Views,
                     BasePrice = s.BasePrice,
-                    HomeServiceId = s.HomeServiceId
+                    ImagePath = s.ImagePath,
+                    IsActive = s.IsActive,
+                    HomeServiceId = s.HomeServiceId,
+                    HomeServiceName = s.HomeService.Name
                 })
                 .FirstOrDefaultAsync(cancellationToken);
+
+            if (subHomeService == null)
+            {
+                _logger.Warning("SubHomeService with Id: {Id} not found.", id);
+            }
 
             return subHomeService;
         }
 
         public async Task<List<SubHomeServiceListItemDto>> GetAllAsync(CancellationToken cancellationToken)
         {
+            _logger.Information("Fetching all SubHomeServices.");
+
             var subHomeServices = await _dbContext.SubHomeServices
-                .Where(s => s.IsActive)
+                .Include(s => s.HomeService)
                 .Select(s => new SubHomeServiceListItemDto
                 {
                     Id = s.Id,
-                    Name = s.Name
+                    Name = s.Name,
+                    Views = s.Views,
+                    Description= s.Description,
+                    BasePrice = s.BasePrice,
+                    ImagePath = s.ImagePath,
+                    IsActive = s.IsActive,
+                    HomeServiceName = s.HomeService.Name
+
                 })
                 .ToListAsync(cancellationToken);
 
@@ -90,12 +139,46 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
 
         public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            var subHomeService = await _dbContext.SubHomeServices.FindAsync(id);
-            if (subHomeService == null) return false;
+            _logger.Information("Disabling SubHomeService with Id: {Id}", id);
+
+            var subHomeService = await _dbContext.SubHomeServices
+                .Where(s => s.Id == id)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (subHomeService == null)
+            {
+                _logger.Warning("SubHomeService with Id: {Id} not found.", id);
+                return false;
+            }
 
             subHomeService.IsActive = false;
-            await _dbContext.SaveChangesAsync(cancellationToken);
-            return true;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync(cancellationToken);
+                _logger.Information("SubHomeService with Id: {Id} successfully disabled.", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error disabling SubHomeService with Id: {Id}.", id);
+                return false;
+            }
+        }
+
+        public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Checking if SubHomeService with Id: {Id} exists.", id);
+
+            var exists = await _dbContext.SubHomeServices
+                .Where(s => s.Id == id)
+                .AnyAsync(cancellationToken);
+
+            return exists;
+        }
+        public List<SubHomeService> GetAllServices()
+        {
+            return _dbContext.SubHomeServices.ToList();
         }
     }
 

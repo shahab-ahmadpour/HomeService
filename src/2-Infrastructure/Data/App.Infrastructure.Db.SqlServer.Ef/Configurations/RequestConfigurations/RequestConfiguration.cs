@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using App.Domain.Core.Services.Entities;
+using System.Reflection.Emit;
 
 namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.RequestConfigurations
 {
@@ -31,10 +32,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.RequestConfiguration
             builder.Property(r => r.ExecutionDate)
                 .IsRequired();
 
-            builder.Property(r => r.EnvironmentImage)
-                .HasMaxLength(255)
-                .IsRequired();
-
             builder.Property(r => r.IsEnabled)
                 .HasDefaultValue(true);
 
@@ -51,6 +48,47 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.RequestConfiguration
                 .WithMany(s => s.Requests)
                 .HasForeignKey(r => r.SubHomeServiceId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasData(
+                new Request
+                {
+                    Id = 1,
+                    CustomerId = 1,
+                    SubHomeServiceId = 10,
+                    Description = "درخواست بنایی ساختمان",
+                    Status = RequestStatus.Pending,
+                    Deadline = DateTime.UtcNow.AddDays(5),
+                    ExecutionDate = DateTime.UtcNow.AddDays(3),
+                    CreatedAt = DateTime.UtcNow,
+                    IsEnabled = true
+                },
+                new Request
+                {
+                    Id = 2,
+                    CustomerId = 1,
+                    SubHomeServiceId = 11,
+                    Description = "درخواست کاغذ دیواری",
+                    Status = RequestStatus.Pending,
+                    Deadline = DateTime.UtcNow.AddDays(7),
+                    ExecutionDate = DateTime.UtcNow.AddDays(5),
+                    CreatedAt = DateTime.UtcNow,
+                    IsEnabled = true
+                },
+                new Request
+                {
+                    Id = 3,
+                    CustomerId = 2,
+                    SubHomeServiceId = 12,
+                    Description = "درخواست سنگ کاری",
+                    Status = RequestStatus.Pending,
+                    Deadline = DateTime.UtcNow.AddDays(10),
+                    ExecutionDate = DateTime.UtcNow.AddDays(8),
+                    CreatedAt = DateTime.UtcNow,
+                    IsEnabled = true
+                }
+            );
         }
+
+
     }
 }

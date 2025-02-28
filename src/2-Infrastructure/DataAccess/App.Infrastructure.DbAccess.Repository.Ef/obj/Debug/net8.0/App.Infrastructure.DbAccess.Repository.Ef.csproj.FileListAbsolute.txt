@@ -10,6 +10,7 @@ C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastruc
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Ef\obj\Debug\net8.0\App.Infrastructure.DbAccess.Repository.Ef.AssemblyInfoInputs.cache
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Ef\obj\Debug\net8.0\App.Infrastructure.DbAccess.Repository.Ef.AssemblyInfo.cs
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Ef\obj\Debug\net8.0\App.Infrastructure.DbAccess.Repository.Ef.csproj.CoreCompileInputs.cache
+C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Ef\obj\Debug\net8.0\App.Infrastructure.DbAccess.Repository.Ef.sourcelink.json
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Ef\obj\Debug\net8.0\App.Infr.74408C93.Up2Date
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Ef\obj\Debug\net8.0\App.Infrastructure.DbAccess.Repository.Ef.dll
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Ef\obj\Debug\net8.0\refint\App.Infrastructure.DbAccess.Repository.Ef.dll

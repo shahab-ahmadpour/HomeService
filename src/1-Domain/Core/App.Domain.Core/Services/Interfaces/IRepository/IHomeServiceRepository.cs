@@ -1,4 +1,4 @@
-﻿using App.Domain.Core._ِDTO.HomeServices;
+﻿using App.Domain.Core.DTO.HomeServices;
 using App.Domain.Core.Services.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,7 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
         Task<HomeServiceDto> GetAsync(int id, CancellationToken cancellationToken);
         Task<List<HomeServiceListItemDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
+        Task<List<HomeService>> GetAllWithSubServicesAsync(CancellationToken cancellationToken);
 
     }
 }

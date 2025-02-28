@@ -1,0 +1,29 @@
+﻿@model App.Domain.Core.DTO.Users.Customers.CustomerDto
+
+@{
+    Layout = "~/Views/Shared/_CustomerPanelLayout.cshtml";
+    ViewData["Title"] = "داشبورد مشتری";
+}
+<div class="dashboard-container">
+    <div class="dashboard-card">
+        <h2 class="welcome-text">خوش آمدید، @Model.FirstName @Model.LastName</h2>
+        <div class="quick-stats">
+            <p class="stat-item">سفارش‌های شما: <span>0</span></p>
+            <p class="stat-item">درخواست‌های فعال: <span>0</span></p>
+        </div>
+        <div class="menu-drawer">
+            <a href="@Url.Action("EditProfile", "Customer")" class="menu-item">
+                ویرایش مشخصات
+            </a>
+            <a href="@Url.Action("Requests", "Customer")" class="menu-item">
+                نمایش درخواست‌ها
+            </a>
+            <a href="@Url.Action("Orders", "Customer")" class="menu-item">
+                نمایش سفارش‌ها
+            </a>
+            <a href="@Url.Action("Proposals", "Customer")" class="menu-item">
+                نمایش پیشنهادات
+            </a>
+        </div>
+    </div>
+</div>

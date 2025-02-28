@@ -1,4 +1,4 @@
-﻿using App.Domain.Core._ِDTO.Categories;
+﻿using App.Domain.Core.DTO.Categories;
 using App.Domain.Core.Services.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,8 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
         Task<bool> UpdateAsync(int id, UpdateCategoryDto dto, CancellationToken cancellationToken);
         Task<CategoryDto> GetAsync(int id, CancellationToken cancellationToken);
         Task<List<CategoryListItemDto>> GetAllAsync(CancellationToken cancellationToken);
+        Task<List<CategoryDto>> GetAllDetailedAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
+        Task<List<Category>> GetAllWithServicesAsync(CancellationToken cancellationToken);
     }
 }

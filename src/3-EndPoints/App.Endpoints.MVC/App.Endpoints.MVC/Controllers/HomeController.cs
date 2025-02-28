@@ -1,32 +1,30 @@
+﻿using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Endpoints.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace App.Endpoints.MVC.Controllers
+namespace App.Endpoints.MVC.Controllers          
+
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHomeServiceAppService _homeServiceAppService;
+        private readonly ICategoryAppService _categoryAppService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHomeServiceAppService homeServiceAppService, ICategoryAppService categoryAppService)
         {
-            _logger = logger;
+            _homeServiceAppService = homeServiceAppService;
+            _categoryAppService = categoryAppService;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            return View();
-        }
+            var homeServices = await _homeServiceAppService.GetAllWithSubServicesAsync(cancellationToken);
+            var categories = await _categoryAppService.GetAllWithServicesAsync(cancellationToken);
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ViewData["Categories"] = categories;
+            return View(homeServices);
         }
     }
 }

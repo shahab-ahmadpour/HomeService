@@ -1,0 +1,100 @@
+﻿@model App.Domain.Core.DTO.Users.Customers.EditCustomerDto
+@{
+    Layout = "~/Views/Shared/_CustomerPanelLayout.cshtml";
+    ViewData["Title"] = "ویرایش مشخصات";
+}
+
+<h2 class="section-title">ویرایش مشخصات</h2>
+<div class="profile-card">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-action="EditProfile" method="post">
+        <div class="form-group">
+            <label asp-for="FirstName">نام</label>
+            <input asp-for="FirstName" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName">نام خانوادگی</label>
+            <input asp-for="LastName" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label asp-for="ProfilePicture">عکس پروفایل</label>
+            <input asp-for="ProfilePicture" class="form-control" placeholder="آدرس URL عکس" />
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber">شماره تلفن</label>
+            <input asp-for="PhoneNumber" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Address">آدرس</label>
+            <input asp-for="Address" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="City">شهر</label>
+            <input asp-for="City" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="State">استان</label>
+            <input asp-for="State" class="form-control" />
+        </div>
+        <button type="submit" class="btn-save">ذخیره تغییرات</button>
+    </form>
+</div>
+
+<style>
+    .section-title {
+        color: #1e3a8a;
+        font-weight: 700;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .profile-card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+        padding: 25px;
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+    .form-control {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        width: 100%;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #1e3a8a;
+            outline: none;
+        }
+
+    .btn-save {
+        background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        width: 100%;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+        .btn-save:hover {
+            background: linear-gradient(45deg, #16317a, #2563eb);
+        }
+</style>
