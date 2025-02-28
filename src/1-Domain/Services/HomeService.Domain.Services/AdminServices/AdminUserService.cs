@@ -56,5 +56,10 @@ namespace HomeService.Domain.Services.AdminServices
         {
             return _adminUserRepository.GetAllUsers();
         }
+        public async Task<bool> ActivateUserAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Activating user with ID: {Id}", id);
+            return await _adminUserRepository.ActivateUserAsync(id, cancellationToken);
+        }
     }
 }

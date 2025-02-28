@@ -51,5 +51,10 @@ namespace HomeService.Domain.AppServices.AdminAppServices
             _logger.Information("Deleting (disabling) user with ID: {Id}", id);
             return await _adminUserService.DeleteUserAsync(id, cancellationToken);
         }
+        public async Task<bool> ActivateUserAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Activating user with ID: {Id}", id);
+            return await _adminUserService.ActivateUserAsync(id, cancellationToken);
+        }
     }
 }

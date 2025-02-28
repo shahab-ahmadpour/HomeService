@@ -11,5 +11,6 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
     {
         Task<bool> CreateAsync(CreateRequestDto dto, CancellationToken cancellationToken);
         Task<List<RequestDto>> GetRequestsByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
+        Task<bool> CreateRequestAsync(CreateRequestDto dto, CancellationToken cancellationToken);
     }
 }

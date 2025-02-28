@@ -36,5 +36,20 @@ namespace HomeService.Domain.AppServices.RequestAppServices
             _logger.Information("AppService: Retrieved {Count} requests for CustomerId: {CustomerId}", requests.Count, customerId);
             return requests;
         }
+        public async Task<bool> CreateRequestAsync(CreateRequestDto dto, CancellationToken cancellationToken)
+        {
+            _logger.Information("Creating request for CustomerId: {CustomerId} in AppService layer.", dto.CustomerId);
+            try
+            {
+                var result = await _requestService.CreateAsync(dto, cancellationToken);
+                _logger.Information("Request creation result for CustomerId: {CustomerId} - Success: {Result}", dto.CustomerId, result);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to create request for CustomerId: {CustomerId} in AppService layer.", dto.CustomerId);
+                throw;
+            }
+        }
     }
 }

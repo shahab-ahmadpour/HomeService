@@ -17,5 +17,6 @@ namespace App.Domain.Core.Users.Interfaces.IService
         Task<bool> UpdateUserAsync(int id, UpdateAppUserDto dto, CancellationToken cancellationToken);
         Task<bool> DeleteUserAsync(int id, CancellationToken cancellationToken);
         List<AppUser> GetAllUsers();
+        Task<bool> ActivateUserAsync(int id, CancellationToken cancellationToken);
     }
 }

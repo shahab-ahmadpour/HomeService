@@ -35,13 +35,13 @@
                     <tr>
                         <td>@proposal.Id</td>
                         <td>@proposal.OrderId</td>
-                        <td>@proposal.OrderDate.ToPersianDate()</td>
+                        <td>@(proposal.OrderDate == DateTime.MinValue ? "-" : proposal.OrderDate.ToPersianDate())</td>
                         <td>@proposal.ExpertName</td>
                         <td>@proposal.Price.ToString("N0") تومان</td>
                         <td>@proposal.PaymentStatus</td>
                         <td>@proposal.SubHomeServiceName</td>
                         <td>@proposal.Status.GetDisplayName()</td>
-                        <td>@proposal.ExecutionDate.ToPersianDate()</td>
+                        <td>@(proposal.ExecutionDate == DateTime.MinValue ? "-" : proposal.ExecutionDate.ToPersianDate())</td>
                     </tr>
                 }
             </tbody>

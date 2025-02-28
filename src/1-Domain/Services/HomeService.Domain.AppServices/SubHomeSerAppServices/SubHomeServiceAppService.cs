@@ -113,5 +113,20 @@ namespace HomeService.Domain.AppServices.SubHomeSerAppServices
 
             return dto;
         }
+        public async Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesAsync(CancellationToken cancellationToken)
+        {
+            _logger.Information("Fetching SubHomeServices in AppService layer.");
+            try
+            {
+                var services = await _subHomeServiceService.GetAllAsync(cancellationToken);
+                _logger.Information("Fetched {Count} SubHomeServices for view.", services?.Count ?? 0);
+                return services;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to fetch SubHomeServices in AppService layer.");
+                throw;
+            }
+        }
     }
 }

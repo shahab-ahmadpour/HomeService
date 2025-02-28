@@ -92,7 +92,7 @@
                             <div class="form-group mb-4">
                                 <label for="IsConfirmed" class="text-muted font-weight-bold">وضعیت تأیید</label>
                                 <div class="input-group">
-                                    <select class="form-control form-control-lg shadow-sm" id="IsConfirmed" name="IsConfirmed" style="border-radius: 15px 0 0 15px;">
+                                    <select class="form-control form-control-lg shadow-sm @(!Model.IsConfirmed ? "" : "disabled-select")" id="IsConfirmed" name="IsConfirmed" style="border-radius: 15px 0 0 15px;" @(Model.IsConfirmed ? "disabled" : "")>
                                         <option value="true" @(Model.IsConfirmed ? "selected" : "")>تأیید شده</option>
                                         <option value="false" @(Model.IsConfirmed ? "" : "selected")>در انتظار</option>
                                     </select>

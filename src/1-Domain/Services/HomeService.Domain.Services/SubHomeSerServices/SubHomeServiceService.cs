@@ -72,14 +72,18 @@ namespace HomeService.Domain.Services.SubHomeSerServices
 
         public async Task<List<SubHomeServiceListItemDto>> GetAllAsync(CancellationToken cancellationToken)
         {
-            _logger.Information("Fetching all SubHomeServices.");
-            var subHomeServices = await _subHomeServiceRepository.GetAllAsync(cancellationToken);
-            if (subHomeServices.Count > 0)
-                _logger.Information("{Count} SubHomeServices fetched successfully.", subHomeServices.Count);
-            else
-                _logger.Warning("No SubHomeServices found.");
-
-            return subHomeServices;
+            _logger.Information("Fetching all SubHomeServices in service layer.");
+            try
+            {
+                var services = await _subHomeServiceRepository.GetAllAsync(cancellationToken);
+                _logger.Information("Fetched {Count} SubHomeServices from repository.", services?.Count ?? 0);
+                return services;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to fetch SubHomeServices in service layer.");
+                throw;
+            }
         }
 
         public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)

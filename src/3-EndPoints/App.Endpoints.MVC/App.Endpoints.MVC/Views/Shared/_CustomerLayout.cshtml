@@ -16,7 +16,7 @@
             <h1 class="logo">خدمات منزل</h1>
             <nav class="nav">
                 <a href="@Url.Action("Index", "Home")" class="nav-btn">دسته‌بندی</a>
-                <a href="@Url.Action("Order", "Customer")" class="nav-btn">ثبت سفارش</a>
+                <a href="/Customer/Create" class="nav-btn">ثبت سفارش</a>
                 <form class="search-form" action="@Url.Action("Search", "Customer")" method="get">
                     <input type="text" name="query" class="search-input" placeholder="جستجو کنید...">
                     <button type="submit" class="search-btn"></button>

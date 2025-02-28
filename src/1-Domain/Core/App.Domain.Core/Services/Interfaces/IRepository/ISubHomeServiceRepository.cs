@@ -17,5 +17,6 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
         Task<bool> ExistsAsync(int id, CancellationToken cancellationToken);
         List<SubHomeService> GetAllServices();
+
     }
 }

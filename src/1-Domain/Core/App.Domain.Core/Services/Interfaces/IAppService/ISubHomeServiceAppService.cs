@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.DTO.SubHomeServices;
+using App.Domain.Core.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
         Task<List<SubHomeServiceListItemDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
         Task<UpdateSubHomeServiceDto> GetSubHomeServiceForEditAsync(int id, CancellationToken cancellationToken);
+        Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesAsync(CancellationToken cancellationToken);
     }
 }

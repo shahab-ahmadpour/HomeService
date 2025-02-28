@@ -108,12 +108,21 @@
                                                     }
                                                 </td>
                                                 <td>
-                                                    <a href="@Url.Action("Edit", "AdminUser", new { area = "Admin", id = user.Id })" class="btn btn-warning btn-sm mr-2 shadow-sm" style="border-radius: 15px;">
-                                                        <i class="fas fa-edit"></i> ویرایش
-                                                    </a>
-                                                    <a href="@Url.Action("Delete", "AdminUser", new { area = "Admin", id = user.Id })" class="btn btn-danger btn-sm shadow-sm" style="border-radius: 15px;" onclick="return confirm('آیا مطمئن هستید؟')">
-                                                        <i class="fas fa-trash-alt"></i> حذف
-                                                    </a>
+                                                    @if (!user.IsEnabled)
+                                                    {
+                                                        <a href="@Url.Action("Activate", "AdminUser", new { area = "Admin", id = user.Id })" class="btn btn-success btn-sm shadow-sm" style="border-radius: 15px;">
+                                                            <i class="fas fa-power-off"></i> فعال
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("Edit", "AdminUser", new { area = "Admin", id = user.Id })" class="btn btn-warning btn-sm mr-2 shadow-sm" style="border-radius: 15px;">
+                                                            <i class="fas fa-edit"></i> ویرایش
+                                                        </a>
+                                                        <a href="@Url.Action("Delete", "AdminUser", new { area = "Admin", id = user.Id })" class="btn btn-danger btn-sm shadow-sm" style="border-radius: 15px;" onclick="return confirm('آیا مطمئن هستید؟')">
+                                                            <i class="fas fa-trash-alt"></i> حذف
+                                                        </a>
+                                                    }
                                                 </td>
                                             </tr>
                                         }

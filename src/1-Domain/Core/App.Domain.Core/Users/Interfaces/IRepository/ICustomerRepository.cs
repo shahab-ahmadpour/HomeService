@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.DTO.Users.AppUsers;
 using App.Domain.Core.DTO.Users.Customers;
+using App.Domain.Core.Services.Entities;
 using App.Domain.Core.Users.Entities;
 using System;
 using System.Collections.Generic;

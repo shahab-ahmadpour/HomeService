@@ -138,6 +138,21 @@ namespace App.Endpoints.MVC.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [HttpGet]
+        public async Task<IActionResult> Activate(int id, CancellationToken cancellationToken)
+        {
+            var result = await _adminUserAppService.ActivateUserAsync(id, cancellationToken);
+            if (result)
+            {
+                TempData["SuccessMessage"] = "کاربر با موفقیت فعال شد.";
+                _logger.Information("User with ID: {Id} activated successfully", id);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "خطا در فعال‌سازی کاربر.";
+                _logger.Warning("Failed to activate user with ID: {Id}", id);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

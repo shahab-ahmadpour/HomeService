@@ -106,7 +106,15 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
                 return false;
             }
 
-            user.IsConfirmed = dto.IsConfirmed;
+            if (user.IsConfirmed && !dto.IsConfirmed)
+            {
+                _logger.Information("Cannot set IsConfirmed to false for user with ID: {Id} as it was already true", id);
+            }
+            else
+            {
+                user.IsConfirmed = dto.IsConfirmed;
+            }
+
             user.IsEnabled = dto.IsEnabled;
 
             if (!string.IsNullOrEmpty(dto.Password))
@@ -154,6 +162,35 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
             return true;  
         }
 
+        public async Task<bool> ActivateUserAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Activating user with ID: {Id}", id);
+            var user = await _dbContext.Users.FindAsync(new object[] { id }, cancellationToken);
+            if (user == null)
+            {
+                _logger.Warning("User not found with ID: {Id}", id);
+                return false;
+            }
+
+            if (user.IsEnabled)
+            {
+                _logger.Information("User with ID: {Id} is already enabled", id);
+                return true;
+            }
+
+            user.IsEnabled = true;
+            try
+            {
+                await _dbContext.SaveChangesAsync(cancellationToken);
+                _logger.Information("User with ID: {Id} activated successfully", id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to activate user with ID: {Id}", id);
+                return false;
+            }
+        }
 
         public List<AppUser> GetAllUsers()
         {
