@@ -18,5 +18,11 @@ namespace App.Domain.Core.Users.Interfaces.IRepository
         Task<bool> CreateAsync(CreateCustomerDto dto, CancellationToken cancellationToken);
         Task<bool> UpdateAsync(Customer customer, CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
+
+        Task<Proposal> GetProposalByIdAsync(int id, CancellationToken cancellationToken);
+        Task<bool> UpdateProposalAsync(Proposal proposal, CancellationToken cancellationToken);
+
+        Task<decimal> GetBalanceAsync(int customerId, CancellationToken cancellationToken);
+        Task<bool> UpdateBalanceAsync(int customerId, decimal newBalance, CancellationToken cancellationToken);
     }
 }

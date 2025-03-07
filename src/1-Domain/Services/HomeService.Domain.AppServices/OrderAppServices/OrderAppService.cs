@@ -1,7 +1,12 @@
 ﻿using App.Domain.Core.DTO.Orders;
 using App.Domain.Core.Enums;
+using App.Domain.Core.Services.Entities;
 using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IService;
+using App.Domain.Core.Users.Interfaces.IAppService;
+using HomeService.Domain.AppServices.ProposalAppServices;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -14,18 +19,31 @@ namespace HomeService.Domain.AppServices.OrderAppServices
     public class OrderAppService : IOrderAppService
     {
         private readonly IOrderService _orderService;
+        private readonly IProposalAppService _proposalAppService;
         private readonly ILogger _logger;
+        private readonly IMemoryCache _memoryCache;
 
-        public OrderAppService(IOrderService orderService, ILogger logger)
+        public OrderAppService(
+            IOrderService orderService,
+            IProposalAppService proposalAppService,
+            ILogger logger,
+            IMemoryCache memoryCache)
         {
             _orderService = orderService;
+            _proposalAppService = proposalAppService;
             _logger = logger;
+            _memoryCache = memoryCache;
         }
 
         public async Task<bool> CreateAsync(CreateOrderDto dto, CancellationToken cancellationToken)
         {
             _logger.Information("AppService: Creating new order.");
-            return await _orderService.CreateAsync(dto, cancellationToken);
+            var result = await _orderService.CreateAsync(dto, cancellationToken);
+            if (result)
+            {
+                _memoryCache.Remove($"Orders_Customer_{dto.CustomerId}");
+            }
+            return result;
         }
 
         public async Task<bool> UpdateAsync(int id, UpdateOrderDto dto, CancellationToken cancellationToken)
@@ -95,25 +113,140 @@ namespace HomeService.Domain.AppServices.OrderAppServices
         public async Task<List<OrderDto>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken)
         {
             _logger.Information("Fetching orders for CustomerId: {CustomerId} in OrderAppService", customerId);
+            string cacheKey = $"Orders_Customer_{customerId}";
+
+            if (!_memoryCache.TryGetValue(cacheKey, out List<OrderDto> cachedOrders))
+            {
+                _logger.Information("Orders not found in cache for CustomerId: {CustomerId}, fetching from database", customerId);
+                try
+                {
+                    cachedOrders = await _orderService.GetByCustomerIdAsync(customerId, cancellationToken);
+                    if (cachedOrders == null || !cachedOrders.Any())
+                    {
+                        _logger.Warning("No orders retrieved for CustomerId: {CustomerId} in OrderAppService", customerId);
+                    }
+                    else
+                    {
+                        _logger.Information("Successfully retrieved {OrderCount} orders for CustomerId: {CustomerId} from database", cachedOrders.Count, customerId);
+                        var cacheOptions = new MemoryCacheEntryOptions
+                        {
+                            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10),
+                            SlidingExpiration = TimeSpan.FromMinutes(5)
+                        };
+                        _memoryCache.Set(cacheKey, cachedOrders, cacheOptions);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Error fetching orders for CustomerId: {CustomerId} in OrderAppService", customerId);
+                    throw;
+                }
+            }
+            else
+            {
+                _logger.Information("Orders retrieved from cache for CustomerId: {CustomerId}, Count: {OrderCount}", customerId, cachedOrders.Count);
+            }
+            return cachedOrders;
+        }
+
+        public async Task<bool> CreateOrderFromProposalAsync(int proposalId, int customerId, CancellationToken cancellationToken)
+        {
+            _logger.Information("AppService: Creating order from proposal ID: {ProposalId} for CustomerId: {CustomerId}", proposalId, customerId);
             try
             {
-                var orders = await _orderService.GetByCustomerIdAsync(customerId, cancellationToken);
-                if (orders == null || !orders.Any())
+                var proposal = await _orderService.GetAsync(proposalId, cancellationToken);
+                if (proposal == null)
                 {
-                    _logger.Warning("No orders retrieved for CustomerId: {CustomerId} in OrderAppService", customerId);
+                    _logger.Warning("AppService: Proposal not found for ID: {ProposalId}", proposalId);
+                    return false;
+                }
+
+                var createOrderDto = new CreateOrderDto
+                {
+                    CustomerId = customerId,
+                    ExpertId = proposal.ExpertId, 
+                    RequestId = proposal.RequestId, 
+                    ProposalId = proposalId,
+                    FinalPrice = proposal.FinalPrice,
+                    PaymentStatus = PaymentStatus.Pending
+                };
+
+                var result = await _orderService.CreateAsync(createOrderDto, cancellationToken);
+                if (result)
+                {
+                    _logger.Information("AppService: Order created successfully from proposal ID: {ProposalId}", proposalId);
                 }
                 else
                 {
-                    _logger.Information("Successfully retrieved {OrderCount} orders for CustomerId: {CustomerId} in OrderAppService", orders.Count, customerId);
+                    _logger.Warning("AppService: Failed to create order from proposal ID: {ProposalId}", proposalId);
                 }
-                return orders;
+                return result;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Error fetching orders for CustomerId: {CustomerId} in OrderAppService", customerId);
+                _logger.Error(ex, "AppService: Failed to create order from proposal ID: {ProposalId}", proposalId);
                 throw;
             }
         }
+        public async Task<int> ProcessProposalSelectionAsync(int proposalId, int customerId, CancellationToken cancellationToken)
+        {
+            _logger.Information("OrderAppService: Processing selection for proposal ID: {ProposalId} for CustomerId: {CustomerId}", proposalId, customerId);
+            try
+            {
+                var proposalDto = await _proposalAppService.GetProposalByIdAsync(proposalId, cancellationToken);
+                if (proposalDto == null || proposalDto.Status != ProposalStatus.Accepted)
+                {
+                    _logger.Warning("OrderAppService: Proposal {Id} not found or not accepted", proposalId);
+                    throw new InvalidOperationException("پیشنهاد یافت نشد یا قابل انتخاب نیست.");
+                }
 
+                var createOrderDto = new CreateOrderDto
+                {
+                    CustomerId = customerId,
+                    ExpertId = proposalDto.ExpertId,
+                    RequestId = proposalDto.RequestId,
+                    ProposalId = proposalId,
+                    FinalPrice = proposalDto.Price,
+                    PaymentStatus = PaymentStatus.Pending
+                };
+
+                var result = await _orderService.CreateAsync(createOrderDto, cancellationToken);
+                if (!result)
+                {
+                    _logger.Warning("OrderAppService: Failed to create order from proposal ID: {ProposalId}", proposalId);
+                    throw new InvalidOperationException("ایجاد سفارش با خطا مواجه شد. لطفاً دیتای ExpertId و RequestId را بررسی کنید.");
+                }
+
+                var order = await _orderService.GetByProposalIdAsync(proposalId, cancellationToken);
+                if (order == null)
+                {
+                    _logger.Error("OrderAppService: Newly created order not found for ProposalId: {ProposalId}", proposalId);
+                    throw new InvalidOperationException("سفارش ایجاد شده یافت نشد. لطفاً دیتابیس را بررسی کنید.");
+                }
+
+                var proposalToUpdate = new Proposal
+                {
+                    Id = proposalDto.Id,
+                    OrderId = order.Id,
+                    Status = proposalDto.Status,
+                    IsEnabled = proposalDto.IsEnabled
+                };
+                await _proposalAppService.UpdateProposalAsync(proposalToUpdate, cancellationToken);
+
+                _logger.Information("OrderAppService: Order created successfully for ProposalId: {ProposalId}, OrderId: {OrderId}", proposalId, order.Id);
+                return order.Id;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "OrderAppService: Failed to process selection for proposal ID: {ProposalId}", proposalId);
+                throw;
+            }
+        }
+        public async Task<Order> GetByProposalIdAsync(int proposalId, CancellationToken cancellationToken)
+        {
+            _logger.Information("OrderAppService: Fetching order by ProposalId: {ProposalId}", proposalId);
+            var order = await _orderService.GetByProposalIdAsync(proposalId, cancellationToken);
+            return order;
+        }
     }
 }

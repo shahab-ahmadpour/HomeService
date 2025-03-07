@@ -16,5 +16,6 @@ namespace App.Domain.Core.Services.Interfaces.IService
         Task<List<HomeServiceListItemDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
         Task<List<HomeServiceDto>> GetAllWithSubServicesAsync(CancellationToken cancellationToken);
+        Task<List<HomeService>> GetAllHomeServicesAsync(CancellationToken cancellationToken);
     }
 }

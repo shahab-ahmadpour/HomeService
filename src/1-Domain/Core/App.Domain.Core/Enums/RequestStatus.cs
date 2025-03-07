@@ -14,6 +14,8 @@ namespace App.Domain.Core.Enums
         [Display(Name = "در حال انجام")]
         InProgress,
         [Display(Name = "تکمیل‌شده")]
-        Completed
+        Completed,
+        [Display(Name = "لغو شده")]
+        Cancelled
     }
 }

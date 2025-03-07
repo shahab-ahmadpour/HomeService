@@ -15,6 +15,10 @@ namespace App.Domain.Core.Services.Interfaces.IService
         Task<SubHomeServiceDto> GetAsync(int id, CancellationToken cancellationToken);
         Task<List<SubHomeServiceListItemDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
-        List<SubHomeService> GetAllServices();
+        Task<UpdateSubHomeServiceDto> GetSubHomeServiceForEditAsync(int id, CancellationToken cancellationToken);
+        Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesAsync(CancellationToken cancellationToken);
+        Task<SubHomeServiceListItemDto> GetSubHomeServiceByIdAsync(int id, CancellationToken cancellationToken);
+        Task<List<SubHomeService>> GetAllServicesAsync(CancellationToken cancellationToken);
+        Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesByHomeServiceIdAsync(int homeServiceId, CancellationToken cancellationToken);
     }
 }

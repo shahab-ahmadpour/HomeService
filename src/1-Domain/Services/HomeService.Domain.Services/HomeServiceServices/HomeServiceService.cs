@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.DTO.HomeServices;
 using App.Domain.Core.DTO.SubHomeServices;
+using App.Domain.Core.Services.Entities;
 using App.Domain.Core.Services.Interfaces.IRepository;
 using App.Domain.Core.Services.Interfaces.IService;
 using Serilog;
@@ -51,6 +52,7 @@ namespace HomeService.Domain.Services.HomeServiceServices
             _logger.Information("Service: Deleting (Deactivating) HomeService with Id: {Id}", id);
             return await _homeServiceRepository.DeleteAsync(id, cancellationToken);
         }
+
         public async Task<List<HomeServiceDto>> GetAllWithSubServicesAsync(CancellationToken cancellationToken)
         {
             var homeServices = await _homeServiceRepository.GetAllWithSubServicesAsync(cancellationToken);
@@ -70,6 +72,22 @@ namespace HomeService.Domain.Services.HomeServiceServices
                     IsActive = ss.IsActive
                 }).ToList()
             }).ToList();
+        }
+
+        public async Task<List<App.Domain.Core.Services.Entities.HomeService>> GetAllHomeServicesAsync(CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Fetching all HomeServices with their Categories.");
+            try
+            {
+                var homeServices = await _homeServiceRepository.GetAllHomeServicesAsync(cancellationToken);
+                _logger.Information("Service: Fetched {Count} HomeServices with Categories.", homeServices?.Count ?? 0);
+                return homeServices;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Service: Failed to fetch all HomeServices with Categories.");
+                throw;
+            }
         }
     }
 }

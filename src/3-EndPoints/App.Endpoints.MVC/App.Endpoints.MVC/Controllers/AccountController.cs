@@ -7,17 +7,20 @@ using Microsoft.AspNetCore.Identity;
 using Serilog;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
+using HomeService.Domain.AppServices.CustomerAppServices;
 
 namespace App.Endpoints.MVC.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IUserAppService _userAppService;
+        private readonly ICustomerAppService _customerAppService;
         private readonly Serilog.ILogger _logger;
 
-        public AccountController(IUserAppService userAppService, Serilog.ILogger logger)
+        public AccountController(IUserAppService userAppService, ICustomerAppService customerAppService, Serilog.ILogger logger)
         {
             _userAppService = userAppService;
+            _customerAppService = customerAppService;
             _logger = logger;
         }
 
@@ -91,6 +94,8 @@ namespace App.Endpoints.MVC.Controllers
                 var user = await _userAppService.GetUserByEmailAsync(model.Email, cancellationToken);
                 if (user != null)
                 {
+                    _logger.Information("Found user with AppUserId: {AppUserId}, Email: {Email}, Role: {Role}", user.Id, user.Email, user.Role);
+
                     if (!user.IsEnabled)
                     {
                         _logger.Warning("Login failed for email {Email}: User is disabled", model.Email);
@@ -105,17 +110,52 @@ namespace App.Endpoints.MVC.Controllers
                         return View(model);
                     }
 
-                    _logger.Information("User with email {Email} logged in successfully. Role: {Role}", model.Email, user.Role);
-                    HttpContext.Session.SetInt32("AppUserId", user.Id);
-
-                    return user.Role switch
+                    switch (user.Role)
                     {
-                        UserRole.Admin => RedirectToAction("Index", "Dashboard", new { area = "Admin" }),
-                        UserRole.Customer => RedirectToAction("Dashboard", "Customer"),
-                        UserRole.Expert => RedirectToAction("Index", "ExpertDashboard"),
-                        _ => RedirectToAction("Index", "Home")
-                    };
+                        case UserRole.Customer:
+                            var customer = await _customerAppService.GetCustomerByAppUserIdAsync(user.Id, cancellationToken);
+                            if (customer != null)
+                            {
+                                _logger.Information("Customer found with CustomerId: {CustomerId} for AppUserId: {AppUserId}", customer.Id, user.Id);
+                                HttpContext.Session.Clear();
+                                HttpContext.Session.SetInt32("UserId", user.Id); 
+                                _logger.Information("Session set with UserId: {UserId} for email: {Email}", user.Id, model.Email);
+                            }
+                            else
+                            {
+                                _logger.Warning("No Customer found for AppUserId: {AppUserId}", user.Id);
+                                ModelState.AddModelError(string.Empty, "حساب مشتری شما یافت نشد.");
+                                return View(model);
+                            }
+                            break;
+
+                        case UserRole.Admin:
+                            _logger.Information("Admin login with AppUserId: {AppUserId}", user.Id);
+                            HttpContext.Session.Clear();
+                            HttpContext.Session.SetInt32("UserId", user.Id);
+                            break;
+
+                        case UserRole.Expert:
+                            _logger.Information("Expert login with AppUserId: {AppUserId}", user.Id);
+                            HttpContext.Session.Clear();
+                            HttpContext.Session.SetInt32("UserId", user.Id);
+                            break;
+
+                        default:
+                            _logger.Warning("Unknown role for email {Email}: {Role}", model.Email, user.Role);
+                            HttpContext.Session.Clear();
+                            ModelState.AddModelError(string.Empty, "نقش کاربر نامشخص است.");
+                            return View(model);
+                    }
                 }
+
+                return user.Role switch
+                {
+                    UserRole.Admin => RedirectToAction("Index", "Dashboard", new { area = "Admin" }),
+                    UserRole.Customer => RedirectToAction("Dashboard", "Customer"),
+                    UserRole.Expert => RedirectToAction("Index", "ExpertDashboard"),
+                    _ => RedirectToAction("Index", "Home")
+                };
             }
 
             _logger.Warning("Login failed for email {Email}: Invalid credentials", model.Email);

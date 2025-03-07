@@ -2,29 +2,35 @@
 using App.Domain.Core.DTO.HomeServices;
 using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IService;
+using App.Domain.Core.Services.Entities;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using App.Domain.Core.DTO.SubHomeServices;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace HomeService.Domain.AppServices.HomeServiceAppServices
 {
     public class HomeServiceAppService : IHomeServiceAppService
     {
         private readonly IHomeServiceService _homeServiceService;
-        private readonly ICategoryService _categoryService; 
+        private readonly ICategoryService _categoryService;
         private readonly ILogger _logger;
+        private readonly IMemoryCache _memoryCache;
 
         public HomeServiceAppService(
             IHomeServiceService homeServiceService,
             ICategoryService categoryService,
-            ILogger logger)
+            ILogger logger,
+            IMemoryCache memoryCache)
         {
             _homeServiceService = homeServiceService;
             _categoryService = categoryService;
             _logger = logger;
+            _memoryCache = memoryCache;
         }
 
         public async Task<bool> CreateAsync(CreateHomeServiceDto dto, CancellationToken cancellationToken)
@@ -92,6 +98,61 @@ namespace HomeService.Domain.AppServices.HomeServiceAppServices
             var categories = await _categoryService.GetAllForDropdownAsync(cancellationToken);
             _logger.Information("AppService: Fetched {Count} categories for dropdown", categories?.Count ?? 0);
             return categories ?? new List<CategoryListItemDto>();
+        }
+
+        public async Task<List<HomeServiceDto>> GetAllHomeServicesAsync(CancellationToken cancellationToken)
+        {
+            _logger.Information("Fetching all HomeServices with their Categories in AppService layer.");
+            string cacheKey = "AllHomeServices";
+
+            if (!_memoryCache.TryGetValue(cacheKey, out List<HomeServiceDto> cachedHomeServices))
+            {
+                _logger.Information("HomeServices not found in cache, fetching from database");
+                try
+                {
+                    var homeServices = await _homeServiceService.GetAllHomeServicesAsync(cancellationToken);
+                    cachedHomeServices = homeServices.Select(hs => new HomeServiceDto
+                    {
+                        Id = hs.Id,
+                        Name = hs.Name,
+                        Description = hs.Description,
+                        ImagePath = hs.ImagePath?.Replace("\\", "/") ?? "/images/homeservices/default.jpg",
+                        CategoryId = hs.CategoryId,
+                        IsActive = hs.IsActive,
+                        SubHomeServices = hs.SubHomeServices?.Select(ss => new SubHomeServiceDto
+                        {
+                            Id = ss.Id,
+                            Name = ss.Name,
+                            Description = ss.Description,
+                            Views = ss.Views,
+                            BasePrice = ss.BasePrice,
+                            HomeServiceId = ss.HomeServiceId,
+                            IsActive = ss.IsActive
+                        }).ToList() ?? new List<SubHomeServiceDto>()
+                    }).ToList();
+
+                    if (cachedHomeServices != null && cachedHomeServices.Any())
+                    {
+                        _logger.Information("Caching {HomeServiceCount} home services", cachedHomeServices.Count);
+                        var cacheOptions = new MemoryCacheEntryOptions
+                        {
+                            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1),
+                            SlidingExpiration = TimeSpan.FromMinutes(30)
+                        };
+                        _memoryCache.Set(cacheKey, cachedHomeServices, cacheOptions);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to fetch HomeServices with Categories in AppService layer.");
+                    throw;
+                }
+            }
+            else
+            {
+                _logger.Information("HomeServices retrieved from cache, Count: {HomeServiceCount}", cachedHomeServices.Count);
+            }
+            return cachedHomeServices;
         }
     }
 }

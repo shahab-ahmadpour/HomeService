@@ -17,7 +17,8 @@ namespace App.Domain.Core.Services.Interfaces.IService
         Task<List<OrderDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
         Task<bool> UpdatePaymentStatusAsync(int id, PaymentStatus status, CancellationToken cancellationToken);
-        List<Order> GetAllOrders();
+        Task<List<Order>> GetAllOrdersAsync(CancellationToken cancellationToken);
         Task<List<OrderDto>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
+        Task<Order> GetByProposalIdAsync(int proposalId, CancellationToken cancellationToken);
     }
 }

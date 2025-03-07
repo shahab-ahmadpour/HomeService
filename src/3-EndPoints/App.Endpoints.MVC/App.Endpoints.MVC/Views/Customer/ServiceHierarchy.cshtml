@@ -1,0 +1,230 @@
+﻿@model App.Domain.Core.DTO.Users.Customers.ServiceHierarchyViewModel
+
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "انتخاب سرویس";
+}
+
+<hr />
+<section class="services-section">
+    <div class="container">
+        <h2 class="section-title text-center">دسته‌بندی‌های خدمات</h2>
+        @if (Model.Categories == null || !Model.Categories.Any())
+        {
+            <p class="no-services text-center">هیچ دسته‌بندی‌ای موجود نیست!</p>
+        }
+        else
+        {
+            <div class="categories-container">
+                <div class="categories-grid" id="categoriesGrid">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <div class="category-card" data-category-id="@category.Id">
+                            <img src="@(string.IsNullOrEmpty(category.ImagePath) ? "/images/homeservices/default.jpg" : category.ImagePath)"
+                                 alt="@category.Name" class="category-img" />
+                            <p class="category-name">@category.Name</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <h2 class="section-title mt-4 text-center">سرویس مورد نظر را انتخاب کنید</h2>
+        @if (Model.HomeServicesByCategory == null || !Model.HomeServicesByCategory.Any())
+        {
+            <p class="no-services">هیچ سرویسی موجود نیست!</p>
+        }
+        else
+        {
+            <div class="services-grid" id="servicesGrid">
+                @foreach (var categoryGroup in Model.HomeServicesByCategory)
+                {
+                    @foreach (var homeService in categoryGroup.Value)
+                    {
+                        <div class="service-card" data-category-id="@categoryGroup.Key" data-service-id="@homeService.Id">
+                            <img src="@(string.IsNullOrEmpty(homeService.ImagePath) ? "/images/homeservices/default.jpg" : homeService.ImagePath)"
+                                 alt="@homeService.Name" class="service-img" />
+                            <p class="service-name">@homeService.Name</p>
+                            <button class="btn view-subservices-btn" data-service-id="@homeService.Id">مشاهده</button>
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+        <div class="subservice-popup" id="subservicePopup" style="display: none;">
+            <div class="subservice-content">
+                <h3>خدمات</h3>
+                <div class="subservices-grid" id="subservicesGrid">
+                </div>
+                <button class="btn close-popup-btn">بستن</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log("jQuery loaded");
+            // فیلتر هوم سرویس‌ها با کلیک روی دسته
+            $('.category-card').click(function () {
+                var categoryId = $(this).data('category-id');
+                $('#servicesGrid .service-card').hide();
+                $('#servicesGrid .service-card[data-category-id="' + categoryId + '"]').show();
+                console.log("Filtered for category: " + categoryId);
+            });
+
+            // نمایش کارت پاپ‌آپ ساب سرویس‌ها
+            $('.view-subservices-btn').click(function () {
+                var serviceId = $(this).data('service-id');
+                console.log("Fetching subservices for serviceId: " + serviceId);
+                $.ajax({
+                    url: '@Url.Action("GetSubHomeServices", "Customer")',
+                    type: 'GET',
+                    data: { homeServiceId: serviceId },
+                    success: function (response) {
+                        console.log("AJAX success", response);
+                        var subservicesGrid = $('#subservicesGrid').empty();
+                        if (response.success) {
+                            response.data.forEach(function (subService) {
+                                var createUrl = '@Url.Action("Create", "Customer", new { subHomeServiceId = "ID_PLACEHOLDER" })'.replace("ID_PLACEHOLDER", subService.id);
+                                console.log("Generated URL: " + createUrl); // دیباگ URL
+                                subservicesGrid.append(
+                                    '<div class="subservice-item">' +
+                                    '<img src="' + (subService.imagePath || "/images/homeservices/default.jpg") + '" alt="' + subService.name + '" class="subservice-img" />' +
+                                    '<p>' + subService.name + '</p>' +
+                                    '<a href="' + createUrl + '" class="btn btn-primary" onclick="console.log(\'Redirecting to: ' + createUrl + '\')">ثبت سفارش</a>' +
+                                    '</div>'
+                                );
+                            });
+                        } else {
+                            subservicesGrid.append('<p>' + response.message + '</p>');
+                        }
+                        $('#subservicePopup').fadeIn();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("AJAX error", status, error);
+                        $('#subservicesGrid').html('<p>خطا در بارگذاری زیرسرویس‌ها.</p>');
+                        $('#subservicePopup').fadeIn();
+                    }
+                });
+            });
+
+            // بستن کارت پاپ‌آپ
+            $('.close-popup-btn').click(function () {
+                $('#subservicePopup').fadeOut();
+                console.log("Popup closed");
+            });
+        });
+    </script>
+    <style>
+        .subservice-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            width: 400px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .subservice-content {
+            text-align: center;
+        }
+
+        .subservices-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .subservice-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .subservice-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-bottom: 5px;
+        }
+
+        .categories-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .categories-grid {
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 25px;
+            margin: 10px 0;
+            padding: 10px 0;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 10px 0;
+        }
+
+        .category-card, .service-card {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 80px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .service-card {
+            width: 250px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .service-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .category-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+
+        .category-name, .service-name {
+            font-size: 12px;
+            margin: 5px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            text-align: center;
+        }
+    </style>
+}

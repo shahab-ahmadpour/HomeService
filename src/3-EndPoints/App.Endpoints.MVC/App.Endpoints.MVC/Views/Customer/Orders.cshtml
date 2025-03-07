@@ -1,9 +1,10 @@
 ﻿@model List<App.Domain.Core.DTO.Orders.OrderDto>
+@using App.Domain.Core.Enums
 @using App.Endpoints.MVC.Extensions
 @using App.Endpoints.MVC.Utilities
 
 @{
-    Layout = "~/Views/Shared/_CustomerPanelLayout.cshtml";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
     ViewData["Title"] = "نمایش سفارش‌ها";
 }
 
@@ -23,6 +24,7 @@
                     <th>وضعیت پرداخت</th>
                     <th>قیمت نهایی</th>
                     <th>سرویس</th>
+                    <th>عملیات</th> <!-- تغییر نام ستون به "عملیات" -->
                 </tr>
             </thead>
             <tbody>
@@ -31,9 +33,23 @@
                     <tr>
                         <td>@order.Id</td>
                         <td>@order.OrderDate.ToPersianDate()</td>
-                        <td>@order.PaymentStatus.GetDisplayName()</td>
+                        <td>@order.PaymentStatus.GetDisplayName()</td> <!-- همیشه نمایش داده می‌شه -->
                         <td>@order.FinalPrice.ToString("N0") تومان</td>
                         <td>@order.SubHomeServiceName</td>
+                        <td>
+                            @if (order.PaymentStatus == PaymentStatus.Pending)
+                            {
+                                <a href="@Url.Action("Payment", "Customer", new { orderId = @order.Id })" class="btn btn-primary btn-sm">پرداخت</a>
+                            }
+                            else if (order.PaymentStatus == PaymentStatus.Completed)
+                            {
+                                <a href="@Url.Action("CreateReview", "Customer", new { orderId = @order.Id })" class="btn btn-success btn-sm">نظرسنجی</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">در حال پردازش</span> <!-- برای وضعیت‌های دیگه -->
+                            }
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -102,4 +118,9 @@
             background: #434190;
             transform: translateY(-2px);
         }
+
+    .btn-sm {
+        padding: 5px 10px;
+        font-size: 0.9rem;
+    }
 </style>

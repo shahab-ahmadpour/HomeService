@@ -10,10 +10,10 @@ namespace App.Domain.Core.Transactions.Interfaces.IRepository
 {
     public interface ITransactionRepository
     {
-        Task<bool> CreateAsync(TransactionDto transactionDto, CancellationToken cancellationToken);
-        Task<List<TransactionDto>> GetAllAsync(CancellationToken cancellationToken);
-        Task<TransactionDto> GetByIdAsync(int id, CancellationToken cancellationToken);
-        Task<bool> UpdateAsync(int id, TransactionDto transactionDto, CancellationToken cancellationToken);
+        Task<Transaction> GetByIdAsync(int id, CancellationToken cancellationToken);
+        Task<List<Transaction>> GetAllAsync(CancellationToken cancellationToken);
+        Task<bool> CreateAsync(CreateTransactionDto dto, CancellationToken cancellationToken);
+        Task<bool> UpdateAsync(int id, UpdateTransactionDto dto, CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
     }
 }

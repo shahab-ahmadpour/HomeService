@@ -11,6 +11,8 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
     {
         Task<List<ReviewDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<List<ReviewDto>> GetByOrderIdAsync(int orderId, CancellationToken cancellationToken);
+        Task<CreateReviewDto> PrepareReviewAsync(int orderId, int customerId, CancellationToken cancellationToken);
+        Task<bool> CreateAsync(CreateReviewDto dto, int customerId, CancellationToken cancellationToken);
         Task<bool> ApproveAsync(int id, CancellationToken cancellationToken);
         Task<bool> RejectAsync(int id, CancellationToken cancellationToken);
     }

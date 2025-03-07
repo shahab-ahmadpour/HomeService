@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Enums;
 using App.Domain.Core.Skills.Entities;
 using App.Domain.Core.Users.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -42,6 +43,8 @@ namespace App.Domain.Core.Services.Entities
 
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public string? EnvironmentImagePath { get; set; }
 
         [Required]
         public bool IsEnabled { get; set; } = true;

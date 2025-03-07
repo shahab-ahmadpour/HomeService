@@ -35,6 +35,7 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
         {
             _logger.Information("Fetching user with ID: {Id}", id);
             return await _dbContext.Users
+                .AsNoTracking()
                 .Where(u => u.Id == id)
                 .Select(u => new AppUserDto
                 {
@@ -180,10 +181,11 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
 
             user.FirstName = dto.FirstName ?? user.FirstName;
             user.LastName = dto.LastName ?? user.LastName;
-
+            user.ProfilePicture = dto.ProfilePicture ?? user.ProfilePicture;
+            user.AccountBalance = dto.AccountBalance ?? user.AccountBalance;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
-            _logger.Information("User with ID: {Id} updated successfully", id);
+            _logger.Information("User with ID: {Id} updated successfully, ProfilePicture: {ProfilePicture}, AccountBalance: {AccountBalance}", id, user.ProfilePicture, user.AccountBalance);
             return true;
         }
 

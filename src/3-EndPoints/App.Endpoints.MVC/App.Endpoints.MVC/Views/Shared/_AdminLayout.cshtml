@@ -100,7 +100,7 @@
                 </li>
             </ul>
             <ul class="navbar-nav mr-auto">
-                @if (Context.Session.GetInt32("AppUserId").HasValue)
+                @if (Context.Session.GetInt32("UserId").HasValue)
                 {
                     <li class="nav-item">
                         <form method="post" action="@Url.Action("Logout", "Account", new { area = "" })" class="logout-form">

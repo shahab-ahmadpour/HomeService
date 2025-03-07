@@ -26,7 +26,7 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
 
         public async Task<bool> CreateAsync(CreateRequestDto dto, CancellationToken cancellationToken)
         {
-            _logger.Information("Creating new request for Customer ID: {CustomerId}", dto.CustomerId);
+            _logger.Information("Creating new request for CustomerId: {CustomerId}", dto.CustomerId);
             try
             {
                 var request = new Request
@@ -34,22 +34,22 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                     CustomerId = dto.CustomerId,
                     SubHomeServiceId = dto.SubHomeServiceId,
                     Description = dto.Description,
-                    Status = RequestStatus.Pending,
                     Deadline = dto.Deadline,
                     ExecutionDate = dto.ExecutionDate,
+                    Status = dto.Status,
+                    EnvironmentImagePath = dto.EnvironmentImagePath,
                     CreatedAt = DateTime.UtcNow,
                     IsEnabled = true
                 };
-
-                await _dbContext.Requests.AddAsync(request, cancellationToken);
-                await _dbContext.SaveChangesAsync(cancellationToken);
-                _logger.Information("Successfully created request with ID: {RequestId}", request.Id);
-                return true;
+                _dbContext.Requests.Add(request);
+                var result = await _dbContext.SaveChangesAsync(cancellationToken);
+                _logger.Information("Request created successfully for CustomerId: {CustomerId}, Result: {Result}", dto.CustomerId, result > 0);
+                return result > 0;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to create request for Customer ID: {CustomerId}", dto.CustomerId);
-                return false;
+                _logger.Error(ex, "Failed to create request for CustomerId: {CustomerId}", dto.CustomerId);
+                throw;
             }
         }
 
@@ -68,6 +68,10 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                 request.Status = dto.Status;
                 request.Deadline = dto.Deadline;
                 request.ExecutionDate = dto.ExecutionDate;
+                if (!string.IsNullOrEmpty(dto.EnvironmentImagePath))
+                {
+                    request.EnvironmentImagePath = dto.EnvironmentImagePath;
+                }
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 _logger.Information("Successfully updated request with ID: {RequestId}", id);
                 return true;
@@ -97,7 +101,9 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                         Status = r.Status,
                         Deadline = r.Deadline,
                         ExecutionDate = r.ExecutionDate,
-                        CreatedAt = r.CreatedAt
+                        CreatedAt = r.CreatedAt,
+                        EnvironmentImagePath = r.EnvironmentImagePath,
+                        IsEnabled = r.IsEnabled
                     })
                     .FirstOrDefaultAsync(cancellationToken);
 
@@ -137,7 +143,9 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                         Status = r.Status,
                         Deadline = r.Deadline,
                         ExecutionDate = r.ExecutionDate,
-                        CreatedAt = r.CreatedAt
+                        CreatedAt = r.CreatedAt,
+                        EnvironmentImagePath = r.EnvironmentImagePath,
+                        IsEnabled = r.IsEnabled
                     })
                     .ToListAsync(cancellationToken);
 
@@ -174,6 +182,7 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                 return false;
             }
         }
+
         public async Task<List<RequestDto>> GetRequestsByCustomerIdAsync(int customerId, CancellationToken cancellationToken)
         {
             _logger.Information("Fetching requests for CustomerId: {CustomerId}", customerId);
@@ -192,7 +201,9 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                         Status = r.Status,
                         Deadline = r.Deadline,
                         ExecutionDate = r.ExecutionDate,
-                        CreatedAt = r.CreatedAt
+                        CreatedAt = r.CreatedAt,
+                        EnvironmentImagePath = r.EnvironmentImagePath,
+                        IsEnabled = r.IsEnabled
                     })
                     .ToListAsync(cancellationToken);
 

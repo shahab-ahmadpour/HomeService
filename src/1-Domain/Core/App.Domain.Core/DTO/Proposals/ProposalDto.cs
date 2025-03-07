@@ -11,21 +11,20 @@ namespace App.Domain.Core.DTO.Proposals
     {
         public int Id { get; set; }
         public int ExpertId { get; set; }
-        public string ExpertName { get; set; } = null!;
-        public int OrderId { get; set; }
+        public string ExpertName { get; set; } 
+        public int? OrderId { get; set; }
         public int RequestId { get; set; }
-        public string RequestDescription { get; set; } = null!;
+        public string RequestDescription { get; set; } 
         public int SkillId { get; set; }
         public decimal Price { get; set; }
         public DateTime ExecutionDate { get; set; }
-        public string Description { get; set; } = null!;
+        public string Description { get; set; }
         public ProposalStatus Status { get; set; }
         public DateTime ResponseTime { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsEnabled { get; set; }
-
         public DateTime OrderDate { get; set; }
-        public string SubHomeServiceName { get; set; } = null!;
-        public string PaymentStatus { get; set; } = null!;
+        public string SubHomeServiceName { get; set; } 
+        public string PaymentStatus { get; set; }
     }
 }

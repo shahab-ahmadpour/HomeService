@@ -24,9 +24,28 @@ namespace HomeService.Domain.Services.RequestServices
         public async Task<bool> CreateAsync(CreateRequestDto dto, CancellationToken cancellationToken)
         {
             _logger.Information("Service: Creating new request for Customer ID: {CustomerId}", dto.CustomerId);
-            var result = await _requestRepository.CreateAsync(dto, cancellationToken);
-            _logger.Information("Service: CreateAsync returned: {Result}", result);
-            return result;
+            try
+            {
+                if (dto.CustomerId == 0)
+                {
+                    _logger.Warning("Service: Invalid CustomerId (zero) for request creation.");
+                    return false;
+                }
+                if (dto.SubHomeServiceId == 0)
+                {
+                    _logger.Warning("Service: Invalid SubHomeServiceId (zero) for request creation.");
+                    return false;
+                }
+
+                var result = await _requestRepository.CreateAsync(dto, cancellationToken);
+                _logger.Information("Service: CreateAsync returned: {Result}", result);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Service: Failed to create request for CustomerId: {CustomerId}", dto.CustomerId);
+                throw;
+            }
         }
 
         public async Task<List<RequestDto>> GetRequestsByCustomerIdAsync(int customerId, CancellationToken cancellationToken)
@@ -35,6 +54,38 @@ namespace HomeService.Domain.Services.RequestServices
             var requests = await _requestRepository.GetRequestsByCustomerIdAsync(customerId, cancellationToken);
             _logger.Information("Service: Retrieved {Count} requests for CustomerId: {CustomerId}", requests.Count, customerId);
             return requests;
+        }
+
+        public async Task<bool> UpdateAsync(int id, UpdateRequestDto dto, CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Updating request with ID: {RequestId}", id);
+            var result = await _requestRepository.UpdateAsync(id, dto, cancellationToken);
+            _logger.Information("Service: UpdateAsync returned: {Result}", result);
+            return result;
+        }
+
+        public async Task<RequestDto> GetAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Fetching request with ID: {RequestId}", id);
+            var request = await _requestRepository.GetAsync(id, cancellationToken);
+            _logger.Information("Service: Fetched request with ID: {RequestId}", id);
+            return request;
+        }
+
+        public async Task<List<RequestDto>> GetAllAsync(CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Fetching all requests.");
+            var requests = await _requestRepository.GetAllAsync(cancellationToken);
+            _logger.Information("Service: Retrieved {Count} requests.", requests.Count);
+            return requests;
+        }
+
+        public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Deleting (deactivating) request with ID: {RequestId}", id);
+            var result = await _requestRepository.DeleteAsync(id, cancellationToken);
+            _logger.Information("Service: DeleteAsync returned: {Result}", result);
+            return result;
         }
     }
 }

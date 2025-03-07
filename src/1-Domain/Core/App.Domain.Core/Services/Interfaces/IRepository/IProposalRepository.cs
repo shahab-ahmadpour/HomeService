@@ -13,6 +13,8 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
         Task<List<ProposalDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<List<ProposalDto>> GetProposalsByOrderIdAsync(int orderId, CancellationToken cancellationToken);
         Task<List<ProposalDto>> GetProposalsByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
+        Task<Proposal> GetByIdAsync(int id, CancellationToken cancellationToken);
+        Task UpdateAsync(Proposal proposal, CancellationToken cancellationToken);
     }
 
 }

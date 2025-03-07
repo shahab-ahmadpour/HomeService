@@ -16,7 +16,9 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
         Task<List<SubHomeServiceListItemDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
         Task<bool> ExistsAsync(int id, CancellationToken cancellationToken);
-        List<SubHomeService> GetAllServices();
+        Task<List<SubHomeService>> GetAllServicesAsync(CancellationToken cancellationToken = default);
+        Task<SubHomeServiceListItemDto> GetSubHomeServiceByIdAsync(int id, CancellationToken cancellationToken);
+        Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesByHomeServiceIdAsync(int homeServiceId, CancellationToken cancellationToken);
 
     }
 }

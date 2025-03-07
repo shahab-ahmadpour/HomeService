@@ -97,9 +97,96 @@ namespace HomeService.Domain.Services.SubHomeSerServices
 
             return result;
         }
-        public List<SubHomeService> GetAllServices()
+
+        public async Task<List<SubHomeService>> GetAllServicesAsync(CancellationToken cancellationToken = default)
         {
-            return _subHomeServiceRepository.GetAllServices();
+            _logger.Information("Fetching all SubHomeServices in service layer.");
+            try
+            {
+                var services = await _subHomeServiceRepository.GetAllServicesAsync(cancellationToken);
+                _logger.Information("Fetched {Count} SubHomeServices from repository.", services?.Count ?? 0);
+                return services;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to fetch all SubHomeServices in service layer.");
+                throw;
+            }
+        }
+
+        public async Task<SubHomeServiceListItemDto> GetSubHomeServiceByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Fetching SubHomeService by Id: {Id}", id);
+            try
+            {
+                var subHomeService = await _subHomeServiceRepository.GetSubHomeServiceByIdAsync(id, cancellationToken);
+                if (subHomeService == null)
+                {
+                    _logger.Warning("Service: SubHomeService not found for Id: {Id}", id);
+                    return null;
+                }
+                _logger.Information("Service: Found SubHomeService with Id: {Id}", id);
+                return subHomeService;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Service: Failed to fetch SubHomeService for Id: {Id}", id);
+                throw;
+            }
+        }
+
+        public async Task<UpdateSubHomeServiceDto> GetSubHomeServiceForEditAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Fetching SubHomeService for edit with Id: {Id}", id);
+            try
+            {
+                var subHomeService = await _subHomeServiceRepository.GetAsync(id, cancellationToken);
+                if (subHomeService == null)
+                {
+                    _logger.Warning("Service: SubHomeService not found for edit with Id: {Id}", id);
+                    return null;
+                }
+
+                var dto = new UpdateSubHomeServiceDto
+                {
+                    Id = subHomeService.Id,
+                    Name = subHomeService.Name,
+                    Description = subHomeService.Description,
+                    BasePrice = subHomeService.BasePrice,
+                    Views = subHomeService.Views,
+                    ImagePath = subHomeService.ImagePath.StartsWith("/") ? subHomeService.ImagePath : "/" + subHomeService.ImagePath,
+                    IsActive = subHomeService.IsActive
+                };
+
+                _logger.Information("Service: Prepared edit DTO for SubHomeService with Id: {Id}", id);
+                return dto;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Service: Failed to fetch SubHomeService for edit with Id: {Id}", id);
+                throw;
+            }
+        }
+
+        public async Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesAsync(CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Fetching SubHomeServices in service layer.");
+            try
+            {
+                var services = await _subHomeServiceRepository.GetAllAsync(cancellationToken);
+                _logger.Information("Service: Fetched {Count} SubHomeServices from repository.", services?.Count ?? 0);
+                return services;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Service: Failed to fetch SubHomeServices in service layer.");
+                throw;
+            }
+        }
+        public async Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesByHomeServiceIdAsync(int homeServiceId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Fetching sub-home services for HomeServiceId: {HomeServiceId}", homeServiceId);
+            return await _subHomeServiceRepository.GetSubHomeServicesByHomeServiceIdAsync(homeServiceId, cancellationToken);
         }
     }
 }

@@ -605,6 +605,14 @@
       "PackagePath": "staticwebassets\\images\\User\\Expert\\shahin.png"
     },
     {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\images\\hero-bg.jpg",
+      "PackagePath": "staticwebassets\\images\\hero-bg.jpg"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\images\\logo.png",
+      "PackagePath": "staticwebassets\\images\\logo.png"
+    },
+    {
       "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\images\\subhome\\2.jpg",
       "PackagePath": "staticwebassets\\images\\subhome\\2.jpg"
     },
@@ -8785,12 +8793,68 @@
       "PackagePath": "staticwebassets\\plugins\\uplot\\uPlot.min.css"
     },
     {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\05741a53-5e46-43ad-96b8-e0315ad32340.png",
+      "PackagePath": "staticwebassets\\uploads\\05741a53-5e46-43ad-96b8-e0315ad32340.png"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\0b30213d-3726-41f2-9430-48e7484dc463.jpg",
+      "PackagePath": "staticwebassets\\uploads\\0b30213d-3726-41f2-9430-48e7484dc463.jpg"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\1267f973-b364-49d2-b647-26f3ba1c8817.webp",
+      "PackagePath": "staticwebassets\\uploads\\1267f973-b364-49d2-b647-26f3ba1c8817.webp"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\16124a77-1a08-4bed-a3b7-c9386439d0be.png",
+      "PackagePath": "staticwebassets\\uploads\\16124a77-1a08-4bed-a3b7-c9386439d0be.png"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\243d4cd1-4d33-4a9f-9e87-141ed9f1e8fc.png",
+      "PackagePath": "staticwebassets\\uploads\\243d4cd1-4d33-4a9f-9e87-141ed9f1e8fc.png"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\3926fa16-91b6-4b28-b67f-e36271f8467f.png",
+      "PackagePath": "staticwebassets\\uploads\\3926fa16-91b6-4b28-b67f-e36271f8467f.png"
+    },
+    {
       "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\407e7e58-f176-4b57-9838-d23bcca2cce1.jpg",
       "PackagePath": "staticwebassets\\uploads\\407e7e58-f176-4b57-9838-d23bcca2cce1.jpg"
     },
     {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\422e3305-8b34-40cb-8ad7-c410881e651a.png",
+      "PackagePath": "staticwebassets\\uploads\\422e3305-8b34-40cb-8ad7-c410881e651a.png"
+    },
+    {
       "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\548420f2-c861-4081-9655-52e8046f6736.jpg",
       "PackagePath": "staticwebassets\\uploads\\548420f2-c861-4081-9655-52e8046f6736.jpg"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\68f5b55f-c35e-4a8f-ac88-c7a08d144637.png",
+      "PackagePath": "staticwebassets\\uploads\\68f5b55f-c35e-4a8f-ac88-c7a08d144637.png"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\6ea984f4-df2b-47b6-9410-d3a7156f8375.png",
+      "PackagePath": "staticwebassets\\uploads\\6ea984f4-df2b-47b6-9410-d3a7156f8375.png"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\7ae5b4f3-e3de-488b-9b00-26ea906d9b66.png",
+      "PackagePath": "staticwebassets\\uploads\\7ae5b4f3-e3de-488b-9b00-26ea906d9b66.png"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\8f91e5ef-fa61-4f5d-a948-8abb1c187585.png",
+      "PackagePath": "staticwebassets\\uploads\\8f91e5ef-fa61-4f5d-a948-8abb1c187585.png"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\b6efd706-f959-4423-bbb6-dc79d5b36afc.png",
+      "PackagePath": "staticwebassets\\uploads\\b6efd706-f959-4423-bbb6-dc79d5b36afc.png"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\d70360c6-9848-4688-8a2c-f351a5e2bfb7.jpg",
+      "PackagePath": "staticwebassets\\uploads\\d70360c6-9848-4688-8a2c-f351a5e2bfb7.jpg"
+    },
+    {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\da4b22d9-1920-4462-8fbc-ac82d248d311.webp",
+      "PackagePath": "staticwebassets\\uploads\\da4b22d9-1920-4462-8fbc-ac82d248d311.webp"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.App.Endpoints.MVC.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",

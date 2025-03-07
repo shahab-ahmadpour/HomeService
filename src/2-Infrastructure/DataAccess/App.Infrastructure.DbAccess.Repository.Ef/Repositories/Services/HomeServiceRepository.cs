@@ -174,6 +174,24 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                 .Include(hs => hs.SubHomeServices.Where(ss => ss.IsActive))
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<List<HomeService>> GetAllHomeServicesAsync(CancellationToken cancellationToken)
+        {
+            _logger.Information("Fetching all HomeServices with their Categories.");
+            try
+            {
+                var homeServices = await _dbContext.HomeServices
+                    .Include(hs => hs.Category)
+                    .ToListAsync(cancellationToken);
+                _logger.Information("Fetched {Count} HomeServices with Categories.", homeServices.Count);
+                return homeServices;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to fetch all HomeServices with Categories.");
+                throw;
+            }
+        }
     }
 
 }

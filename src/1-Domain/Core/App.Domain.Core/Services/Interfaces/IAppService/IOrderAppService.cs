@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.DTO.Orders;
 using App.Domain.Core.Enums;
+using App.Domain.Core.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,9 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
         Task<bool> UpdatePaymentStatusAsync(int id, PaymentStatus status, CancellationToken cancellationToken);
         Task<UpdateOrderDto> GetOrderForEditAsync(int id, CancellationToken cancellationToken);
         Task<List<OrderDto>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
+        Task<bool> CreateOrderFromProposalAsync(int proposalId, int customerId, CancellationToken cancellationToken);
+        Task<int> ProcessProposalSelectionAsync(int proposalId, int customerId, CancellationToken cancellationToken);
+        Task<Order> GetByProposalIdAsync(int proposalId, CancellationToken cancellationToken);
+
     }
 }

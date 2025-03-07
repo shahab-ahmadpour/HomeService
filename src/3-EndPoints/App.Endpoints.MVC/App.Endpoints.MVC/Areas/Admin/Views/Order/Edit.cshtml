@@ -82,7 +82,7 @@
                                 <div class="input-group">
                                     <select class="form-control form-control-lg shadow-sm" id="PaymentStatus" name="PaymentStatus" style="border-radius: 15px 0 0 15px;">
                                         <option value="Pending" @(Model.PaymentStatus == PaymentStatus.Pending ? "selected" : "")>در انتظار پرداخت</option>
-                                        <option value="Paid" @(Model.PaymentStatus == PaymentStatus.Paid ? "selected" : "")>پرداخت شده</option>
+                                        <option value="Paid" @(Model.PaymentStatus == PaymentStatus.Completed ? "selected" : "")>پرداخت شده</option>
                                         <option value="Failed" @(Model.PaymentStatus == PaymentStatus.Failed ? "selected" : "")>ناموفق</option>
                                     </select>
                                     <div class="input-group-append">

@@ -18,7 +18,9 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
         Task<List<Order>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
         Task<bool> UpdatePaymentStatusAsync(int id, PaymentStatus status, CancellationToken cancellationToken);
-        List<Order> GetAllOrders();
+        Task<List<Order>> GetAllOrdersAsync(CancellationToken cancellationToken = default);
+        Task<Order> GetByProposalIdAsync(int proposalId, CancellationToken cancellationToken);
+
 
     }
 }

@@ -15,5 +15,7 @@ namespace App.Domain.Core.Users.Interfaces.IRepository
         Task<bool> CreateAsync(CreateExpertDto dto, CancellationToken cancellationToken);
         Task<bool> UpdateAsync(int id, UpdateExpertDto dto, CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
+        Task<decimal> GetBalanceAsync(int expertId, CancellationToken cancellationToken);
+        Task<bool> UpdateBalanceAsync(int expertId, decimal newBalance, CancellationToken cancellationToken);
     }
 }

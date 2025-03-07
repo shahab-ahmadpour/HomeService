@@ -10,6 +10,8 @@ namespace App.Domain.Core.DTO.Transactions
     public class UpdateTransactionDto
     {
         public PaymentStatus PaymentStatus { get; set; }
+        public string PaymentMethod { get; set; } 
+        public bool? IsActive { get; set; } 
     }
 
 }

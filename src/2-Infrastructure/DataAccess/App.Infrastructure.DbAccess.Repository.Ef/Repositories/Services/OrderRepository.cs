@@ -26,29 +26,62 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
 
         public async Task<bool> CreateAsync(CreateOrderDto dto, CancellationToken cancellationToken)
         {
-            _logger.Information("Creating new order for Request ID: {RequestId}", dto.RequestId);
+            _logger.Information("OrderRepository: Creating new order with ProposalId: {ProposalId}", dto.ProposalId);
             try
             {
+                var proposal = await _dbContext.Proposals
+                    .FirstOrDefaultAsync(p => p.Id == dto.ProposalId, cancellationToken);
+                if (proposal == null)
+                {
+                    _logger.Warning("OrderRepository: Proposal with ID: {ProposalId} not found for order creation", dto.ProposalId);
+                    return false;
+                }
+
+                var customer = await _dbContext.Customers
+                    .FirstOrDefaultAsync(c => c.Id == dto.CustomerId, cancellationToken);
+                if (customer == null)
+                {
+                    _logger.Warning("OrderRepository: Customer with ID: {CustomerId} not found for order creation", dto.CustomerId);
+                    return false;
+                }
+
+                var expert = await _dbContext.Experts
+                    .FirstOrDefaultAsync(e => e.Id == dto.ExpertId, cancellationToken);
+                if (expert == null)
+                {
+                    _logger.Warning("OrderRepository: Expert with ID: {ExpertId} not found for order creation", dto.ExpertId);
+                    return false;
+                }
+
+                var request = await _dbContext.Requests
+                    .FirstOrDefaultAsync(r => r.Id == dto.RequestId, cancellationToken);
+                if (request == null)
+                {
+                    _logger.Warning("OrderRepository: Request with ID: {RequestId} not found for order creation", dto.RequestId);
+                    return false;
+                }
+
                 var order = new Order
                 {
                     CustomerId = dto.CustomerId,
                     ExpertId = dto.ExpertId,
                     RequestId = dto.RequestId,
                     ProposalId = dto.ProposalId,
+                    Proposal = proposal,
                     FinalPrice = dto.FinalPrice,
                     PaymentStatus = dto.PaymentStatus,
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow
                 };
 
-                await _dbContext.Orders.AddAsync(order, cancellationToken);
+                _dbContext.Orders.Add(order);
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                _logger.Information("Successfully created order for Request ID: {RequestId}", dto.RequestId);
+                _logger.Information("OrderRepository: Successfully created order with Id: {Id} for ProposalId: {ProposalId}", order.Id, dto.ProposalId);
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to create order for Request ID: {RequestId}", dto.RequestId);
+                _logger.Error(ex, "OrderRepository: Failed to create order with ProposalId: {ProposalId}. Error: {ErrorMessage}", dto.ProposalId, ex.Message);
                 return false;
             }
         }
@@ -107,33 +140,32 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
 
         public async Task<OrderDto> GetAsync(int id, CancellationToken cancellationToken)
         {
-            _logger.Information("Fetching order with ID: {Id}", id);
             var order = await _dbContext.Orders
-                .Include(o => o.Customer)
-                .Include(o => o.Expert)
-                .Include(o => o.Request)
-                .Where(o => o.Id == id)
-                .Select(o => new OrderDto
-                {
-                    Id = o.Id,
-                    CustomerId = o.CustomerId,
-                    CustomerName = o.Customer.AppUser.FirstName + " " + o.Customer.AppUser.LastName,
-                    ExpertId = o.ExpertId,
-                    ExpertName = o.Expert.AppUser.FirstName + " " + o.Expert.AppUser.LastName,
-                    RequestId = o.RequestId,
-                    RequestDescription = o.Request.Description,
-                    FinalPrice = o.FinalPrice,
-                    PaymentStatus = o.PaymentStatus,
-                    IsActive = o.IsActive,
-                    CreatedAt = o.CreatedAt
-                })
-                .FirstOrDefaultAsync(cancellationToken);
+                    .Include(o => o.Customer)
+                        .ThenInclude(c => c.AppUser)
+                    .Include(o => o.Expert)
+                        .ThenInclude(e => e.AppUser)
+                    .Include(o => o.Request)
+                        .ThenInclude(r => r.SubHomeService)
+                    .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
 
-            if (order == null)
+            if (order == null) return null;
+
+            return new OrderDto
             {
-                _logger.Warning("Order with ID: {Id} not found", id);
-            }
-            return order;
+                Id = order.Id,
+                CustomerId = order.CustomerId,
+                ExpertId = order.ExpertId,
+                RequestId = order.RequestId,
+                FinalPrice = order.FinalPrice,
+                PaymentStatus = order.PaymentStatus,
+                IsActive = order.IsActive,
+                CreatedAt = order.CreatedAt,
+                CustomerName = order.Customer?.AppUser?.FirstName + " " + order.Customer?.AppUser?.LastName ?? "نامشخص",
+                SubHomeServiceName = order.Request.SubHomeService.Name,
+                ExpertName = order.Expert?.AppUser?.FirstName + " " + order.Expert?.AppUser?.LastName ?? "نامشخص",
+                RequestDescription = order.Request?.Description ?? "بدون توضیح"
+            };
         }
 
         public async Task<List<OrderDto>> GetAllAsync(CancellationToken cancellationToken)
@@ -215,10 +247,44 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
             }
         }
 
-        public List<Order> GetAllOrders()
+
+        public async Task<List<Order>> GetAllOrdersAsync(CancellationToken cancellationToken = default)
         {
-            return _dbContext.Orders.ToList();
+            _logger.Information("Fetching all orders asynchronously.");
+            try
+            {
+                var orders = await _dbContext.Orders.ToListAsync(cancellationToken);
+                _logger.Information("Fetched {Count} orders asynchronously.", orders?.Count ?? 0);
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to fetch all orders asynchronously.");
+                throw;
+            }
         }
+
+        public async Task<Order> GetByProposalIdAsync(int proposalId, CancellationToken cancellationToken)
+        {
+            _logger.Information("OrderRepository: Fetching order by ProposalId: {ProposalId}", proposalId);
+            var order = await _dbContext.Orders
+                .Include(o => o.Proposal)
+                .Where(o => o.ProposalId == proposalId && o.IsActive)
+                .OrderByDescending(o => o.CreatedAt)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (order == null)
+            {
+                _logger.Warning("OrderRepository: Order not found for ProposalId: {ProposalId}", proposalId);
+            }
+            else
+            {
+                _logger.Information("OrderRepository: Successfully fetched order with ID: {OrderId} for ProposalId: {ProposalId}", order.Id, proposalId);
+            }
+
+            return order;
+        }
+
 
     }
 

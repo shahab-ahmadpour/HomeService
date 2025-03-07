@@ -15,6 +15,9 @@ namespace App.Domain.Core.DTO.Transactions
         public decimal Amount { get; set; }
         public string PaymentMethod { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public TransactionType TransactionType { get; set; } 
+        public bool IsActive { get; set; } 
     }
 
 }

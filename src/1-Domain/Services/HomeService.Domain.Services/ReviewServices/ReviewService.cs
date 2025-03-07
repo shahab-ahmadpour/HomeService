@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HomeService.Domain.Services.ReviewServices
@@ -22,30 +23,34 @@ namespace HomeService.Domain.Services.ReviewServices
             _logger = logger;
         }
 
-        public async Task<List<ReviewDto>> GetAllAsync(CancellationToken cancellationToken)
+        public Task<List<ReviewDto>> GetAllAsync(CancellationToken cancellationToken)
         {
-            _logger.Information("Fetching all reviews.");
-            return await _reviewRepository.GetAllAsync(cancellationToken);
+            return _reviewRepository.GetAllAsync(cancellationToken);
         }
 
-        public async Task<List<ReviewDto>> GetByOrderIdAsync(int orderId, CancellationToken cancellationToken)
+        public Task<List<ReviewDto>> GetByOrderIdAsync(int orderId, CancellationToken cancellationToken)
         {
-            _logger.Information("Fetching reviews for order ID: {OrderId}", orderId);
-            return await _reviewRepository.GetByOrderIdAsync(orderId, cancellationToken);
+            return _reviewRepository.GetByOrderIdAsync(orderId, cancellationToken);
         }
 
-        public async Task<bool> ApproveAsync(int id, CancellationToken cancellationToken)
+        public Task<bool> CreateAsync(CreateReviewDto dto, CancellationToken cancellationToken)
         {
-            return await _reviewRepository.ApproveAsync(id, cancellationToken);
+            return _reviewRepository.CreateAsync(dto, cancellationToken);
         }
 
-        public async Task<bool> RejectAsync(int id, CancellationToken cancellationToken)
+        public Task<bool> ApproveAsync(int id, CancellationToken cancellationToken)
         {
-            return await _reviewRepository.RejectAsync(id, cancellationToken);
+            return _reviewRepository.ApproveAsync(id, cancellationToken);
         }
-        public List<Review> GetAllReviews()
+
+        public Task<bool> RejectAsync(int id, CancellationToken cancellationToken)
         {
-            return _reviewRepository.GetAllReviews();
+            return _reviewRepository.RejectAsync(id, cancellationToken);
+        }
+
+        public Task<List<Review>> GetAllReviewsAsync(CancellationToken cancellationToken = default)
+        {
+            return _reviewRepository.GetAllReviewsAsync(cancellationToken);
         }
     }
 

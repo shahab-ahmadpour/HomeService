@@ -15,9 +15,9 @@ namespace App.Endpoints.MVC.Areas.Admin.Controllers
             _dashboardAppService = dashboardAppService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = _dashboardAppService.GetDashboardStats();
+            var model = await _dashboardAppService.GetDashboardStatsAsync();
             return View(model);
         }
     }

@@ -17,6 +17,22 @@ html {
   min-height: 100%;
 }
 
+.card {
+    transition: transform 0.3s;
+}
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+.modal-content {
+    border-radius: 15px;
+}
+
+.dropdown-item {
+    transition: background 0.2s;
+}
+
 body {
   margin-bottom: 60px;
 }

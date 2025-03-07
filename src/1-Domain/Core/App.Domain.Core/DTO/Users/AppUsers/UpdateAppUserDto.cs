@@ -17,5 +17,6 @@ namespace App.Domain.Core.DTO.Users.AppUsers
         public UserRole Role { get; set; }
         public string? Password { get; set; }
         public bool IsEnabled { get; set; }
+        public decimal? AccountBalance { get; set; } 
     }
 }

@@ -1,6 +1,8 @@
 ﻿using App.Domain.Core.DTO.Reviews;
+using App.Domain.Core.Enums;
 using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IService;
+using HomeService.Domain.AppServices.OrderAppServices;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -13,51 +15,85 @@ namespace HomeService.Domain.AppServices.ReviewAppServices
     public class ReviewAppService : IReviewAppService
     {
         private readonly IReviewService _reviewService;
+        private readonly IOrderAppService _orderAppService;
         private readonly ILogger _logger;
 
-        public ReviewAppService(IReviewService reviewService, ILogger logger)
+        public ReviewAppService(IReviewService reviewService, IOrderAppService orderAppService, ILogger logger)
         {
             _reviewService = reviewService;
+            _orderAppService = orderAppService;
             _logger = logger;
         }
 
-        public async Task<List<ReviewDto>> GetAllAsync(CancellationToken cancellationToken)
+        public Task<List<ReviewDto>> GetAllAsync(CancellationToken cancellationToken)
         {
-            _logger.Information("AppService: Fetching all reviews.");
-            return await _reviewService.GetAllAsync(cancellationToken);
+            return _reviewService.GetAllAsync(cancellationToken);
         }
 
-        public async Task<List<ReviewDto>> GetByOrderIdAsync(int orderId, CancellationToken cancellationToken)
+        public Task<List<ReviewDto>> GetByOrderIdAsync(int orderId, CancellationToken cancellationToken)
         {
-            _logger.Information("AppService: Fetching reviews for order ID: {OrderId}", orderId);
-            return await _reviewService.GetByOrderIdAsync(orderId, cancellationToken);
+            return _reviewService.GetByOrderIdAsync(orderId, cancellationToken);
         }
 
-
-        public async Task<bool> ApproveAsync(int id, CancellationToken cancellationToken)
+        public async Task<CreateReviewDto> PrepareReviewAsync(int orderId, int customerId, CancellationToken cancellationToken)
         {
-            _logger.Information("AppService: Approving review with ID: {Id}", id);
-            var result = await _reviewService.ApproveAsync(id, cancellationToken);
+            _logger.Information("Preparing review form for OrderId: {OrderId}, CustomerId: {CustomerId}", orderId, customerId);
 
-            if (result)
-                _logger.Information("AppService: Review with ID: {Id} approved successfully.", id);
-            else
-                _logger.Warning("AppService: Failed to approve review with ID: {Id}.", id);
+            var order = await _orderAppService.GetAsync(orderId, cancellationToken);
+            if (order == null || order.CustomerId != customerId || order.PaymentStatus != PaymentStatus.Completed)
+            {
+                _logger.Warning("Order {OrderId} not found, not completed, or does not belong to CustomerId: {CustomerId}", orderId, customerId);
+                return null;
+            }
 
-            return result;
+            var existingReviews = await _reviewService.GetByOrderIdAsync(orderId, cancellationToken);
+            if (existingReviews.Any())
+            {
+                _logger.Warning("Review already exists for OrderId: {OrderId}", orderId);
+                return null;
+            }
+
+            return new CreateReviewDto
+            {
+                CustomerId = customerId,
+                ExpertId = order.ExpertId,
+                OrderId = orderId,
+                Rating = 5
+            };
         }
 
-        public async Task<bool> RejectAsync(int id, CancellationToken cancellationToken)
+        public async Task<bool> CreateAsync(CreateReviewDto dto, int customerId, CancellationToken cancellationToken)
         {
-            _logger.Information("AppService: Rejecting review with ID: {Id}", id);
-            var result = await _reviewService.RejectAsync(id, cancellationToken);
+            _logger.Information("Creating review for OrderId: {OrderId}, CustomerId: {CustomerId}", dto.OrderId, customerId);
 
-            if (result)
-                _logger.Information("AppService: Review with ID: {Id} rejected successfully.", id);
-            else
-                _logger.Warning("AppService: Failed to reject review with ID: {Id}.", id);
+            var order = await _orderAppService.GetAsync(dto.OrderId, cancellationToken);
+            if (order == null || order.CustomerId != customerId || order.PaymentStatus != PaymentStatus.Completed)
+            {
+                _logger.Warning("Order {OrderId} not found, not completed, or does not belong to CustomerId: {CustomerId}", dto.OrderId, customerId);
+                return false;
+            }
 
-            return result;
+            var existingReviews = await _reviewService.GetByOrderIdAsync(dto.OrderId, cancellationToken);
+            if (existingReviews.Any())
+            {
+                _logger.Warning("Review already exists for OrderId: {OrderId}", dto.OrderId);
+                return false;
+            }
+
+            dto.CustomerId = customerId;
+            dto.ExpertId = order.ExpertId;
+
+            return await _reviewService.CreateAsync(dto, cancellationToken);
+        }
+
+        public Task<bool> ApproveAsync(int id, CancellationToken cancellationToken)
+        {
+            return _reviewService.ApproveAsync(id, cancellationToken);
+        }
+
+        public Task<bool> RejectAsync(int id, CancellationToken cancellationToken)
+        {
+            return _reviewService.RejectAsync(id, cancellationToken);
         }
 
     }

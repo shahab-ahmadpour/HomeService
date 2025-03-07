@@ -18,6 +18,8 @@ namespace App.Domain.Core.DTO.Requests
         public DateTime Deadline { get; set; }
         public DateTime ExecutionDate { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string EnvironmentImagePath { get; set; }
+        public bool IsEnabled { get; set; }
     }
 
 }

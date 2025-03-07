@@ -83,17 +83,15 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
             }
         }
 
-
-
         public async Task<SubHomeServiceDto> GetAsync(int id, CancellationToken cancellationToken)
         {
             _logger.Information("Fetching SubHomeService with Id: {Id}", id);
 
             var subHomeService = await _dbContext.SubHomeServices
                 .Where(s => s.Id == id)
-                .Include(s => s.HomeService) 
+                .Include(s => s.HomeService)
                 .Select(s => new SubHomeServiceDto
-        {
+                {
                     Id = s.Id,
                     Name = s.Name,
                     Description = s.Description,
@@ -125,12 +123,11 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                     Id = s.Id,
                     Name = s.Name,
                     Views = s.Views,
-                    Description= s.Description,
+                    Description = s.Description,
                     BasePrice = s.BasePrice,
                     ImagePath = s.ImagePath,
                     IsActive = s.IsActive,
                     HomeServiceName = s.HomeService.Name
-
                 })
                 .ToListAsync(cancellationToken);
 
@@ -176,9 +173,91 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
 
             return exists;
         }
-        public List<SubHomeService> GetAllServices()
+
+        public async Task<List<SubHomeService>> GetAllServicesAsync(CancellationToken cancellationToken = default)
         {
-            return _dbContext.SubHomeServices.ToList();
+            _logger.Information("Fetching all SubHomeServices asynchronously.");
+            try
+            {
+                var services = await _dbContext.SubHomeServices.ToListAsync(cancellationToken);
+                _logger.Information("Fetched {Count} SubHomeServices.", services?.Count ?? 0);
+                return services;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to fetch all SubHomeServices asynchronously.");
+                throw;
+            }
+        }
+
+        public async Task<SubHomeServiceListItemDto> GetSubHomeServiceByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Fetching SubHomeService by Id: {Id}", id);
+            try
+            {
+                var subHomeService = await _dbContext.SubHomeServices
+                    .Where(s => s.Id == id)
+                    .Include(s => s.HomeService)
+                    .Select(s => new SubHomeServiceListItemDto
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Views = s.Views,
+                        Description = s.Description,
+                        BasePrice = s.BasePrice,
+                        ImagePath = s.ImagePath,
+                        IsActive = s.IsActive,
+                        HomeServiceId = s.HomeServiceId,
+                        HomeServiceName = s.HomeService.Name
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                if (subHomeService == null)
+                {
+                    _logger.Warning("SubHomeService not found for Id: {Id}", id);
+                }
+                else
+                {
+                    _logger.Information("Found SubHomeService with Id: {Id}", id);
+                }
+
+                return subHomeService;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to fetch SubHomeService for Id: {Id}", id);
+                throw;
+            }
+        }
+        public async Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesByHomeServiceIdAsync(int homeServiceId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Fetching sub-home services for HomeServiceId: {HomeServiceId}", homeServiceId);
+            try
+            {
+                var subHomeServices = await _dbContext.SubHomeServices
+                    .Where(s => s.HomeServiceId == homeServiceId)
+                    .Select(s => new SubHomeServiceListItemDto
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        ImagePath = s.ImagePath
+                    })
+                    .ToListAsync(cancellationToken);
+
+                if (subHomeServices == null || !subHomeServices.Any())
+                {
+                    _logger.Warning("No sub-home services found for HomeServiceId: {HomeServiceId}", homeServiceId);
+                    return new List<SubHomeServiceListItemDto>();
+                }
+
+                _logger.Information("Found {Count} sub-home services for HomeServiceId: {HomeServiceId}", subHomeServices.Count, homeServiceId);
+                return subHomeServices;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to fetch sub-home services for HomeServiceId: {HomeServiceId}", homeServiceId);
+                throw;
+            }
         }
     }
 

@@ -27,10 +27,8 @@ namespace App.Domain.Core.Services.Entities
         public int RequestId { get; set; }
         public Request Request { get; set; } = null!;
 
-        [ForeignKey("Proposal")]
-        public int ProposalId { get; set; } 
+        public int? ProposalId { get; set; }
         public Proposal Proposal { get; set; } = null!;
-        public ICollection<Proposal> Proposals { get; set; } = new List<Proposal>();
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
@@ -39,6 +37,7 @@ namespace App.Domain.Core.Services.Entities
 
         [Required]
         public PaymentStatus PaymentStatus { get; set; }
-        public DateTime CreatedAt { get; set; }
+        [Required]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

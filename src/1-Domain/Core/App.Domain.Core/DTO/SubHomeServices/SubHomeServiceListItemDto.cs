@@ -16,6 +16,8 @@ namespace App.Domain.Core.DTO.SubHomeServices
         public int Views { get; set; } = 0;
         public bool IsActive { get; set; }
         public string HomeServiceName { get; set; }
+        public int HomeServiceId { get; set; }
+
 
     }
 }

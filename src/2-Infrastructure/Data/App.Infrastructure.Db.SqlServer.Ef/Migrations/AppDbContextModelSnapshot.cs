@@ -720,13 +720,10 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProposalId")
+                    b.Property<int?>("ProposalId")
                         .HasColumnType("int");
 
                     b.Property<int>("RequestId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RequestId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -736,52 +733,12 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("ExpertId");
 
                     b.HasIndex("ProposalId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ProposalId] IS NOT NULL");
 
-                    b.HasIndex("RequestId")
-                        .IsUnique();
-
-                    b.HasIndex("RequestId1");
+                    b.HasIndex("RequestId");
 
                     b.ToTable("Orders", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 487, DateTimeKind.Utc).AddTicks(6697),
-                            CustomerId = 1,
-                            ExpertId = 1,
-                            FinalPrice = 450m,
-                            IsActive = true,
-                            PaymentStatus = 0,
-                            ProposalId = 1,
-                            RequestId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 487, DateTimeKind.Utc).AddTicks(6702),
-                            CustomerId = 1,
-                            ExpertId = 1,
-                            FinalPrice = 600m,
-                            IsActive = true,
-                            PaymentStatus = 0,
-                            ProposalId = 2,
-                            RequestId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 487, DateTimeKind.Utc).AddTicks(6704),
-                            CustomerId = 2,
-                            ExpertId = 2,
-                            FinalPrice = 780m,
-                            IsActive = true,
-                            PaymentStatus = 0,
-                            ProposalId = 3,
-                            RequestId = 3
-                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Proposal", b =>
@@ -813,7 +770,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<int>("OrderId")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -835,8 +792,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
 
                     b.HasIndex("ExpertId");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("RequestId");
 
                     b.HasIndex("SkillId");
@@ -847,45 +802,42 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6157),
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6414),
                             Description = "پیشنهاد انجام خدمات برای درخواست بنایی",
-                            ExecutionDate = new DateTime(2025, 3, 5, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6153),
+                            ExecutionDate = new DateTime(2025, 3, 12, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6408),
                             ExpertId = 1,
                             IsEnabled = true,
-                            OrderId = 1,
                             Price = 450000m,
                             RequestId = 1,
-                            ResponseTime = new DateTime(2025, 3, 1, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6156),
+                            ResponseTime = new DateTime(2025, 3, 8, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6412),
                             SkillId = 1,
                             Status = 0
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6160),
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6419),
                             Description = "پیشنهاد انجام خدمات برای درخواست کاغذ دیواری",
-                            ExecutionDate = new DateTime(2025, 3, 3, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6159),
+                            ExecutionDate = new DateTime(2025, 3, 10, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6417),
                             ExpertId = 1,
                             IsEnabled = true,
-                            OrderId = 2,
                             Price = 600000m,
                             RequestId = 2,
-                            ResponseTime = new DateTime(2025, 3, 1, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6160),
+                            ResponseTime = new DateTime(2025, 3, 8, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6418),
                             SkillId = 2,
                             Status = 0
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6163),
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6422),
                             Description = "پیشنهاد انجام خدمات برای درخواست سنگ کاری",
-                            ExecutionDate = new DateTime(2025, 3, 7, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6162),
+                            ExecutionDate = new DateTime(2025, 3, 14, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6421),
                             ExpertId = 2,
                             IsEnabled = false,
-                            OrderId = 3,
                             Price = 780000m,
                             RequestId = 3,
-                            ResponseTime = new DateTime(2025, 3, 2, 7, 18, 25, 486, DateTimeKind.Utc).AddTicks(6163),
+                            ResponseTime = new DateTime(2025, 3, 9, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6421),
                             SkillId = 3,
                             Status = 0
                         });
@@ -915,6 +867,10 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("EnvironmentImagePath")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<DateTime>("ExecutionDate")
                         .HasColumnType("datetime2");
 
@@ -941,11 +897,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1442),
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(827),
                             CustomerId = 1,
-                            Deadline = new DateTime(2025, 3, 5, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1436),
+                            Deadline = new DateTime(2025, 3, 12, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(821),
                             Description = "درخواست بنایی ساختمان",
-                            ExecutionDate = new DateTime(2025, 3, 3, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1442),
+                            ExecutionDate = new DateTime(2025, 3, 10, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(827),
                             IsEnabled = true,
                             Status = 0,
                             SubHomeServiceId = 10
@@ -953,11 +909,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1446),
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(831),
                             CustomerId = 1,
-                            Deadline = new DateTime(2025, 3, 7, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1445),
+                            Deadline = new DateTime(2025, 3, 14, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(830),
                             Description = "درخواست کاغذ دیواری",
-                            ExecutionDate = new DateTime(2025, 3, 5, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1446),
+                            ExecutionDate = new DateTime(2025, 3, 12, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(830),
                             IsEnabled = true,
                             Status = 0,
                             SubHomeServiceId = 11
@@ -965,11 +921,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1449),
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(834),
                             CustomerId = 2,
-                            Deadline = new DateTime(2025, 3, 10, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1448),
+                            Deadline = new DateTime(2025, 3, 17, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(833),
                             Description = "درخواست سنگ کاری",
-                            ExecutionDate = new DateTime(2025, 3, 8, 7, 18, 25, 484, DateTimeKind.Utc).AddTicks(1449),
+                            ExecutionDate = new DateTime(2025, 3, 15, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(833),
                             IsEnabled = true,
                             Status = 0,
                             SubHomeServiceId = 12
@@ -1019,41 +975,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .IsUnique();
 
                     b.ToTable("Reviews", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Comment = "خیلی عالی بود سرموقع انجام شد",
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 488, DateTimeKind.Utc).AddTicks(800),
-                            CustomerId = 1,
-                            ExpertId = 1,
-                            IsApproved = false,
-                            OrderId = 1,
-                            Rating = 5
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Comment = "سرویس خوبی انجام دادن فقط یکم تو تحویل سرویس تاخیر داشتن",
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 488, DateTimeKind.Utc).AddTicks(803),
-                            CustomerId = 1,
-                            ExpertId = 1,
-                            IsApproved = false,
-                            OrderId = 2,
-                            Rating = 4
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Comment = "فوق العاده بود همه چی",
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 488, DateTimeKind.Utc).AddTicks(804),
-                            CustomerId = 2,
-                            ExpertId = 2,
-                            IsApproved = false,
-                            OrderId = 3,
-                            Rating = 5
-                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.SubHomeService", b =>
@@ -1619,6 +1540,9 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -1643,6 +1567,9 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -1781,22 +1708,22 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             AccountBalance = 1000m,
-                            ConcurrencyStamp = "3dc51e8b-7ca8-4738-a1b1-86d1a7aab177",
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 488, DateTimeKind.Utc).AddTicks(7771),
+                            ConcurrencyStamp = "3f01898b-ab43-4532-84a9-2d535f09d8b9",
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 469, DateTimeKind.Utc).AddTicks(8703),
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
-                            IsConfirmed = false,
+                            IsConfirmed = true,
                             IsEnabled = true,
                             LastName = "User",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDw+MTrzIYPTPlKj+OMGz3MMTjAtuAccrOeIVZSxSI0lRdpcBnx4Ki+btJdCHpjlbQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBAbfgAlNw72yyrTPGrqz0VB+dualL4wwYyoua9s1IoKjCubauIRzBCbI8664jaAmA==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "images\\User\\Admin\\admin.png",
                             Role = 3,
-                            SecurityStamp = "9fc31881-dca6-492c-922c-dfd707727388",
+                            SecurityStamp = "36eb3ad0-b9f6-49fd-9529-250b48ab24a5",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -1804,23 +1731,23 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            AccountBalance = 500m,
-                            ConcurrencyStamp = "3e4ddbdd-3c5c-4e1a-941a-12f7cd012201",
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 545, DateTimeKind.Utc).AddTicks(3779),
+                            AccountBalance = 2000000m,
+                            ConcurrencyStamp = "af3902cf-2fb3-4443-89a2-7b4d12a029b8",
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 525, DateTimeKind.Utc).AddTicks(8610),
                             Email = "ali@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "علی",
-                            IsConfirmed = false,
+                            IsConfirmed = true,
                             IsEnabled = true,
                             LastName = "عباسی",
                             LockoutEnabled = false,
                             NormalizedEmail = "ALI@GMAIL.COM",
                             NormalizedUserName = "ALI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI/p3D//Q7NUD8LvSfpxmuBBfyywST6O1VoiWR3iqvUQ3G88cezz6hHqY3tAfvCC8A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMNqomD1Ue5fN5gn+s99zpzb53rUpgydkqyV3QkJhbAUY9GzZb5b5IbEc+YZ5zmBHg==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "images\\User\\Customer\\ali.jpg",
                             Role = 1,
-                            SecurityStamp = "8613464b-e30a-400a-aeac-c1a3a8eb277c",
+                            SecurityStamp = "26dba629-3910-4982-8fd1-07b8c1989480",
                             TwoFactorEnabled = false,
                             UserName = "ali@gmail.com"
                         },
@@ -1828,9 +1755,9 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            AccountBalance = 650m,
-                            ConcurrencyStamp = "9948f5bf-98e2-4295-b074-c7580fcc9d73",
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 601, DateTimeKind.Utc).AddTicks(4536),
+                            AccountBalance = 2000000m,
+                            ConcurrencyStamp = "daadc522-d356-4c6e-bc4d-b90d14a28567",
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 583, DateTimeKind.Utc).AddTicks(9999),
                             Email = "sina47@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "سینا",
@@ -1840,11 +1767,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SINA47@GMAIL.COM",
                             NormalizedUserName = "SINA47@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPfGdviAcaITsXJnlQT2PcnDZswMHEptfh04xaOclWrFJ6OsRvpMhwYqZOI+Nyl8eQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHLQyP7hZTgtanH6IE7yGAvPJ6xKZF6cFinzqHo/vRjVdA/gU7aQqnTJBjzWc+5b9w==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "images\\User\\Customer\\sina.png",
                             Role = 1,
-                            SecurityStamp = "e028a20c-38fb-4ec6-b777-cd1f4dfdcb16",
+                            SecurityStamp = "07969a58-7e6f-4191-b684-fe653bb6189c",
                             TwoFactorEnabled = false,
                             UserName = "sina47@gmail.com"
                         },
@@ -1853,8 +1780,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 4,
                             AccessFailedCount = 0,
                             AccountBalance = 750m,
-                            ConcurrencyStamp = "26fcbff9-365b-4b56-8202-074fc5c99245",
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 657, DateTimeKind.Utc).AddTicks(8385),
+                            ConcurrencyStamp = "52337636-c848-4217-899a-ab5030381a75",
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 639, DateTimeKind.Utc).AddTicks(2354),
                             Email = "shahin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "شاهین",
@@ -1864,11 +1791,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SHAHIN@GMAIL.COM",
                             NormalizedUserName = "SHAHIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAkfVAAWaqBcPG9v+SRcwd5sAx+6XoDv5h+Fz3dpOMmsMgQUSV7867Flz8NcH0VFPg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJysqcorUzG0rX80V4METmwWTwZRnJJkYKzKxPv9WRe7WZ3/rYm2kLJKgBzBDTLhBQ==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "images\\User\\Expert\\shahin.png",
                             Role = 2,
-                            SecurityStamp = "cbd7e1a2-b995-4717-8728-0c3aea9642e4",
+                            SecurityStamp = "bb127e55-198c-4ba5-babc-fa9579b72348",
                             TwoFactorEnabled = false,
                             UserName = "shahin@gmail.com"
                         },
@@ -1877,8 +1804,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 5,
                             AccessFailedCount = 0,
                             AccountBalance = 100m,
-                            ConcurrencyStamp = "4df45e40-ac5f-4101-a698-273ea5a81b84",
-                            CreatedAt = new DateTime(2025, 2, 28, 7, 18, 25, 714, DateTimeKind.Utc).AddTicks(4846),
+                            ConcurrencyStamp = "4fdb65b9-a8ea-4913-9a68-278631cd6cd4",
+                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 695, DateTimeKind.Utc).AddTicks(5026),
                             Email = "karimi@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "فاطمه",
@@ -1888,11 +1815,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KARIMI@GMAIL.COM",
                             NormalizedUserName = "KARIMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJkSodK+fZ0/C4JLvetbhNCQkf9F8H0VlMzDTQ2TmM168J7DN3Eqoa3xze3N2N4d1Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJauoyjsSP430xF65mgN0pnIuwRMIYRzWhd/2pBOXfxT3L7JYVpiVNuNxn15DXVejg==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "images\\User\\Expert\\fatemeh.png",
                             Role = 2,
-                            SecurityStamp = "aed21c49-9e13-471f-b262-18f59bdbf6b0",
+                            SecurityStamp = "4dec609e-1af3-4952-992e-af91a030c06a",
                             TwoFactorEnabled = false,
                             UserName = "karimi@gmail.com"
                         });
@@ -2223,30 +2150,25 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Users.Entities.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Users.Entities.Expert", "Expert")
                         .WithMany("Orders")
                         .HasForeignKey("ExpertId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Services.Entities.Proposal", "Proposal")
-                        .WithOne()
+                        .WithOne("Order")
                         .HasForeignKey("App.Domain.Core.Services.Entities.Order", "ProposalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("App.Domain.Core.Services.Entities.Request", "Request")
-                        .WithOne()
-                        .HasForeignKey("App.Domain.Core.Services.Entities.Order", "RequestId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("App.Domain.Core.Services.Entities.Request", null)
                         .WithMany("Orders")
-                        .HasForeignKey("RequestId1");
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Customer");
 
@@ -2262,30 +2184,22 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Users.Entities.Expert", "Expert")
                         .WithMany("Proposals")
                         .HasForeignKey("ExpertId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("App.Domain.Core.Services.Entities.Order", "Order")
-                        .WithMany("Proposals")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Services.Entities.Request", "Request")
                         .WithMany("Proposals")
                         .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Skills.Entities.Skill", "Skill")
                         .WithMany()
                         .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Expert");
-
-                    b.Navigation("Order");
 
                     b.Navigation("Request");
 
@@ -2297,13 +2211,13 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Users.Entities.Customer", "Customer")
                         .WithMany("Requests")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Services.Entities.SubHomeService", "SubHomeService")
                         .WithMany("Requests")
                         .HasForeignKey("SubHomeServiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -2322,13 +2236,13 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasOne("App.Domain.Core.Users.Entities.Expert", "Expert")
                         .WithMany("Reviews")
                         .HasForeignKey("ExpertId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Services.Entities.Order", "Order")
                         .WithOne()
                         .HasForeignKey("App.Domain.Core.Services.Entities.Review", "OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Customer");
@@ -2505,9 +2419,9 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.Navigation("SubHomeServices");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Services.Entities.Order", b =>
+            modelBuilder.Entity("App.Domain.Core.Services.Entities.Proposal", b =>
                 {
-                    b.Navigation("Proposals");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Request", b =>

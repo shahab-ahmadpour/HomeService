@@ -12,7 +12,7 @@ namespace App.Domain.Core.DTO.Requests
         public RequestStatus Status { get; set; }
         public DateTime Deadline { get; set; }
         public DateTime ExecutionDate { get; set; }
-        public string EnvironmentImage { get; set; }
+        public string EnvironmentImagePath { get; set; }
     }
 
 }

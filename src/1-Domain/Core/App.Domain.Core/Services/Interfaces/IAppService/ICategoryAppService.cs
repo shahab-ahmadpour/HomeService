@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.DTO.Categories;
+using App.Domain.Core.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
         Task<List<CategoryDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
         Task<List<CategoryDto>> GetAllWithServicesAsync(CancellationToken cancellationToken);
+        Task<List<CategoryDto>> GetAllCategoriesAsync(CancellationToken cancellationToken);
     }
 }

@@ -2,6 +2,7 @@
 using App.Domain.Core.Services.Entities;
 using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IService;
+using Microsoft.Extensions.Caching.Memory;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,16 @@ namespace HomeService.Domain.AppServices.SubHomeSerAppServices
     {
         private readonly ISubHomeServiceService _subHomeServiceService;
         private readonly ILogger _logger;
+        private readonly IMemoryCache _memoryCache;
 
-        public SubHomeServiceAppService(ISubHomeServiceService subHomeServiceService, ILogger logger)
+        public SubHomeServiceAppService(
+            ISubHomeServiceService subHomeServiceService,
+            ILogger logger,
+            IMemoryCache memoryCache)
         {
             _subHomeServiceService = subHomeServiceService;
             _logger = logger;
+            _memoryCache = memoryCache;
         }
 
         public async Task<bool> CreateAsync(CreateSubHomeServiceDto dto, CancellationToken cancellationToken)
@@ -108,25 +114,71 @@ namespace HomeService.Domain.AppServices.SubHomeSerAppServices
                 Views = subHomeService.Views,
                 ImagePath = subHomeService.ImagePath.StartsWith("/") ? subHomeService.ImagePath : "/" + subHomeService.ImagePath,
                 IsActive = subHomeService.IsActive,
-
             };
 
             return dto;
         }
+
         public async Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesAsync(CancellationToken cancellationToken)
         {
             _logger.Information("Fetching SubHomeServices in AppService layer.");
+            string cacheKey = "AllSubHomeServices";
+
+            if (!_memoryCache.TryGetValue(cacheKey, out List<SubHomeServiceListItemDto> cachedSubHomeServices))
+            {
+                _logger.Information("SubHomeServices not found in cache, fetching from database");
+                try
+                {
+                    cachedSubHomeServices = await _subHomeServiceService.GetAllAsync(cancellationToken);
+                    if (cachedSubHomeServices != null && cachedSubHomeServices.Any())
+                    {
+                        _logger.Information("Caching {SubHomeServiceCount} sub home services", cachedSubHomeServices.Count);
+                        var cacheOptions = new MemoryCacheEntryOptions
+                        {
+                            AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1),
+                            SlidingExpiration = TimeSpan.FromMinutes(30)
+                        };
+                        _memoryCache.Set(cacheKey, cachedSubHomeServices, cacheOptions);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to fetch SubHomeServices in AppService layer.");
+                    throw;
+                }
+            }
+            else
+            {
+                _logger.Information("SubHomeServices retrieved from cache, Count: {SubHomeServiceCount}", cachedSubHomeServices.Count);
+            }
+            return cachedSubHomeServices;
+        }
+
+        public async Task<SubHomeServiceListItemDto> GetSubHomeServiceByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("AppService: Fetching SubHomeService by Id: {Id}", id);
             try
             {
-                var services = await _subHomeServiceService.GetAllAsync(cancellationToken);
-                _logger.Information("Fetched {Count} SubHomeServices for view.", services?.Count ?? 0);
-                return services;
+                var subHomeService = await _subHomeServiceService.GetSubHomeServiceByIdAsync(id, cancellationToken);
+                if (subHomeService == null)
+                {
+                    _logger.Warning("AppService: SubHomeService not found for Id: {Id}", id);
+                    return null;
+                }
+                _logger.Information("AppService: Found SubHomeService with Id: {Id}", id);
+                return subHomeService;
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, "Failed to fetch SubHomeServices in AppService layer.");
+                _logger.Error(ex, "AppService: Failed to fetch SubHomeService for Id: {Id}", id);
                 throw;
             }
         }
+        public async Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesByHomeServiceIdAsync(int homeServiceId, CancellationToken cancellationToken)
+        {
+            _logger.Information("AppService: Fetching sub-home services for HomeServiceId: {HomeServiceId}", homeServiceId);
+            return await _subHomeServiceService.GetSubHomeServicesByHomeServiceIdAsync(homeServiceId, cancellationToken);
+        }
+
     }
 }

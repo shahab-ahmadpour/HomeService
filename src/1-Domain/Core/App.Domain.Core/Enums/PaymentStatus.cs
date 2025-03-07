@@ -12,8 +12,10 @@ namespace App.Domain.Core.Enums
         [Display(Name = "در انتظار")]
         Pending,
         [Display(Name = "پرداخت‌شده")]
-        Paid,
+        paid,
         [Display(Name = "ناموفق")]
-        Failed
+        Failed,
+        [Display(Name = "انجام شده")]
+        Completed,
     }
 }

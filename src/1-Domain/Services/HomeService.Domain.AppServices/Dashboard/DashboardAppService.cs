@@ -30,14 +30,19 @@ namespace HomeService.Domain.AppServices.Dashboard
             _reviewService = reviewService;
         }
 
-        public DashboardDto GetDashboardStats()
+        public async Task<DashboardDto> GetDashboardStatsAsync(CancellationToken cancellationToken = default)
         {
+            var newOrders = await _orderService.GetAllOrdersAsync(cancellationToken);
+            var registeredUsers = await _userService.GetAllUsersAsync(cancellationToken);
+            var services = await _serviceService.GetAllServicesAsync(cancellationToken);
+            var reviews = await _reviewService.GetAllReviewsAsync(cancellationToken);
+
             return new DashboardDto
             {
-                NewOrders = _orderService.GetAllOrders().Count,
-                RegisteredUsers = _userService.GetAllUsers().Count,
-                Services = _serviceService.GetAllServices().Count,
-                Reviews = _reviewService.GetAllReviews().Count
+                NewOrders = newOrders.Count,
+                RegisteredUsers = registeredUsers.Count,
+                Services = services.Count,
+                Reviews = reviews.Count
             };
         }
     }

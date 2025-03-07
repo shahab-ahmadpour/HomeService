@@ -5,11 +5,15 @@ using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IRepository;
 using App.Domain.Core.Services.Interfaces.IService;
 using App.Domain.Core.Skills.Interfaces;
+using App.Domain.Core.Transactions.Interfaces.IAppService;
 using App.Domain.Core.Transactions.Interfaces.IRepository;
+using App.Domain.Core.Transactions.Interfaces.IService;
+using App.Domain.Core.Users.AppServices;
 using App.Domain.Core.Users.Entities;
 using App.Domain.Core.Users.Interfaces.IAppService;
 using App.Domain.Core.Users.Interfaces.IRepository;
 using App.Domain.Core.Users.Interfaces.IService;
+using App.Domain.Core.Users.Services;
 using App.Infrastructure.Db.SqlServer.Ef;
 using App.Infrastructure.DbAccess.Repository.Ef.Repositories.Locations;
 using App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services;
@@ -27,6 +31,7 @@ using HomeService.Domain.AppServices.ProposalAppServices;
 using HomeService.Domain.AppServices.RequestAppServices;
 using HomeService.Domain.AppServices.ReviewAppServices;
 using HomeService.Domain.AppServices.SubHomeSerAppServices;
+using HomeService.Domain.AppServices.TransactionAppServices;
 using HomeService.Domain.AppServices.UserAppServices;
 using HomeService.Domain.Services.AdminServices;
 using HomeService.Domain.Services.CategoryServices;
@@ -38,7 +43,9 @@ using HomeService.Domain.Services.ProposalServices;
 using HomeService.Domain.Services.RequestServices;
 using HomeService.Domain.Services.ReviewServices;
 using HomeService.Domain.Services.SubHomeSerServices;
+using HomeService.Domain.Services.TransactionServices;
 using HomeService.Domain.Services.UserServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -109,11 +116,22 @@ builder.Services.AddScoped<IRequestService, RequestService>();
 builder.Services.AddScoped<IRequestAppService, RequestAppService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<ILocationAppService, LocationAppService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionAppService, TransactionAppService>();
+builder.Services.AddScoped<IExpertService, ExpertService>();
+builder.Services.AddScoped<IExpertAppService, ExpertAppService>();
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<Serilog.ILogger>(Log.Logger);
 builder.Services.AddSession();
-
+builder.Services.AddMemoryCache();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+    });
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -129,11 +147,11 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// روتینگ اصلاح‌شده
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
 );
+
 
 app.MapControllerRoute(
     name: "default",

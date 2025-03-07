@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.DTO.Categories;
 using App.Domain.Core.DTO.HomeServices;
 using App.Domain.Core.DTO.SubHomeServices;
+using App.Domain.Core.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
         Task<UpdateHomeServiceDto> GetHomeServiceForEditAsync(int id, CancellationToken cancellationToken);
         Task<List<HomeServiceDto>> GetAllWithSubServicesAsync(CancellationToken cancellationToken);
         Task<List<CategoryListItemDto>> GetAllCategoriesForDropdownAsync(CancellationToken cancellationToken);
+        Task<List<HomeServiceDto>> GetAllHomeServicesAsync(CancellationToken cancellationToken);
     }
 }

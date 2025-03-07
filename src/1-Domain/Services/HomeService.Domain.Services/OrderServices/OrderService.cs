@@ -62,10 +62,23 @@ namespace HomeService.Domain.Services.OrderServices
             _logger.Information("Service: Updating payment status for order Id: {Id} to {Status}", id, status);
             return await _orderRepository.UpdatePaymentStatusAsync(id, status, cancellationToken);
         }
-        public List<Order> GetAllOrders()
+
+        public async Task<List<Order>> GetAllOrdersAsync(CancellationToken cancellationToken)
         {
-            return _orderRepository.GetAllOrders();
+            _logger.Information("Fetching all orders asynchronously.");
+            try
+            {
+                var orders = await _orderRepository.GetAllOrdersAsync(cancellationToken);
+                _logger.Information("Fetched {Count} orders.", orders?.Count ?? 0);
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to fetch all orders asynchronously.");
+                throw;
+            }
         }
+
         public async Task<List<OrderDto>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken)
         {
             _logger.Information("Fetching orders for CustomerId: {CustomerId} in OrderService", customerId);
@@ -88,7 +101,6 @@ namespace HomeService.Domain.Services.OrderServices
                         subHomeServiceName = skill?.Name ?? "نامشخص";
                     }
 
-                    // ترکیب FirstName و LastName برای CustomerName و ExpertName
                     string customerFullName = o.Customer?.AppUser != null
                         ? $"{o.Customer.AppUser.FirstName} {o.Customer.AppUser.LastName}".Trim()
                         : "نامشخص";
@@ -106,26 +118,26 @@ namespace HomeService.Domain.Services.OrderServices
                         RequestId = o.RequestId,
                         RequestDescription = o.Request?.Description ?? "نامشخص",
                         SubHomeServiceName = subHomeServiceName,
-                        ProposalId = o.ProposalId,
+                        ProposalId = o.ProposalId ?? 0,
                         Proposals = o.Proposal != null ? new List<ProposalDto>
+                {
+                    new ProposalDto
                     {
-                        new ProposalDto
-                        {
-                            Id = o.Proposal.Id,
-                            ExpertId = o.Proposal.ExpertId,
-                            ExpertName = expertFullName,
-                            RequestId = o.Proposal.RequestId,
-                            RequestDescription = o.Request?.Description ?? "نامشخص",
-                            SkillId = o.Proposal.SkillId,
-                            Price = o.Proposal.Price,
-                            ExecutionDate = o.Proposal.ExecutionDate,
-                            Description = o.Proposal.Description,
-                            Status = o.Proposal.Status,
-                            ResponseTime = o.Proposal.ResponseTime,
-                            CreatedAt = o.Proposal.CreatedAt,
-                            IsEnabled = o.Proposal.IsEnabled
-                        }
-                    } : new List<ProposalDto>(),
+                        Id = o.Proposal.Id,
+                        ExpertId = o.Proposal.ExpertId,
+                        ExpertName = expertFullName,
+                        RequestId = o.Proposal.RequestId,
+                        RequestDescription = o.Request?.Description ?? "نامشخص",
+                        SkillId = o.Proposal.SkillId,
+                        Price = o.Proposal.Price,
+                        ExecutionDate = o.Proposal.ExecutionDate,
+                        Description = o.Proposal.Description,
+                        Status = o.Proposal.Status,
+                        ResponseTime = o.Proposal.ResponseTime,
+                        CreatedAt = o.Proposal.CreatedAt,
+                        IsEnabled = o.Proposal.IsEnabled
+                    }
+                } : new List<ProposalDto>(),
                         FinalPrice = o.FinalPrice,
                         PaymentStatus = o.PaymentStatus,
                         IsActive = o.IsActive,
@@ -141,6 +153,12 @@ namespace HomeService.Domain.Services.OrderServices
                 _logger.Error(ex, "Failed to fetch orders for CustomerId: {CustomerId} in OrderService", customerId);
                 throw;
             }
+        }
+        public async Task<Order> GetByProposalIdAsync(int proposalId, CancellationToken cancellationToken)
+        {
+            _logger.Information("OrderService: Fetching order by ProposalId: {ProposalId}", proposalId);
+            var order = await _orderRepository.GetByProposalIdAsync(proposalId, cancellationToken);
+            return order;
         }
     }
 }

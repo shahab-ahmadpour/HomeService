@@ -28,6 +28,9 @@ namespace App.Domain.Core.Transactions.Entities
         public int ExpertId { get; set; }
         public Expert Expert { get; set; } = null!;
 
+        public DateTime CreatedAt { get; set; }
+        public TransactionType TransactionType { get; set; }
+   
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }

@@ -9,6 +9,6 @@ namespace App.Domain.Core.Users.Interfaces.IAppService
 {
     public interface IDashboardAppService
     {
-        DashboardDto GetDashboardStats();
+        Task<DashboardDto> GetDashboardStatsAsync(CancellationToken cancellationToken = default);
     }
 }
