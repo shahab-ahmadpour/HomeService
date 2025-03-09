@@ -14,6 +14,8 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
         Task<List<ProposalDto>> GetProposalsByOrderIdAsync(int orderId, CancellationToken cancellationToken);
         Task<ProposalDto> GetProposalByIdAsync(int proposalId, CancellationToken cancellationToken);
         Task UpdateProposalAsync(Proposal proposal, CancellationToken cancellationToken);
-    }
 
+        Task<List<ProposalDto>> GetProposalsByExpertIdAsync(int expertId, CancellationToken cancellationToken);
+        Task<bool> CreateProposalAsync(CreateProposalDto dto, CancellationToken cancellationToken);
+    }
 }

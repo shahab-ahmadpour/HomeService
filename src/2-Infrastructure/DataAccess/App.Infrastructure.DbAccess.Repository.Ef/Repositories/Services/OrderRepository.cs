@@ -285,7 +285,37 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
             return order;
         }
 
+        public async Task<List<Order>> GetByExpertIdAsync(int expertId, CancellationToken cancellationToken)
+        {
+            _logger.Information("OrderRepository: Fetching orders for ExpertId: {ExpertId}", expertId);
 
+            try
+            {
+                var orders = await _dbContext.Orders
+                    .Include(o => o.Customer)
+                        .ThenInclude(c => c.AppUser)
+                    .Include(o => o.Expert)
+                        .ThenInclude(e => e.AppUser)
+                    .Include(o => o.Request)
+                        .ThenInclude(r => r.SubHomeService)
+                    .Include(o => o.Proposal)
+                    .Where(o => o.ExpertId == expertId && o.IsActive)
+                    .ToListAsync(cancellationToken);
+
+                if (orders == null || !orders.Any())
+                {
+                    _logger.Warning("OrderRepository: No orders found for ExpertId: {ExpertId}", expertId);
+                    return new List<Order>();
+                }
+
+                _logger.Information("OrderRepository: Retrieved {Count} orders for ExpertId: {ExpertId}", orders.Count, expertId);
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "OrderRepository: Failed to fetch orders for ExpertId: {ExpertId}", expertId);
+                return new List<Order>();
+            }
+        }
     }
-
 }

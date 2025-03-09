@@ -42,6 +42,7 @@ namespace HomeService.Domain.AppServices.OrderAppServices
             if (result)
             {
                 _memoryCache.Remove($"Orders_Customer_{dto.CustomerId}");
+                _memoryCache.Remove($"Orders_Expert_{dto.ExpertId}");
             }
             return result;
         }
@@ -164,8 +165,8 @@ namespace HomeService.Domain.AppServices.OrderAppServices
                 var createOrderDto = new CreateOrderDto
                 {
                     CustomerId = customerId,
-                    ExpertId = proposal.ExpertId, 
-                    RequestId = proposal.RequestId, 
+                    ExpertId = proposal.ExpertId,
+                    RequestId = proposal.RequestId,
                     ProposalId = proposalId,
                     FinalPrice = proposal.FinalPrice,
                     PaymentStatus = PaymentStatus.Pending
@@ -247,6 +248,46 @@ namespace HomeService.Domain.AppServices.OrderAppServices
             _logger.Information("OrderAppService: Fetching order by ProposalId: {ProposalId}", proposalId);
             var order = await _orderService.GetByProposalIdAsync(proposalId, cancellationToken);
             return order;
+        }
+
+        public async Task<List<OrderDto>> GetOrdersByExpertIdAsync(int expertId, CancellationToken cancellationToken)
+        {
+            _logger.Information("AppService: Fetching orders for ExpertId: {ExpertId}", expertId);
+            string cacheKey = $"Orders_Expert_{expertId}";
+
+            if (!_memoryCache.TryGetValue(cacheKey, out List<OrderDto> cachedOrders))
+            {
+                _logger.Information("Orders not found in cache for ExpertId: {ExpertId}, fetching from database", expertId);
+                try
+                {
+                    var orders = await _orderService.GetOrdersByExpertIdAsync(expertId, cancellationToken);
+                    if (orders == null || !orders.Any())
+                    {
+                        _logger.Warning("No orders retrieved for ExpertId: {ExpertId} in OrderAppService", expertId);
+                        return new List<OrderDto>();
+                    }
+
+                    _logger.Information("Successfully retrieved {OrderCount} orders for ExpertId: {ExpertId} from database", orders.Count, expertId);
+                    var cacheOptions = new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10),
+                        SlidingExpiration = TimeSpan.FromMinutes(5)
+                    };
+                    _memoryCache.Set(cacheKey, orders, cacheOptions);
+
+                    return orders;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Error fetching orders for ExpertId: {ExpertId} in OrderAppService", expertId);
+                    return new List<OrderDto>();
+                }
+            }
+            else
+            {
+                _logger.Information("Orders retrieved from cache for ExpertId: {ExpertId}, Count: {OrderCount}", expertId, cachedOrders.Count);
+                return cachedOrders;
+            }
         }
     }
 }

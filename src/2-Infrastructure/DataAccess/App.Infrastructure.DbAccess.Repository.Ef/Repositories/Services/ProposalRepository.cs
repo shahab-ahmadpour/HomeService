@@ -50,7 +50,7 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                     IsEnabled = p.IsEnabled,
                     OrderDate = p.Order != null ? p.Order.CreatedAt : DateTime.MinValue,
                     SubHomeServiceName = p.Request.SubHomeService.Name,
-                    PaymentStatus = p.Order != null ? p.Order.PaymentStatus.ToString() : PaymentStatus.Pending.ToString() 
+                    PaymentStatus = p.Order != null ? p.Order.PaymentStatus.ToString() : PaymentStatus.Pending.ToString()
                 })
                 .ToListAsync(cancellationToken);
 
@@ -178,6 +178,7 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
 
             return proposal;
         }
+
         public async Task UpdateAsync(Proposal proposal, CancellationToken cancellationToken)
         {
             _logger.Information("ProposalRepository: Updating proposal with ID: {Id}", proposal.Id);
@@ -197,7 +198,77 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
             await _dbContext.SaveChangesAsync(cancellationToken);
             _logger.Information("ProposalRepository: Successfully updated proposal with ID: {Id}", proposal.Id);
         }
+
+        public async Task<List<ProposalDto>> GetProposalsByExpertIdAsync(int expertId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Repository: Fetching proposals for ExpertId: {ExpertId}", expertId);
+
+            try
+            {
+                var proposals = await _dbContext.Proposals
+                    .Include(p => p.Request)
+                        .ThenInclude(r => r.SubHomeService)
+                    .Include(p => p.Request)
+                        .ThenInclude(r => r.Customer)
+                            .ThenInclude(c => c.AppUser)
+                    .Include(p => p.Order)
+                    .Where(p => p.ExpertId == expertId && p.IsEnabled)
+                    .Select(p => new ProposalDto
+                    {
+                        Id = p.Id,
+                        ExpertId = p.ExpertId,
+                        OrderId = p.OrderId,
+                        RequestId = p.RequestId,
+                        RequestDescription = p.Request.Description,
+                        SkillId = p.SkillId,
+                        Price = p.Price,
+                        ExecutionDate = p.ExecutionDate,
+                        Description = p.Description,
+                        Status = p.Status,
+                        ResponseTime = p.ResponseTime,
+                        CreatedAt = p.CreatedAt,
+                        IsEnabled = p.IsEnabled,
+                        OrderDate = p.Order != null ? p.Order.CreatedAt : DateTime.MinValue,
+                        SubHomeServiceName = p.Request.SubHomeService.Name,
+                        PaymentStatus = p.Order != null ? p.Order.PaymentStatus.ToString() : PaymentStatus.Pending.ToString()
+                    })
+                    .ToListAsync(cancellationToken);
+
+                if (proposals == null || !proposals.Any())
+                {
+                    _logger.Warning("Repository: No proposals found for ExpertId: {ExpertId}", expertId);
+                    return new List<ProposalDto>();
+                }
+
+                _logger.Information("Repository: Fetched {Count} proposals for ExpertId: {ExpertId}", proposals.Count, expertId);
+                return proposals;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Repository: Failed to fetch proposals for ExpertId: {ExpertId}", expertId);
+                throw;
+            }
+        }
+
+        public async Task<bool> CreateAsync(Proposal proposal, CancellationToken cancellationToken)
+        {
+            _logger.Information("Repository: Creating new proposal for ExpertId: {ExpertId}, RequestId: {RequestId}",
+                proposal.ExpertId, proposal.RequestId);
+
+            try
+            {
+                await _dbContext.Proposals.AddAsync(proposal, cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                _logger.Information("Repository: Successfully created proposal with ID: {Id}", proposal.Id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Repository: Failed to create proposal for ExpertId: {ExpertId}, RequestId: {RequestId}",
+                    proposal.ExpertId, proposal.RequestId);
+                return false;
+            }
+        }
     }
-
 }
-

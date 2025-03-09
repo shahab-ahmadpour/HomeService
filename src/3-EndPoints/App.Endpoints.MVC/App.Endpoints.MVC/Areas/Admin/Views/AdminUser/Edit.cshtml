@@ -90,19 +90,6 @@
                             </div>
 
                             <div class="form-group mb-4">
-                                <label for="IsConfirmed" class="text-muted font-weight-bold">وضعیت تأیید</label>
-                                <div class="input-group">
-                                    <select class="form-control form-control-lg shadow-sm @(!Model.IsConfirmed ? "" : "disabled-select")" id="IsConfirmed" name="IsConfirmed" style="border-radius: 15px 0 0 15px;" @(Model.IsConfirmed ? "disabled" : "")>
-                                        <option value="true" @(Model.IsConfirmed ? "selected" : "")>تأیید شده</option>
-                                        <option value="false" @(Model.IsConfirmed ? "" : "selected")>در انتظار</option>
-                                    </select>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-gradient-success text-white" style="border-radius: 0 15px 15px 0;"><i class="fas fa-toggle-on"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group mb-4">
                                 <label for="IsEnabled" class="text-muted font-weight-bold">وضعیت کاربر</label>
                                 <div class="input-group">
                                     <select class="form-control form-control-lg shadow-sm" id="IsEnabled" name="IsEnabled" style="border-radius: 15px 0 0 15px;">

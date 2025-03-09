@@ -180,5 +180,48 @@ namespace HomeService.Domain.AppServices.SubHomeSerAppServices
             return await _subHomeServiceService.GetSubHomeServicesByHomeServiceIdAsync(homeServiceId, cancellationToken);
         }
 
+        public async Task<bool> IncrementViewCountAsync(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Incrementing view count for SubHomeServiceId: {Id}", id);
+
+            try
+            {
+                var subService = await _subHomeServiceService.GetSubHomeServiceByIdAsync(id, cancellationToken);
+                if (subService == null)
+                {
+                    _logger.Warning("SubHomeService not found for ID: {Id}", id);
+                    return false;
+                }
+
+                var updateDto = new UpdateSubHomeServiceDto
+                {
+                    Id = id,
+                    Name = subService.Name,
+                    Description = subService.Description,
+                    BasePrice = subService.BasePrice,
+                    Views = subService.Views + 1,
+                    ImagePath = subService.ImagePath,
+                    IsActive = subService.IsActive
+                };
+
+                var result = await _subHomeServiceService.UpdateAsync(id, updateDto, cancellationToken);
+
+                if (result)
+                {
+                    _logger.Information("Successfully incremented view count for SubHomeServiceId: {Id}", id);
+                    return true;
+                }
+                else
+                {
+                    _logger.Warning("Failed to increment view count for SubHomeServiceId: {Id}", id);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error incrementing view count for SubHomeServiceId: {Id}", id);
+                return false;
+            }
+        }
     }
 }

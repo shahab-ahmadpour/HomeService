@@ -14,3 +14,19 @@ C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\1-Domain\Ser
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\refint\HomeService.Domain.Services.dll
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeService.Domain.Services.pdb
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\ref\HomeService.Domain.Services.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\bin\Debug\net8.0\HomeService.Domain.Services.deps.json
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\bin\Debug\net8.0\HomeService.Domain.Services.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\bin\Debug\net8.0\HomeService.Domain.Services.pdb
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\bin\Debug\net8.0\App.Domain.Core.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\bin\Debug\net8.0\App.Domain.Core.pdb
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeService.Domain.Services.csproj.AssemblyReference.cache
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeService.Domain.Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeService.Domain.Services.AssemblyInfoInputs.cache
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeService.Domain.Services.AssemblyInfo.cs
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeService.Domain.Services.csproj.CoreCompileInputs.cache
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeService.Domain.Services.sourcelink.json
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeServ.B14106A3.Up2Date
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeService.Domain.Services.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\refint\HomeService.Domain.Services.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\HomeService.Domain.Services.pdb
+D:\HomeService\Latese Backup\HomeService\HomeService\src\1-Domain\Services\HomeService.Domain.Services\obj\Debug\net8.0\ref\HomeService.Domain.Services.dll

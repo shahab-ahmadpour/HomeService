@@ -18,12 +18,14 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
     {
         private readonly AppDbContext _dbContext;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly ILogger _logger;
 
-        public AdminUserRepository(AppDbContext dbContext, UserManager<AppUser> userManager, ILogger logger)
+        public AdminUserRepository(AppDbContext dbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole<int>> roleManager, ILogger logger)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _roleManager = roleManager;
             _logger = logger;
         }
 
@@ -66,17 +68,78 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
         public async Task<IdentityResult> CreateUserAsync(CreateAppUserDto dto, string password, CancellationToken cancellationToken)
         {
             _logger.Information("Creating a new user via admin panel with Email: {Email}", dto.Email);
+
+            // ساخت کاربر اصلی (AppUser)
             var user = new AppUser
             {
                 UserName = dto.Email,
                 Email = dto.Email,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
+                FirstName = dto.FirstName ?? string.Empty,
+                LastName = dto.LastName ?? string.Empty,  
                 Role = dto.Role,
                 IsEnabled = dto.IsEnabled,
-                CreatedAt = DateTime.UtcNow
+                IsConfirmed = false, 
+                CreatedAt = DateTime.UtcNow,
+                ProfilePicture = "default.png", 
+                AccountBalance = 0 
             };
-            return await _userManager.CreateAsync(user, password);
+
+            var result = await _userManager.CreateAsync(user, password);
+            if (!result.Succeeded)
+            {
+                _logger.Warning("Failed to create user {Email}. Errors: {Errors}", dto.Email, string.Join(", ", result.Errors.Select(e => e.Description)));
+                return result;
+            }
+
+            var roleName = dto.Role.ToString();
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                await _roleManager.CreateAsync(new IdentityRole<int> { Name = roleName, NormalizedName = roleName.ToUpper() });
+            }
+            await _userManager.AddToRoleAsync(user, roleName);
+
+            switch (dto.Role)
+            {
+                case UserRole.Customer:
+                    var customer = new Customer
+                    {
+                        AppUserId = user.Id,
+                        AppUser = user,
+                        PhoneNumber = string.Empty,
+                        Address = string.Empty,
+                        City = string.Empty,
+                        State = string.Empty
+                    };
+                    await _dbContext.Customers.AddAsync(customer, cancellationToken);
+                    _logger.Information("Customer created for AppUserId: {AppUserId}", user.Id);
+                    break;
+
+                case UserRole.Expert:
+                    var expert = new Expert
+                    {
+                        AppUserId = user.Id,
+                        AppUser = user,
+                        PhoneNumber = string.Empty,
+                        Address = string.Empty,
+                        City = string.Empty,
+                        State = string.Empty
+                    };
+                    await _dbContext.Experts.AddAsync(expert, cancellationToken);
+                    _logger.Information("Expert created for AppUserId: {AppUserId}", user.Id);
+                    break;
+
+                case UserRole.Admin:
+                    break;
+
+                default:
+                    _logger.Warning("No specific entity created for role: {Role}", dto.Role);
+                    break;
+            }
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            _logger.Information("User with Email: {Email} created successfully with Role: {Role}", dto.Email, dto.Role);
+            return result;
         }
 
         public async Task<bool> UpdateUserAsync(int id, UpdateAppUserDto dto, CancellationToken cancellationToken)

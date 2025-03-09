@@ -20,5 +20,7 @@ namespace App.Domain.Core.Services.Interfaces.IService
         Task<List<Order>> GetAllOrdersAsync(CancellationToken cancellationToken);
         Task<List<OrderDto>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
         Task<Order> GetByProposalIdAsync(int proposalId, CancellationToken cancellationToken);
+
+        Task<List<OrderDto>> GetOrdersByExpertIdAsync(int expertId, CancellationToken cancellationToken);
     }
 }

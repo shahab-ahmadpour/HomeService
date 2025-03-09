@@ -14,5 +14,7 @@ namespace App.Domain.Core.Skills.Interfaces
         Task AddAsync(Skill skill, CancellationToken cancellationToken);
         Task UpdateAsync(Skill skill, CancellationToken cancellationToken);
         Task DeleteAsync(int id, CancellationToken cancellationToken);
+
+        Task<List<Skill>> GetSkillsByExpertIdAsync(int expertId, CancellationToken cancellationToken);
     }
 }

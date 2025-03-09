@@ -13,5 +13,10 @@ namespace App.Domain.Core.Users.Interfaces.IAppService
         Task<bool> DeleteExpertAsync(int id, CancellationToken cancellationToken);
         Task<decimal> GetBalanceAsync(int expertId, CancellationToken cancellationToken);
         Task<bool> UpdateBalanceAsync(int expertId, decimal newBalance, CancellationToken cancellationToken);
+
+        Task<ExpertDto> GetByIdAsync(int expertId, CancellationToken cancellationToken);
+        Task<int> GetExpertIdByAppUserIdAsync(int appUserId, CancellationToken cancellationToken);
+        Task<EditExpertDto> GetEditExpertProfileAsync(int expertId, CancellationToken cancellationToken);
+        Task<bool> UpdateExpertProfileAsync(EditExpertDto dto, CancellationToken cancellationToken);
     }
 }

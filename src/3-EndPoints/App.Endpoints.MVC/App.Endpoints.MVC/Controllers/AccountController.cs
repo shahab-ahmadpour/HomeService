@@ -153,7 +153,7 @@ namespace App.Endpoints.MVC.Controllers
                 {
                     UserRole.Admin => RedirectToAction("Index", "Dashboard", new { area = "Admin" }),
                     UserRole.Customer => RedirectToAction("Dashboard", "Customer"),
-                    UserRole.Expert => RedirectToAction("Index", "ExpertDashboard"),
+                    UserRole.Expert => RedirectToAction("Dashboard", "Expert"),
                     _ => RedirectToAction("Index", "Home")
                 };
             }

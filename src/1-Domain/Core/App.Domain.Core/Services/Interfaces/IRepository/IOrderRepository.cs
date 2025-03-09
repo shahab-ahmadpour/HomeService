@@ -21,6 +21,6 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
         Task<List<Order>> GetAllOrdersAsync(CancellationToken cancellationToken = default);
         Task<Order> GetByProposalIdAsync(int proposalId, CancellationToken cancellationToken);
 
-
+        Task<List<Order>> GetByExpertIdAsync(int expertId, CancellationToken cancellationToken);
     }
 }

@@ -94,7 +94,9 @@
                                                     }
                                                     else
                                                     {
-                                                        <span class="badge bg-warning text-dark shadow-sm">در انتظار</span>
+                                                        <a href="@Url.Action("Confirm", "AdminUser", new { area = "Admin", id = user.Id })" class="btn btn-primary btn-sm shadow-sm confirm-btn" onclick="return confirm('آیا مطمئن هستید که می‌خواهید این کاربر را تأیید کنید؟')">
+                                                            <i class="fas fa-check mr-1"></i> تأیید
+                                                        </a>
                                                     }
                                                 </td>
                                                 <td>
@@ -147,11 +149,43 @@
 </section>
 
 <style>
-    .card { transition: all 0.4s ease; }
-    .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
-    .btn { transition: all 0.3s ease; }
-    .btn:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-    .table th, .table td { padding: 15px; vertical-align: middle; }
-    .table thead th { background: linear-gradient(45deg, #2c3e50, #34495e); }
-    .badge { padding: 6px 12px; font-size: 0.9rem; }
+    .card {
+        transition: all 0.4s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+    .table th, .table td {
+        padding: 15px;
+        vertical-align: middle;
+    }
+
+    .table thead th {
+        background: linear-gradient(45deg, #2c3e50, #34495e);
+        color: white !important; /* مطمئن می‌شیم تیترها سفید باشن */
+        font-weight: 600;
+    }
+
+    .badge {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+
+    .confirm-btn {
+        border-radius: 5px; /* مستطیلی‌تر */
+        padding: 4px 8px; /* کوچیکتر */
+        font-size: 0.85rem; /* متن کوچیکتر */
+    }
 </style>

@@ -240,6 +240,9 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                     {
                         Id = s.Id,
                         Name = s.Name,
+                        Description =s.Description,
+                        BasePrice = s.BasePrice,
+                        Views = s.Views,
                         ImagePath = s.ImagePath
                     })
                     .ToListAsync(cancellationToken);

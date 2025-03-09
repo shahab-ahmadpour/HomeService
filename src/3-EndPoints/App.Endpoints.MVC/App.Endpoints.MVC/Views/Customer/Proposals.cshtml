@@ -1,6 +1,5 @@
 ﻿@model List<App.Domain.Core.DTO.Proposals.ProposalDto>
 @using App.Endpoints.MVC.Extensions
-@using App.Endpoints.MVC.Utilities
 @using App.Domain.Core.Enums
 @using Microsoft.AspNetCore.Mvc.Rendering
 
@@ -59,12 +58,14 @@
                         <td>
                             @if (proposal.Status == ProposalStatus.Pending)
                             {
-                                <a href="@Url.Action("AcceptProposal", "Customer", new { id = proposal.Id })" class="btn btn-success btn-sm mx-1">انتخاب</a>
-                                <a href="#" class="btn btn-danger btn-sm mx-1 reject-proposal" data-id="@proposal.Id">رد</a>
+                                <div class="button-group">
+                                    <a href="@Url.Action("AcceptProposal", "Customer", new { id = proposal.Id })" class="btn btn-success btn-sm">انتخاب</a>
+                                    <a href="#" class="btn btn-danger btn-sm reject-proposal" data-id="@proposal.Id">رد</a>
+                                </div>
                             }
                             else if (proposal.Status == ProposalStatus.Accepted)
                             {
-                                @if (proposal.OrderId > 0) // اگه OrderId ست شده، سفارش ساخته شده
+                                @if (proposal.OrderId > 0)
                                 {
                                     <a href="@Url.Action("OrderDetails", "Customer", new { orderId = proposal.OrderId })" class="btn btn-info btn-sm mx-1">جزئیات سفارش</a>
                                 }
@@ -102,6 +103,7 @@
         });
     </script>
 }
+
 <style>
     .section-title {
         color: #1e3a8a;
@@ -130,21 +132,21 @@
         border-collapse: collapse;
     }
 
-        .proposals-table th, .proposals-table td {
-            padding: 12px;
-            text-align: right;
-            border-bottom: 1px solid #e5e7eb;
-        }
+    .proposals-table th, .proposals-table td {
+        padding: 12px;
+        text-align: right;
+        border-bottom: 1px solid #e5e7eb;
+    }
 
-        .proposals-table th {
-            background: #1e3a8a;
-            color: white;
-            font-weight: 600;
-        }
+    .proposals-table th {
+        background: #1e3a8a;
+        color: white;
+        font-weight: 600;
+    }
 
-        .proposals-table td {
-            color: #333;
-        }
+    .proposals-table td {
+        color: #333;
+    }
 
     .btn-back {
         display: inline-block;
@@ -158,10 +160,10 @@
         transition: background 0.3s ease, transform 0.3s ease;
     }
 
-        .btn-back:hover {
-            background: #434190;
-            transform: translateY(-2px);
-        }
+    .btn-back:hover {
+        background: #434190;
+        transform: translateY(-2px);
+    }
 
     .btn-sm {
         padding: 5px 10px;
@@ -191,5 +193,10 @@
         border-color: #f5c6cb;
         padding: 10px;
         border-radius: 5px;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 5px; /* فاصله بین دکمه‌ها */
     }
 </style>

@@ -21,5 +21,4 @@ namespace App.Domain.Core.DTO.Requests
         public string EnvironmentImagePath { get; set; }
         public bool IsEnabled { get; set; }
     }
-
 }

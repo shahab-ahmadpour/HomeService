@@ -1,0 +1,103 @@
+﻿@model App.Domain.Core.DTO.Proposals.CreateProposalDto
+@using App.Domain.Core.DTO.Requests
+@using App.Endpoints.MVC.Extensions
+
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "ثبت پیشنهاد";
+
+    var request = ViewBag.Request as RequestDto;
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white py-3">
+                    <h3 class="card-title text-center mb-0">ثبت پیشنهاد برای درخواست</h3>
+                </div>
+                <div class="card-body p-4">
+                    @if (request != null)
+                    {
+                        <div class="request-details mb-4 p-3 bg-light rounded">
+                            <h5 class="border-bottom pb-2 mb-3">اطلاعات درخواست</h5>
+                            <p><strong>نوع سرویس:</strong> @request.SubHomeServiceName</p>
+                            <p><strong>توضیحات:</strong> @request.Description</p>
+                            <p><strong>تاریخ اجرا:</strong> @request.ExecutionDate.ToPersianDate()</p>
+                        </div>
+                    }
+
+                    <form asp-action="CreateProposal" method="post">
+                        <input type="hidden" asp-for="ExpertId" />
+                        <input type="hidden" asp-for="RequestId" value="@request?.Id" />
+
+                        <div class="mb-3">
+                            <label asp-for="Price" class="form-label">قیمت پیشنهادی (تومان)</label>
+                            <input asp-for="Price" class="form-control" required min="1000" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ExecutionDate" class="form-label">تاریخ اجرا</label>
+                            <input asp-for="ExecutionDate" type="date" class="form-control" required />
+                            <span asp-validation-for="ExecutionDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="SkillId" class="form-label">مهارت</label>
+                            <select asp-for="SkillId" class="form-select" required>
+                                <option value="">انتخاب کنید</option>
+                                <!-- این قسمت باید با لود کردن مهارت‌های مربوط به این سرویس پر شود -->
+                                <option value="1">مهارت 1</option>
+                                <option value="2">مهارت 2</option>
+                                <option value="3">مهارت 3</option>
+                            </select>
+                            <span asp-validation-for="SkillId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label">توضیحات پیشنهاد</label>
+                            <textarea asp-for="Description" class="form-control" rows="4" required></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">ثبت پیشنهاد</button>
+                            <a href="@Url.Action("AvailableRequests", "Expert")" class="btn btn-secondary">بازگشت</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background-color: #1e3a8a !important;
+    }
+
+    .request-details {
+        border-right: 4px solid #1e3a8a;
+    }
+
+    .btn-primary {
+        background-color: #1e3a8a;
+        border-color: #1e3a8a;
+    }
+
+        .btn-primary:hover {
+            background-color: #172b6e;
+            border-color: #172b6e;
+        }
+</style>

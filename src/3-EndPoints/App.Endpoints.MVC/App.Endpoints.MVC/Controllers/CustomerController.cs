@@ -141,6 +141,7 @@ namespace App.Endpoints.MVC.Controllers
             }
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Create(int subHomeServiceId, CancellationToken cancellationToken)
         {
@@ -161,15 +162,21 @@ namespace App.Endpoints.MVC.Controllers
             if (subHomeService == null)
             {
                 _logger.Warning("SubHomeService not found for Id: {SubHomeServiceId}", subHomeServiceId);
-                return RedirectToAction("ServiceSelection");
+                return RedirectToAction("ServiceHierarchy");
             }
+
+            var homeServiceId = subHomeService.HomeServiceId;
+            ViewBag.HomeServiceId = homeServiceId;
 
             var model = new CreateRequestDto
             {
                 CustomerId = customerId.Value,
                 SubHomeServiceId = subHomeServiceId,
-                SubHomeServiceName = subHomeService.Name
+                SubHomeServiceName = subHomeService.Name,
+                Status = RequestStatus.Pending,
+                ExecutionDate = DateTime.Now.AddDays(1)
             };
+
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             return View(model);
         }
@@ -187,37 +194,55 @@ namespace App.Endpoints.MVC.Controllers
 
             if (!ModelState.IsValid)
             {
-                if (ModelState["EnvironmentImage"]?.Errors.Any() == true && model.EnvironmentImage == null)
+                var subHomeService = await _subHomeServiceAppService.GetSubHomeServiceByIdAsync(model.SubHomeServiceId, cancellationToken);
+                if (subHomeService != null)
                 {
-                    ModelState.Remove("EnvironmentImage");
+                    ViewBag.HomeServiceId = subHomeService.HomeServiceId;
+                    model.SubHomeServiceName = subHomeService.Name;
                 }
+
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 return View(model);
             }
 
-            if (model.EnvironmentImage != null)
+            if (!string.IsNullOrEmpty(model.ExecutionTime))
             {
-                try
+                var timeParts = model.ExecutionTime.Split(':');
+                if (timeParts.Length == 2 && int.TryParse(timeParts[0], out int hour) && int.TryParse(timeParts[1], out int minute))
                 {
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.EnvironmentImage.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await model.EnvironmentImage.CopyToAsync(stream);
-                    }
-                    model.EnvironmentImagePath = $"/uploads/{fileName}";
+                    model.ExecutionDate = model.ExecutionDate.Date.AddHours(hour).AddMinutes(minute);
                 }
-                catch (Exception ex)
+            }
+
+            if (model.EnvironmentImages != null && model.EnvironmentImages.Any())
+            {
+                foreach (var image in model.EnvironmentImages)
                 {
-                    _logger.Error(ex, "Failed to upload EnvironmentImage for CustomerId: {CustomerId}", customerId.Value);
-                    ModelState.AddModelError("EnvironmentImage", "خطا در آپلود تصویر محیط.");
-                    ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
-                    return View(model);
+                    if (image != null && image.Length > 0)
+                    {
+                        try
+                        {
+                            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
+
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await image.CopyToAsync(stream);
+                            }
+
+                            model.EnvironmentImagePaths.Add($"/uploads/{fileName}");
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.Error(ex, "Failed to upload image for CustomerId: {CustomerId}", customerId.Value);
+                        }
+                    }
                 }
             }
 
             model.Status = RequestStatus.Pending;
             var result = await _requestAppService.CreateRequestAsync(model, cancellationToken);
+
             if (result)
             {
                 _logger.Information("Request created successfully for CustomerId: {CustomerId}", customerId.Value);
@@ -228,6 +253,14 @@ namespace App.Endpoints.MVC.Controllers
             {
                 _logger.Warning("Failed to create request for CustomerId: {CustomerId}", customerId.Value);
                 ModelState.AddModelError("", "خطا در ثبت درخواست. لطفاً دوباره تلاش کنید.");
+
+                var subHomeService = await _subHomeServiceAppService.GetSubHomeServiceByIdAsync(model.SubHomeServiceId, cancellationToken);
+                if (subHomeService != null)
+                {
+                    ViewBag.HomeServiceId = subHomeService.HomeServiceId;
+                    model.SubHomeServiceName = subHomeService.Name;
+                }
+
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 return View(model);
             }
@@ -721,6 +754,52 @@ namespace App.Endpoints.MVC.Controllers
             }
 
             return RedirectToAction("Orders");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SubHomeServicesList(int homeServiceId, CancellationToken cancellationToken)
+        {
+            var customerId = await GetCustomerIdFromSession(cancellationToken);
+            if (!customerId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            try
+            {
+                var homeService = await _homeServiceAppService.GetAsync(homeServiceId, cancellationToken);
+                if (homeService == null)
+                {
+                    _logger.Warning("HomeService not found for ID: {HomeServiceId}", homeServiceId);
+                    TempData["ErrorMessage"] = "سرویس مورد نظر یافت نشد.";
+                    return RedirectToAction("ServiceHierarchy");
+                }
+
+                var subHomeServices = await _subHomeServiceAppService.GetSubHomeServicesByHomeServiceIdAsync(homeServiceId, cancellationToken);
+
+                ViewBag.HomeServiceName = homeService.Name;
+                ViewBag.HomeServiceId = homeServiceId;
+                ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+
+                _logger.Information("Loaded {Count} sub-home services for HomeServiceId: {HomeServiceId}",
+                    subHomeServices?.Count ?? 0, homeServiceId);
+
+                if (subHomeServices != null && subHomeServices.Any())
+                {
+                    foreach (var subService in subHomeServices)
+                    {
+                        await _subHomeServiceAppService.IncrementViewCountAsync(subService.Id, cancellationToken);
+                    }
+                }
+
+                return View(subHomeServices);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error loading sub-home services for HomeServiceId: {HomeServiceId}", homeServiceId);
+                TempData["ErrorMessage"] = "خطا در بارگذاری زیر سرویس‌ها.";
+                return RedirectToAction("ServiceHierarchy");
+            }
         }
 
         [HttpPost]

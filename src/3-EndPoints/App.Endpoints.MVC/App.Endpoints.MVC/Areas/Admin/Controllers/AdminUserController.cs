@@ -42,10 +42,23 @@ namespace App.Endpoints.MVC.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateAppUserDto dto, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid) return View(dto);
+            if (string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Password) || dto.Role == null)
+            {
+                ModelState.AddModelError("", "ایمیل، رمز عبور و نقش اجباری هستند.");
+                return View(dto);
+            }
+
             var result = await _adminUserAppService.CreateUserAsync(dto, dto.Password, cancellationToken);
-            if (result.Succeeded) return RedirectToAction("Index");
-            foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "کاربر با موفقیت ساخته شد.";
+                return RedirectToAction("Index");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
             return View(dto);
         }
 
@@ -73,12 +86,30 @@ namespace App.Endpoints.MVC.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, UpdateAppUserDto dto)
         {
-            _logger.Information("Received Edit POST request for User with ID: {Id}, FirstName={FirstName}, IsConfirmed={IsConfirmed}, IsEnabled={IsEnabled}",
-                id, dto.FirstName, dto.IsConfirmed, dto.IsEnabled);
+            _logger.Information("Received Edit POST request for User with ID: {Id}, FirstName={FirstName}, IsEnabled={IsEnabled}",
+                id, dto.FirstName, dto.IsEnabled);
 
             if (ModelState.IsValid)
             {
-                var result = await _adminUserAppService.UpdateUserAsync(id, dto, CancellationToken.None);
+                var existingUser = await _adminUserAppService.GetUserByIdAsync(id, CancellationToken.None);
+                if (existingUser == null)
+                {
+                    _logger.Warning("User with ID: {Id} not found for update.", id);
+                    TempData["ErrorMessage"] = "کاربر یافت نشد.";
+                    return RedirectToAction("Index");
+                }
+
+                var updateDto = new UpdateAppUserDto
+                {
+                    Id = id,
+                    FirstName = dto.FirstName,
+                    LastName = dto.LastName,
+                    Role = dto.Role,
+                    IsEnabled = dto.IsEnabled,
+                    IsConfirmed = existingUser.IsConfirmed 
+                };
+
+                var result = await _adminUserAppService.UpdateUserAsync(id, updateDto, CancellationToken.None);
                 if (result)
                 {
                     TempData["SuccessMessage"] = "اطلاعات با موفقیت ذخیره شد.";
@@ -152,6 +183,50 @@ namespace App.Endpoints.MVC.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = "خطا در فعال‌سازی کاربر.";
                 _logger.Warning("Failed to activate user with ID: {Id}", id);
             }
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public async Task<IActionResult> Confirm(int id, CancellationToken cancellationToken)
+        {
+            _logger.Information("Attempting to confirm user with ID: {Id}", id);
+
+            var user = await _adminUserAppService.GetUserByIdAsync(id, cancellationToken);
+            if (user == null)
+            {
+                _logger.Warning("User with ID: {Id} not found.", id);
+                TempData["ErrorMessage"] = "کاربر یافت نشد.";
+                return RedirectToAction("Index");
+            }
+
+            if (user.IsConfirmed)
+            {
+                _logger.Warning("User with ID: {Id} is already confirmed.", id);
+                TempData["ErrorMessage"] = "این کاربر قبلاً تأیید شده است.";
+                return RedirectToAction("Index");
+            }
+
+            var updateDto = new UpdateAppUserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Role = user.Role,
+                IsEnabled = user.IsEnabled,
+                IsConfirmed = true 
+            };
+
+            var result = await _adminUserAppService.UpdateUserAsync(id, updateDto, cancellationToken);
+            if (result)
+            {
+                TempData["SuccessMessage"] = "کاربر با موفقیت تأیید شد.";
+                _logger.Information("User with ID: {Id} confirmed successfully.", id);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "خطا در تأیید کاربر.";
+                _logger.Warning("Failed to confirm user with ID: {Id}", id);
+            }
+
             return RedirectToAction("Index");
         }
     }

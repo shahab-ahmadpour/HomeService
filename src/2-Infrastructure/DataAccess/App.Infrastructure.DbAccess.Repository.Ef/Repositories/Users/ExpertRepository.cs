@@ -120,6 +120,7 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
             await _dbContext.SaveChangesAsync(cancellationToken);
             return true;
         }
+
         public async Task<decimal> GetBalanceAsync(int expertId, CancellationToken cancellationToken)
         {
             _logger.Information("Fetching balance for ExpertId: {ExpertId}", expertId);
@@ -154,6 +155,33 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
             _logger.Information("Balance updated for ExpertId: {ExpertId}", expertId);
             return true;
         }
-    }
 
+        public async Task<Expert> GetByAppUserIdAsync(int appUserId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Repository: Fetching Expert by AppUserId: {AppUserId}", appUserId);
+            try
+            {
+                var expert = await _dbContext.Experts
+                    .Include(e => e.AppUser)
+                    .FirstOrDefaultAsync(e => e.AppUserId == appUserId, cancellationToken);
+
+                if (expert == null)
+                {
+                    _logger.Warning("Repository: No Expert found for AppUserId: {AppUserId}", appUserId);
+                }
+                else
+                {
+                    _logger.Information("Repository: Found Expert with Id: {ExpertId} for AppUserId: {AppUserId}",
+                        expert.Id, appUserId);
+                }
+
+                return expert;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Repository: Failed to fetch Expert for AppUserId: {AppUserId}", appUserId);
+                throw;
+            }
+        }
+    }
 }

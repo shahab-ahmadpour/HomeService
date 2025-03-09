@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.DTO.Proposals;
+using App.Domain.Core.Enums;
 using App.Domain.Core.Services.Entities;
 using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IRepository;
@@ -19,17 +20,20 @@ namespace HomeService.Domain.AppServices.ProposalAppServices
     {
         private readonly IProposalService _proposalService;
         private readonly ICustomerService _customerService;
+        private readonly IProposalRepository _proposalRepository;
         private readonly ILogger _logger;
         private readonly IMemoryCache _memoryCache;
 
         public ProposalAppService(
             IProposalService proposalService,
             ICustomerService customerService,
+            IProposalRepository proposalRepository,
             ILogger logger,
             IMemoryCache memoryCache)
         {
             _proposalService = proposalService;
             _customerService = customerService;
+            _proposalRepository = proposalRepository;
             _logger = logger;
             _memoryCache = memoryCache;
         }
@@ -66,6 +70,7 @@ namespace HomeService.Domain.AppServices.ProposalAppServices
             }
             return cachedProposals;
         }
+
         public async Task<ProposalDto> GetProposalByIdAsync(int proposalId, CancellationToken cancellationToken)
         {
             _logger.Information("ProposalAppService: Fetching proposal by ID: {Id}", proposalId);
@@ -79,5 +84,79 @@ namespace HomeService.Domain.AppServices.ProposalAppServices
             _logger.Information("ProposalAppService: Successfully updated proposal with ID: {Id}", proposal.Id);
         }
 
+        public async Task<List<ProposalDto>> GetProposalsByExpertIdAsync(int expertId, CancellationToken cancellationToken)
+        {
+            _logger.Information("AppService: Getting proposals for expert ID: {ExpertId}", expertId);
+
+            string cacheKey = $"Proposals_Expert_{expertId}";
+            if (!_memoryCache.TryGetValue(cacheKey, out List<ProposalDto> cachedProposals))
+            {
+                try
+                {
+                    var proposals = await _proposalRepository.GetProposalsByExpertIdAsync(expertId, cancellationToken);
+                    if (proposals != null && proposals.Any())
+                    {
+                        _logger.Information("Caching {ProposalCount} proposals for ExpertId: {ExpertId}", proposals.Count, expertId);
+                        var cacheOptions = new MemoryCacheEntryOptions
+                        {
+                            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10),
+                            SlidingExpiration = TimeSpan.FromMinutes(5)
+                        };
+                        _memoryCache.Set(cacheKey, proposals, cacheOptions);
+                    }
+
+                    return proposals;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to fetch proposals for ExpertId: {ExpertId}", expertId);
+                    return new List<ProposalDto>();
+                }
+            }
+            else
+            {
+                _logger.Information("Proposals retrieved from cache for ExpertId: {ExpertId}, Count: {ProposalCount}",
+                    expertId, cachedProposals.Count);
+                return cachedProposals;
+            }
+        }
+
+        public async Task<bool> CreateProposalAsync(CreateProposalDto dto, CancellationToken cancellationToken)
+        {
+            _logger.Information("AppService: Creating new proposal for ExpertId: {ExpertId}, RequestId: {RequestId}",
+                dto.ExpertId, dto.RequestId);
+
+            try
+            {
+                var proposal = new Proposal
+                {
+                    ExpertId = dto.ExpertId,
+                    RequestId = dto.RequestId,
+                    SkillId = dto.SkillId,
+                    Price = dto.Price,
+                    ExecutionDate = dto.ExecutionDate,
+                    Description = dto.Description,
+                    Status = dto.Status,
+                    ResponseTime = DateTime.Now,
+                    CreatedAt = DateTime.Now,
+                    IsEnabled = true
+                };
+
+                await _proposalRepository.CreateAsync(proposal, cancellationToken);
+
+                // Invalidate cache
+                _memoryCache.Remove($"Proposals_Expert_{dto.ExpertId}");
+
+                _logger.Information("Successfully created proposal for ExpertId: {ExpertId}, RequestId: {RequestId}",
+                    dto.ExpertId, dto.RequestId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Failed to create proposal for ExpertId: {ExpertId}, RequestId: {RequestId}",
+                    dto.ExpertId, dto.RequestId);
+                return false;
+            }
+        }
     }
 }

@@ -156,6 +156,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcUHJvcG9zYWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Customer/RequestDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcUmVxdWVzdERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Customer/Requests.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcUmVxdWVzdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -164,8 +168,40 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcU2VydmljZUhpZXJhcmNoeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Customer/SubHomeServicesList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcU3ViSG9tZVNlcnZpY2VzTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Customer/_ServicesPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcX1NlcnZpY2VzUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Expert/AvailableRequests.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZXJ0XEF2YWlsYWJsZVJlcXVlc3RzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Expert/CreateProposal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZXJ0XENyZWF0ZVByb3Bvc2FsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Expert/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZXJ0XERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Expert/EditProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZXJ0XEVkaXRQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Expert/OrderDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZXJ0XE9yZGVyRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Expert/Orders.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZXJ0XE9yZGVycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Expert/Proposals.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZXJ0XFByb3Bvc2Fscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Home/Index.cshtml]

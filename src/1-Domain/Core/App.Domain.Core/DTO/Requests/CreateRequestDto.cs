@@ -25,13 +25,14 @@ namespace App.Domain.Core.DTO.Requests
 
         public string SubHomeServiceName { get; set; }
 
-        [Required(ErrorMessage = "تاریخ پایان الزامی است.")]
-        public DateTime Deadline { get; set; } = DateTime.Today;
-
         [Required(ErrorMessage = "تاریخ اجرا الزامی است.")]
         public DateTime ExecutionDate { get; set; } = DateTime.Today;
 
-        public IFormFile? EnvironmentImage { get; set; }
-        public string? EnvironmentImagePath { get; set; }
+        public string ExecutionTime { get; set; }
+
+        public List<IFormFile> EnvironmentImages { get; set; }
+
+        public List<string> EnvironmentImagePaths { get; set; } = new List<string>();
     }
+
 }

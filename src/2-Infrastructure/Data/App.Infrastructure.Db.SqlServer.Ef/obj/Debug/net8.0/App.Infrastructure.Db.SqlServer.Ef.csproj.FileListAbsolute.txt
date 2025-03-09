@@ -16,3 +16,21 @@ C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastruc
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.pdb
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.genruntimeconfig.cache
 C:\Users\shaha\source\repos\HomeServiceFinalProject\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\ref\App.Infrastructure.Db.SqlServer.Ef.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\bin\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.deps.json
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\bin\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.runtimeconfig.json
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\bin\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\bin\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.pdb
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\bin\Debug\net8.0\App.Domain.Core.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\bin\Debug\net8.0\App.Domain.Core.pdb
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.csproj.AssemblyReference.cache
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.GeneratedMSBuildEditorConfig.editorconfig
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.AssemblyInfoInputs.cache
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.AssemblyInfo.cs
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.csproj.CoreCompileInputs.cache
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.sourcelink.json
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infr.5DA2EAB7.Up2Date
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\refint\App.Infrastructure.Db.SqlServer.Ef.dll
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.pdb
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\App.Infrastructure.Db.SqlServer.Ef.genruntimeconfig.cache
+D:\HomeService\Latese Backup\HomeService\HomeService\src\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\obj\Debug\net8.0\ref\App.Infrastructure.Db.SqlServer.Ef.dll

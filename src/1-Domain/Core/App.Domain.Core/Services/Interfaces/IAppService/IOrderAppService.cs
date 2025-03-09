@@ -23,5 +23,6 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
         Task<int> ProcessProposalSelectionAsync(int proposalId, int customerId, CancellationToken cancellationToken);
         Task<Order> GetByProposalIdAsync(int proposalId, CancellationToken cancellationToken);
 
+        Task<List<OrderDto>> GetOrdersByExpertIdAsync(int expertId, CancellationToken cancellationToken);
     }
 }

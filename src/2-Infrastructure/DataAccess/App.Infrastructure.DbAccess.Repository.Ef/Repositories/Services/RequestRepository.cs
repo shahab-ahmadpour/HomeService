@@ -24,6 +24,8 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
             _logger = logger;
         }
 
+        // این متد را در RequestRepository جایگزین کنید
+
         public async Task<bool> CreateAsync(CreateRequestDto dto, CancellationToken cancellationToken)
         {
             _logger.Information("Creating new request for CustomerId: {CustomerId}", dto.CustomerId);
@@ -34,13 +36,19 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                     CustomerId = dto.CustomerId,
                     SubHomeServiceId = dto.SubHomeServiceId,
                     Description = dto.Description,
-                    Deadline = dto.Deadline,
+                    Deadline = DateTime.Now.AddDays(7),
                     ExecutionDate = dto.ExecutionDate,
                     Status = dto.Status,
-                    EnvironmentImagePath = dto.EnvironmentImagePath,
                     CreatedAt = DateTime.UtcNow,
                     IsEnabled = true
                 };
+
+                if (dto.EnvironmentImagePaths != null && dto.EnvironmentImagePaths.Any())
+                {
+
+                    request.EnvironmentImagePath = string.Join(";", dto.EnvironmentImagePaths);
+                }
+
                 _dbContext.Requests.Add(request);
                 var result = await _dbContext.SaveChangesAsync(cancellationToken);
                 _logger.Information("Request created successfully for CustomerId: {CustomerId}, Result: {Result}", dto.CustomerId, result > 0);

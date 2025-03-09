@@ -19,5 +19,7 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
         Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesAsync(CancellationToken cancellationToken);
         Task<SubHomeServiceListItemDto> GetSubHomeServiceByIdAsync(int id, CancellationToken cancellationToken);
         Task<List<SubHomeServiceListItemDto>> GetSubHomeServicesByHomeServiceIdAsync(int homeServiceId, CancellationToken cancellationToken);
+
+        Task<bool> IncrementViewCountAsync(int id, CancellationToken cancellationToken);
     }
 }
