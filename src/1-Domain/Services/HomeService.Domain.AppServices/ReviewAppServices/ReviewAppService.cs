@@ -95,6 +95,11 @@ namespace HomeService.Domain.AppServices.ReviewAppServices
         {
             return _reviewService.RejectAsync(id, cancellationToken);
         }
+        public async Task<List<ReviewDto>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken)
+        {
+            _logger.Information("AppService: Fetching reviews for CustomerId: {CustomerId}", customerId);
+            return await _reviewService.GetByCustomerIdAsync(customerId, cancellationToken);
+        }
 
     }
 

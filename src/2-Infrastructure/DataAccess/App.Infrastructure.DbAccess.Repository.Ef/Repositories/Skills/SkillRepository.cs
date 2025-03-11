@@ -62,24 +62,26 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Skills
         public async Task<List<Skill>> GetSkillsByExpertIdAsync(int expertId, CancellationToken cancellationToken)
         {
             _logger.Information("Repository: Fetching skills for ExpertId: {ExpertId}", expertId);
-
             try
             {
                 var expertSkills = await _dbContext.ExpertSkills
                     .Include(es => es.Skill)
                     .ThenInclude(s => s.SubHomeService)
                     .Where(es => es.ExpertId == expertId)
-                    .Select(es => es.Skill)
                     .ToListAsync(cancellationToken);
 
-                if (expertSkills == null || !expertSkills.Any())
+                _logger.Information("ExpertSkills raw count: {Count}", expertSkills.Count);
+
+                var skills = expertSkills.Select(es => es.Skill).ToList();
+
+                if (skills == null || !skills.Any())
                 {
                     _logger.Warning("Repository: No skills found for ExpertId: {ExpertId}", expertId);
                     return new List<Skill>();
                 }
 
-                _logger.Information("Repository: Found {Count} skills for ExpertId: {ExpertId}", expertSkills.Count, expertId);
-                return expertSkills;
+                _logger.Information("Repository: Found {Count} skills for ExpertId: {ExpertId}", skills.Count, expertId);
+                return skills;
             }
             catch (Exception ex)
             {
@@ -87,5 +89,79 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Skills
                 throw;
             }
         }
+
+        public async Task<List<Skill>> GetSkillsByExpertIdAndSubHomeServiceIdAsync(int expertId, int subHomeServiceId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Repository: Fetching skills for ExpertId: {ExpertId} and SubHomeServiceId: {SubHomeServiceId}",
+                expertId, subHomeServiceId);
+
+            try
+            {
+                var skills = await _dbContext.Skills
+                    .Where(s => s.SubHomeServiceId == subHomeServiceId)
+                    .ToListAsync(cancellationToken);
+
+                if (skills == null || !skills.Any())
+                {
+                    _logger.Warning("No skills found for SubHomeServiceId: {SubHomeServiceId}", subHomeServiceId);
+                    return new List<Skill>();
+                }
+
+                var skillIds = skills.Select(s => s.Id).ToList();
+
+                var expertSkills = await _dbContext.ExpertSkills
+                    .Where(es => es.ExpertId == expertId && skillIds.Contains(es.SkillId))
+                    .Include(es => es.Skill)
+                    .Select(es => es.Skill)
+                    .ToListAsync(cancellationToken);
+
+                if (expertSkills == null || !expertSkills.Any())
+                {
+                    _logger.Warning("No skills found for ExpertId: {ExpertId} and SubHomeServiceId: {SubHomeServiceId}",
+                        expertId, subHomeServiceId);
+                    return new List<Skill>();
+                }
+
+                _logger.Information("Found {Count} skills for ExpertId: {ExpertId} and SubHomeServiceId: {SubHomeServiceId}",
+                    expertSkills.Count, expertId, subHomeServiceId);
+
+                return expertSkills;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error fetching skills for ExpertId: {ExpertId} and SubHomeServiceId: {SubHomeServiceId}",
+                    expertId, subHomeServiceId);
+                throw;
+            }
+        }
+
+        public async Task<Skill> GetBySubHomeServiceIdAsync(int subHomeServiceId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Repository: Finding skill by SubHomeServiceId: {SubHomeServiceId}", subHomeServiceId);
+
+            try
+            {
+                var skill = await _dbContext.Skills
+                    .Where(s => s.SubHomeServiceId == subHomeServiceId)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                if (skill == null)
+                {
+                    _logger.Information("No skill found for SubHomeServiceId: {SubHomeServiceId}", subHomeServiceId);
+                    return null;
+                }
+
+                _logger.Information("Found skill (ID: {SkillId}) for SubHomeServiceId: {SubHomeServiceId}",
+                    skill.Id, subHomeServiceId);
+
+                return skill;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error finding skill for SubHomeServiceId: {SubHomeServiceId}", subHomeServiceId);
+                throw;
+            }
+        }
     }
+
 }

@@ -270,5 +270,57 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                 return false;
             }
         }
+
+        public async Task<List<ProposalDto>> GetProposalsByRequestIdAsync(int requestId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Repository: Fetching proposals for RequestId: {RequestId}", requestId);
+
+            try
+            {
+                var proposals = await _dbContext.Proposals
+                    .Include(p => p.Expert)
+                        .ThenInclude(e => e.AppUser)
+                    .Include(p => p.Request)
+                        .ThenInclude(r => r.SubHomeService)
+                    .Include(p => p.Skill)
+                    .Where(p => p.RequestId == requestId && p.IsEnabled)
+                    .Select(p => new ProposalDto
+                    {
+                        Id = p.Id,
+                        ExpertId = p.ExpertId,
+                        ExpertName = p.Expert.AppUser.FirstName + " " + p.Expert.AppUser.LastName,
+                        RequestId = p.RequestId,
+                        RequestDescription = p.Request.Description,
+                        SubHomeServiceName = p.Request.SubHomeService.Name,
+                        SkillId = p.SkillId,
+                        SkillName = p.Skill.Name,
+                        Price = p.Price,
+                        ExecutionDate = p.ExecutionDate,
+                        Description = p.Description,
+                        Status = p.Status,
+                        ResponseTime = p.ResponseTime,
+                        CreatedAt = p.CreatedAt,
+                        IsEnabled = p.IsEnabled,
+                        OrderId = p.OrderId ?? 0
+                    })
+                    .ToListAsync(cancellationToken);
+
+                if (proposals.Count == 0)
+                {
+                    _logger.Information("No proposals found for RequestId: {RequestId}", requestId);
+                }
+                else
+                {
+                    _logger.Information("Found {Count} proposals for RequestId: {RequestId}", proposals.Count, requestId);
+                }
+
+                return proposals;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error fetching proposals for RequestId: {RequestId}", requestId);
+                throw;
+            }
+        }
     }
 }

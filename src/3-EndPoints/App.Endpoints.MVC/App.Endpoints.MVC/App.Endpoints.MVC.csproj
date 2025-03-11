@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\..\1-Domain\Core\App.Domain.Core\App.Domain.Core.csproj" />
     <ProjectReference Include="..\..\..\1-Domain\Services\HomeService.Domain.AppServices\HomeService.Domain.AppServices.csproj" />
     <ProjectReference Include="..\..\..\1-Domain\Services\HomeService.Domain.Services\HomeService.Domain.Services.csproj" />
+    <ProjectReference Include="..\..\..\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Dapper\App.Infrastructure.DbAccess.Repository.Dapper.csproj" />
     <ProjectReference Include="..\..\..\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Ef\App.Infrastructure.DbAccess.Repository.Ef.csproj" />
     <ProjectReference Include="..\..\..\2-Infrastructure\Data\App.Infrastructure.Db.SqlServer.Ef\App.Infrastructure.Db.SqlServer.Ef.csproj" />
   </ItemGroup>

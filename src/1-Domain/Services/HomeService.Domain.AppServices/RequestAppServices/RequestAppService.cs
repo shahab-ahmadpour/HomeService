@@ -4,7 +4,10 @@ using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IRepository;
 using App.Domain.Core.Services.Interfaces.IService;
 using App.Domain.Core.Skills.Interfaces;
+using App.Domain.Core.Skills.Interfaces.IService;
 using App.Domain.Core.Users.Interfaces.IRepository;
+using App.Domain.Core.Users.Interfaces.IService;
+using HomeService.Domain.Services.ProposalServices;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -17,19 +20,25 @@ namespace HomeService.Domain.AppServices.RequestAppServices
     public class RequestAppService : IRequestAppService
     {
         private readonly IRequestService _requestService;
-        private readonly IExpertRepository _expertRepository;
-        private readonly ISkillRepository _skillRepository;
+        private readonly IExpertService _expertService;
+        private readonly ICustomerService _customerService;
+        private readonly IProposalService _proposalService;
+        private readonly ISkillService _skillService;
         private readonly ILogger _logger;
 
         public RequestAppService(
             IRequestService requestService,
-            IExpertRepository expertRepository,
-            ISkillRepository skillRepository,
+            IExpertService expertService,
+            ISkillService skillService,
+            ICustomerService customerService,
+            IProposalService proposalService,
             ILogger logger)
         {
             _requestService = requestService;
-            _expertRepository = expertRepository;
-            _skillRepository = skillRepository;
+            _expertService = expertService;
+            _skillService = skillService;
+            _customerService = customerService;
+            _proposalService = proposalService;
             _logger = logger;
         }
 
@@ -75,20 +84,17 @@ namespace HomeService.Domain.AppServices.RequestAppServices
 
             try
             {
-                // Get all pending requests
                 var allRequests = await _requestService.GetAllAsync(cancellationToken);
                 var pendingRequests = allRequests.Where(r => r.Status == RequestStatus.Pending && r.IsEnabled).ToList();
 
-                // Get expert's skills
-                var expert = await _expertRepository.GetByIdAsync(expertId, cancellationToken);
+                var expert = await _expertService.GetByIdAsync(expertId, cancellationToken);
                 if (expert == null)
                 {
                     _logger.Warning("Expert not found for ExpertId: {ExpertId}", expertId);
                     return new List<RequestDto>();
                 }
 
-                // Get expert's skill IDs
-                var expertSkills = await _skillRepository.GetSkillsByExpertIdAsync(expertId, cancellationToken);
+                var expertSkills = await _skillService.GetSkillsByExpertIdAsync(expertId, cancellationToken);
                 if (expertSkills == null || !expertSkills.Any())
                 {
                     _logger.Information("Expert with ID: {ExpertId} has no skills, returning all pending requests", expertId);
@@ -97,7 +103,6 @@ namespace HomeService.Domain.AppServices.RequestAppServices
 
                 var expertSubServiceIds = expertSkills.Select(s => s.SubHomeServiceId).Distinct().ToList();
 
-                // Filter requests by expert's skills
                 var availableRequests = pendingRequests.Where(r => expertSubServiceIds.Contains(r.SubHomeServiceId)).ToList();
 
                 _logger.Information("Found {Count} available requests for ExpertId: {ExpertId}", availableRequests.Count, expertId);
@@ -109,5 +114,53 @@ namespace HomeService.Domain.AppServices.RequestAppServices
                 return new List<RequestDto>();
             }
         }
+
+
+        public async Task<List<RequestDto>> GetAvailableRequestsForExpertAsync(int expertId, string expertState, List<int> subHomeServiceIds, CancellationToken cancellationToken)
+        {
+            _logger.Information("Getting available requests for ExpertId: {ExpertId}, State: {State}, SubHomeServiceIds: {SubHomeServiceIds}",
+                expertId, expertState, string.Join(",", subHomeServiceIds));
+
+            try
+            {
+                var allRequests = await _requestService.GetAllAsync(cancellationToken);
+                var pendingRequests = allRequests.Where(r => r.Status == RequestStatus.Pending && r.IsEnabled).ToList();
+
+                if (pendingRequests.Count == 0)
+                {
+                    _logger.Information("No pending requests found");
+                    return new List<RequestDto>();
+                }
+
+                var filteredByService = pendingRequests.Where(r => subHomeServiceIds.Contains(r.SubHomeServiceId)).ToList();
+
+                if (filteredByService.Count == 0)
+                {
+                    _logger.Information("No requests found matching expert skills");
+                    return new List<RequestDto>();
+                }
+
+                var customerIds = filteredByService.Select(r => r.CustomerId).Distinct().ToList();
+                var customers = await _customerService.GetCustomersByIdsAsync(customerIds, cancellationToken);
+
+                var sameStateCustomers = customers.Where(c => c.State == expertState).Select(c => c.Id).ToList();
+
+                var result = filteredByService.Where(r => sameStateCustomers.Contains(r.CustomerId)).ToList();
+
+                var expertProposals = await _proposalService.GetProposalsByExpertIdAsync(expertId, cancellationToken);
+                var expertProposalRequestIds = expertProposals.Select(p => p.RequestId).ToList();
+
+                result = result.Where(r => !expertProposalRequestIds.Contains(r.Id)).ToList();
+
+                _logger.Information("Found {Count} available requests for ExpertId: {ExpertId}", result.Count, expertId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error getting available requests for ExpertId: {ExpertId}", expertId);
+                return new List<RequestDto>();
+            }
+        }
     }
+
 }

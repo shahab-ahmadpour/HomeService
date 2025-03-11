@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.DTO.Categories;
+using App.Domain.Core.DTO.City;
 using App.Domain.Core.DTO.HomeServices;
 using App.Domain.Core.DTO.Proposals;
 using App.Domain.Core.DTO.Requests;
@@ -7,6 +8,7 @@ using App.Domain.Core.DTO.SubHomeServices;
 using App.Domain.Core.DTO.Transactions;
 using App.Domain.Core.DTO.Users.Customers;
 using App.Domain.Core.Enums;
+using App.Domain.Core.Locations.Interfaces.IAppService;
 using App.Domain.Core.Services.Entities;
 using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Domain.Core.Transactions.Interfaces.IAppService;
@@ -35,6 +37,7 @@ namespace App.Endpoints.MVC.Controllers
         private readonly IUserAppService _userAppService;
         private readonly IExpertAppService _expertAppService;
         private readonly IReviewAppService _reviewAppService;
+        private readonly ILocationAppService _locationAppService;
         private readonly Serilog.ILogger _logger;
 
         public CustomerController(
@@ -49,6 +52,7 @@ namespace App.Endpoints.MVC.Controllers
             IUserAppService userAppService,
             IExpertAppService expertAppService,
             IReviewAppService reviewAppService,
+            ILocationAppService locationAppService,
             Serilog.ILogger logger)
         {
             _customerAppService = customerAppService;
@@ -62,6 +66,7 @@ namespace App.Endpoints.MVC.Controllers
             _userAppService = userAppService;
             _expertAppService = expertAppService;
             _reviewAppService = reviewAppService;
+            _locationAppService = locationAppService;
             _logger = logger;
         }
 
@@ -152,21 +157,18 @@ namespace App.Endpoints.MVC.Controllers
             }
 
             var customerDto = await _customerAppService.GetByCustomerIdAsync(customerId.Value, cancellationToken);
-            if (customerDto == null)
+
+            if (string.IsNullOrEmpty(customerDto.State) || string.IsNullOrEmpty(customerDto.City))
             {
-                _logger.Warning("Customer not found for CustomerId: {CustomerId}", customerId.Value);
-                return RedirectToAction("Login", "Account");
+                TempData["ErrorMessage"] = "لطفاً ابتدا استان و شهر خود را در پروفایل تکمیل کنید.";
+                return RedirectToAction("EditProfile");
             }
 
             var subHomeService = await _subHomeServiceAppService.GetSubHomeServiceByIdAsync(subHomeServiceId, cancellationToken);
             if (subHomeService == null)
             {
-                _logger.Warning("SubHomeService not found for Id: {SubHomeServiceId}", subHomeServiceId);
                 return RedirectToAction("ServiceHierarchy");
             }
-
-            var homeServiceId = subHomeService.HomeServiceId;
-            ViewBag.HomeServiceId = homeServiceId;
 
             var model = new CreateRequestDto
             {
@@ -177,6 +179,7 @@ namespace App.Endpoints.MVC.Controllers
                 ExecutionDate = DateTime.Now.AddDays(1)
             };
 
+            ViewBag.HomeServiceId = subHomeService.HomeServiceId;
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             return View(model);
         }
@@ -184,75 +187,128 @@ namespace App.Endpoints.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateRequestDto model, CancellationToken cancellationToken)
         {
-            var customerId = await GetCustomerIdFromSession(cancellationToken);
-            if (!customerId.HasValue)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            _logger.Information("Starting Create POST with model: {@Model}", model);
 
-            model.CustomerId = customerId.Value;
-
-            if (!ModelState.IsValid)
+            try
             {
-                var subHomeService = await _subHomeServiceAppService.GetSubHomeServiceByIdAsync(model.SubHomeServiceId, cancellationToken);
-                if (subHomeService != null)
+                var customerId = await GetCustomerIdFromSession(cancellationToken);
+                if (!customerId.HasValue)
                 {
-                    ViewBag.HomeServiceId = subHomeService.HomeServiceId;
-                    model.SubHomeServiceName = subHomeService.Name;
+                    _logger.Warning("No CustomerId in session, redirecting to Login");
+                    return RedirectToAction("Login", "Account");
                 }
 
-                ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
-                return View(model);
-            }
+                model.CustomerId = customerId.Value;
 
-            if (!string.IsNullOrEmpty(model.ExecutionTime))
-            {
-                var timeParts = model.ExecutionTime.Split(':');
-                if (timeParts.Length == 2 && int.TryParse(timeParts[0], out int hour) && int.TryParse(timeParts[1], out int minute))
-                {
-                    model.ExecutionDate = model.ExecutionDate.Date.AddHours(hour).AddMinutes(minute);
-                }
-            }
+                ModelState.Remove("EnvironmentImages");
+                ModelState.Remove("SubHomeServiceName");
 
-            if (model.EnvironmentImages != null && model.EnvironmentImages.Any())
-            {
-                foreach (var image in model.EnvironmentImages)
+                if (!ModelState.IsValid)
                 {
-                    if (image != null && image.Length > 0)
+                    _logger.Warning("ModelState is invalid. Errors: {@Errors}",
+                        ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+
+                    var subHomeService = await _subHomeServiceAppService.GetSubHomeServiceByIdAsync(model.SubHomeServiceId, cancellationToken);
+                    if (subHomeService != null)
                     {
-                        try
-                        {
-                            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
+                        ViewBag.HomeServiceId = subHomeService.HomeServiceId;
+                        model.SubHomeServiceName = subHomeService.Name;
+                    }
 
-                            using (var stream = new FileStream(filePath, FileMode.Create))
+                    ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+                    return View(model);
+                }
+
+                var subHomeServiceInfo = await _subHomeServiceAppService.GetSubHomeServiceByIdAsync(model.SubHomeServiceId, cancellationToken);
+                if (subHomeServiceInfo != null)
+                {
+                    model.SubHomeServiceName = subHomeServiceInfo.Name;
+                }
+
+                if (!string.IsNullOrEmpty(model.ExecutionTime))
+                {
+                    var timeParts = model.ExecutionTime.Split(':');
+                    if (timeParts.Length == 2 && int.TryParse(timeParts[0], out int hour) && int.TryParse(timeParts[1], out int minute))
+                    {
+                        model.ExecutionDate = model.ExecutionDate.Date.AddHours(hour).AddMinutes(minute);
+                        _logger.Information("Parsed execution time: {Time}, Final execution date: {Date}",
+                            model.ExecutionTime, model.ExecutionDate);
+                    }
+                    else
+                    {
+                        _logger.Warning("Invalid execution time format: {Time}", model.ExecutionTime);
+                    }
+                }
+
+                if (model.EnvironmentImagePaths == null)
+                {
+                    model.EnvironmentImagePaths = new List<string>();
+                }
+
+                if (model.EnvironmentImages != null && model.EnvironmentImages.Any())
+                {
+                    foreach (var image in model.EnvironmentImages)
+                    {
+                        if (image != null && image.Length > 0)
+                        {
+                            try
                             {
-                                await image.CopyToAsync(stream);
-                            }
+                                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
 
-                            model.EnvironmentImagePaths.Add($"/uploads/{fileName}");
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.Error(ex, "Failed to upload image for CustomerId: {CustomerId}", customerId.Value);
+                                if (!Directory.Exists(uploadsFolder))
+                                {
+                                    Directory.CreateDirectory(uploadsFolder);
+                                }
+
+                                var filePath = Path.Combine(uploadsFolder, fileName);
+                                using (var stream = new FileStream(filePath, FileMode.Create))
+                                {
+                                    await image.CopyToAsync(stream);
+                                }
+
+                                model.EnvironmentImagePaths.Add($"/uploads/{fileName}");
+                                _logger.Information("Image uploaded: {FilePath}", filePath);
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.Error(ex, "Failed to upload image: {FileName}", image.FileName);
+                            }
                         }
                     }
                 }
-            }
 
-            model.Status = RequestStatus.Pending;
-            var result = await _requestAppService.CreateRequestAsync(model, cancellationToken);
+                model.Status = RequestStatus.Pending;
+                _logger.Information("Calling CreateRequestAsync with model: {@Model}", model);
 
-            if (result)
-            {
-                _logger.Information("Request created successfully for CustomerId: {CustomerId}", customerId.Value);
-                TempData["SuccessMessage"] = "سفارش شما با موفقیت ثبت شد!";
-                return RedirectToAction("Dashboard");
+                var result = await _requestAppService.CreateRequestAsync(model, cancellationToken);
+
+                if (result)
+                {
+                    _logger.Information("Request created successfully for CustomerId: {CustomerId}", customerId.Value);
+                    TempData["SuccessMessage"] = "سفارش شما با موفقیت ثبت شد!";
+                    return RedirectToAction("Dashboard");
+                }
+                else
+                {
+                    _logger.Warning("Failed to create request for CustomerId: {CustomerId}", customerId.Value);
+                    ModelState.AddModelError("", "خطا در ثبت درخواست. لطفاً دوباره تلاش کنید.");
+
+                    var subHomeService = await _subHomeServiceAppService.GetSubHomeServiceByIdAsync(model.SubHomeServiceId, cancellationToken);
+                    if (subHomeService != null)
+                    {
+                        ViewBag.HomeServiceId = subHomeService.HomeServiceId;
+                        model.SubHomeServiceName = subHomeService.Name;
+                    }
+
+                    ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+                    return View(model);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _logger.Warning("Failed to create request for CustomerId: {CustomerId}", customerId.Value);
-                ModelState.AddModelError("", "خطا در ثبت درخواست. لطفاً دوباره تلاش کنید.");
+                _logger.Error(ex, "Error in Create Request: {ErrorMessage}", ex.Message);
+                ModelState.AddModelError("", "خطای سیستمی رخ داده است. لطفاً با پشتیبانی تماس بگیرید.");
 
                 var subHomeService = await _subHomeServiceAppService.GetSubHomeServiceByIdAsync(model.SubHomeServiceId, cancellationToken);
                 if (subHomeService != null)
@@ -311,6 +367,11 @@ namespace App.Endpoints.MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            ViewBag.Provinces = await _locationAppService.GetAllProvincesAsync(cancellationToken);
+            ViewBag.Cities = string.IsNullOrEmpty(editDto.State)
+                ? new List<CityDto>()
+                : await _locationAppService.GetCitiesByProvinceNameAsync(editDto.State, cancellationToken);
+
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             return View(editDto);
         }
@@ -335,57 +396,105 @@ namespace App.Endpoints.MVC.Controllers
             _logger.Information("Received model for update: FirstName={FirstName}, LastName={LastName}, PhoneNumber={PhoneNumber}, ProfilePicture={ProfilePicture}",
                 model.FirstName, model.LastName, model.PhoneNumber, model.ProfilePicture);
 
-            ModelState.Clear();
+            if (model.ProfilePictureFile == null || model.ProfilePictureFile.Length == 0)
+            {
+                ModelState.Remove("ProfilePictureFile");
+            }
 
             if (!ModelState.IsValid)
             {
-                _logger.Warning("ModelState is invalid after clear for CustomerId: {CustomerId}", customerId.Value);
+                _logger.Warning("ModelState is invalid for CustomerId: {CustomerId}", customerId.Value);
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
                     _logger.Warning("Validation error: {Error}", error.ErrorMessage);
                 }
+
+                ViewBag.Provinces = await _locationAppService.GetAllProvincesAsync(cancellationToken);
+                ViewBag.Cities = string.IsNullOrEmpty(model.State)
+                    ? new List<CityDto>()
+                    : await _locationAppService.GetCitiesByProvinceNameAsync(model.State, cancellationToken);
+
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 return View(model);
             }
 
-            if (model.ProfilePictureFile != null)
+            try
             {
-                try
+                if (model.ProfilePictureFile != null && model.ProfilePictureFile.Length > 0)
                 {
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ProfilePictureFile.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    var filePath = Path.Combine(uploadsFolder, fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await model.ProfilePictureFile.CopyToAsync(stream);
                     }
+
                     model.ProfilePicture = $"/uploads/{fileName}";
                     _logger.Information("New profile picture uploaded: {ProfilePicture}", model.ProfilePicture);
                 }
-                catch (Exception ex)
+                else
                 {
-                    _logger.Error(ex, "Failed to upload profile picture for CustomerId: {CustomerId}", customerId.Value);
-                    ModelState.AddModelError("ProfilePictureFile", "خطا در آپلود عکس پروفایل.");
-                    ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
-                    return View(model);
+                    model.ProfilePicture = customerDto.ProfilePicture ?? "default.png";
+                    _logger.Information("No new profile picture, keeping existing: {ProfilePicture}", model.ProfilePicture);
+                }
+
+                var result = await _customerAppService.UpdateCustomerProfileAsync(model, cancellationToken);
+                if (result)
+                {
+                    _logger.Information("Profile updated successfully for CustomerId: {CustomerId}", customerId.Value);
+                    TempData["SuccessMessage"] = "پروفایل شما با موفقیت به‌روزرسانی شد!";
+                    return RedirectToAction("Dashboard");
+                }
+                else
+                {
+                    _logger.Warning("Failed to update profile for CustomerId: {CustomerId}", customerId.Value);
+                    TempData["ErrorMessage"] = "خطا در به‌روزرسانی پروفایل. لطفاً دوباره تلاش کنید.";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                model.ProfilePicture = customerDto.ProfilePicture ?? model.ProfilePicture;
-                _logger.Information("No new profile picture, keeping existing: {ProfilePicture}", model.ProfilePicture);
+                _logger.Error(ex, "Error in EditProfile for CustomerId: {CustomerId}", customerId.Value);
+                TempData["ErrorMessage"] = "خطای سیستمی در به‌روزرسانی پروفایل.";
             }
 
-            var result = await _customerAppService.UpdateCustomerProfileAsync(model, cancellationToken);
-            if (result)
-            {
-                _logger.Information("Profile updated successfully for CustomerId: {CustomerId}", customerId.Value);
-                TempData["SuccessMessage"] = "پروفایل شما با موفقیت به‌روزرسانی شد!";
-                return RedirectToAction("Dashboard");
-            }
-            _logger.Warning("Failed to update profile for CustomerId: {CustomerId}", customerId.Value);
-            ModelState.AddModelError("", "خطا در به‌روزرسانی پروفایل. لطفاً دوباره تلاش کنید.");
+            ViewBag.Provinces = await _locationAppService.GetAllProvincesAsync(cancellationToken);
+            ViewBag.Cities = string.IsNullOrEmpty(model.State)
+                ? new List<CityDto>()
+                : await _locationAppService.GetCitiesByProvinceNameAsync(model.State, cancellationToken);
+
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCitiesByProvinceName(string provinceName, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.Information("Fetching cities for Province: {ProvinceName}", provinceName);
+                if (string.IsNullOrEmpty(provinceName))
+                {
+                    _logger.Warning("ProvinceName is empty, returning empty list");
+                    return Json(new List<CityDto>());
+                }
+
+                var cities = await _locationAppService.GetCitiesByProvinceNameAsync(provinceName, cancellationToken);
+                _logger.Information("Cities loaded for Province: {ProvinceName}, Count: {Count}, Details: {@Cities}",
+                    provinceName, cities?.Count ?? 0, cities);
+                return Json(cities);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error fetching cities for Province: {ProvinceName}", provinceName);
+                return Json(new List<CityDto>());
+            }
         }
 
         [HttpGet]
@@ -443,80 +552,80 @@ namespace App.Endpoints.MVC.Controllers
             return View(proposals);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AcceptProposal(int id, CancellationToken cancellationToken)
-        {
-            var customerId = await GetCustomerIdFromSession(cancellationToken);
-            if (!customerId.HasValue)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+        //[HttpGet]
+        //public async Task<IActionResult> AcceptProposal(int id, CancellationToken cancellationToken)
+        //{
+        //    var customerId = await GetCustomerIdFromSession(cancellationToken);
+        //    if (!customerId.HasValue)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            try
-            {
-                var proposalDto = await _customerAppService.GetProposalByIdAsync(id, cancellationToken);
-                if (proposalDto == null)
-                {
-                    _logger.Warning("Proposal not found for ProposalId: {ProposalId}", id);
-                    TempData["ErrorMessage"] = "پیشنهاد یافت نشد.";
-                    return RedirectToAction("Proposals");
-                }
+        //    try
+        //    {
+        //        var proposalDto = await _customerAppService.GetProposalByIdAsync(id, cancellationToken);
+        //        if (proposalDto == null)
+        //        {
+        //            _logger.Warning("Proposal not found for ProposalId: {ProposalId}", id);
+        //            TempData["ErrorMessage"] = "پیشنهاد یافت نشد.";
+        //            return RedirectToAction("Proposals");
+        //        }
 
-                var request = await _customerAppService.GetRequestByIdAsync(proposalDto.RequestId, cancellationToken);
-                if (request == null || request.CustomerId != customerId.Value)
-                {
-                    _logger.Warning("Proposal {Id} does not belong to CustomerId: {CustomerId}", id, customerId.Value);
-                    TempData["ErrorMessage"] = "شما دسترسی به این پیشنهاد ندارید.";
-                    return RedirectToAction("Proposals");
-                }
+        //        var request = await _customerAppService.GetRequestByIdAsync(proposalDto.RequestId, cancellationToken);
+        //        if (request == null || request.CustomerId != customerId.Value)
+        //        {
+        //            _logger.Warning("Proposal {Id} does not belong to CustomerId: {CustomerId}", id, customerId.Value);
+        //            TempData["ErrorMessage"] = "شما دسترسی به این پیشنهاد ندارید.";
+        //            return RedirectToAction("Proposals");
+        //        }
 
-                if (proposalDto.Status == ProposalStatus.Pending)
-                {
-                    var success = await _customerAppService.UpdateProposalStatusAsync(id, ProposalStatus.Accepted, cancellationToken);
-                    if (!success)
-                    {
-                        _logger.Warning("Failed to accept proposal {Id} for CustomerId: {CustomerId}", id, customerId.Value);
-                        TempData["ErrorMessage"] = "خطا در تأیید پیشنهاد.";
-                        return RedirectToAction("Proposals");
-                    }
-                    _logger.Information("Proposal {Id} accepted successfully for CustomerId: {CustomerId}", id, customerId.Value);
-                }
+        //        if (proposalDto.Status == ProposalStatus.Pending)
+        //        {
+        //            var success = await _customerAppService.UpdateProposalStatusAsync(id, ProposalStatus.Accepted, cancellationToken);
+        //            if (!success)
+        //            {
+        //                _logger.Warning("Failed to accept proposal {Id} for CustomerId: {CustomerId}", id, customerId.Value);
+        //                TempData["ErrorMessage"] = "خطا در تأیید پیشنهاد.";
+        //                return RedirectToAction("Proposals");
+        //            }
+        //            _logger.Information("Proposal {Id} accepted successfully for CustomerId: {CustomerId}", id, customerId.Value);
+        //        }
 
-                var orderId = await _customerAppService.SelectProposalAndCreateOrderAsync(id, customerId.Value, cancellationToken);
-                _logger.Information("Order {OrderId} created successfully for ProposalId: {ProposalId}", orderId, id);
-                TempData["SuccessMessage"] = "پیشنهاد تأیید و سفارش با موفقیت ایجاد شد!";
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Failed to process AcceptProposal for ProposalId: {ProposalId}", id);
-                TempData["ErrorMessage"] = "خطایی در تأیید پیشنهاد یا ایجاد سفارش رخ داد.";
-            }
+        //        var orderId = await _customerAppService.SelectProposalAndCreateOrderAsync(id, customerId.Value, cancellationToken);
+        //        _logger.Information("Order {OrderId} created successfully for ProposalId: {ProposalId}", orderId, id);
+        //        TempData["SuccessMessage"] = "پیشنهاد تأیید و سفارش با موفقیت ایجاد شد!";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.Error(ex, "Failed to process AcceptProposal for ProposalId: {ProposalId}", id);
+        //        TempData["ErrorMessage"] = "خطایی در تأیید پیشنهاد یا ایجاد سفارش رخ داد.";
+        //    }
 
-            return RedirectToAction("Proposals");
-        }
+        //    return RedirectToAction("Proposals");
+        //}
 
-        [HttpGet]
-        public async Task<IActionResult> RejectProposal(int id, CancellationToken cancellationToken)
-        {
-            var customerId = await GetCustomerIdFromSession(cancellationToken);
-            if (!customerId.HasValue)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+        //[HttpGet]
+        //public async Task<IActionResult> RejectProposal(int id, CancellationToken cancellationToken)
+        //{
+        //    var customerId = await GetCustomerIdFromSession(cancellationToken);
+        //    if (!customerId.HasValue)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            var result = await _customerAppService.UpdateProposalStatusAsync(id, ProposalStatus.Rejected, cancellationToken);
-            if (result)
-            {
-                _logger.Information("Proposal {Id} rejected successfully for CustomerId: {CustomerId}", id, customerId.Value);
-                TempData["SuccessMessage"] = "پیشنهاد با موفقیت رد شد!";
-            }
-            else
-            {
-                _logger.Warning("Failed to reject proposal {Id} for CustomerId: {CustomerId}", id, customerId.Value);
-                TempData["ErrorMessage"] = "خطا در رد پیشنهاد.";
-            }
-            return RedirectToAction("Proposals");
-        }
+        //    var result = await _customerAppService.UpdateProposalStatusAsync(id, ProposalStatus.Rejected, cancellationToken);
+        //    if (result)
+        //    {
+        //        _logger.Information("Proposal {Id} rejected successfully for CustomerId: {CustomerId}", id, customerId.Value);
+        //        TempData["SuccessMessage"] = "پیشنهاد با موفقیت رد شد!";
+        //    }
+        //    else
+        //    {
+        //        _logger.Warning("Failed to reject proposal {Id} for CustomerId: {CustomerId}", id, customerId.Value);
+        //        TempData["ErrorMessage"] = "خطا در رد پیشنهاد.";
+        //    }
+        //    return RedirectToAction("Proposals");
+        //}
 
         [HttpPost]
         [Route("SelectProposal/{id}")]
@@ -800,6 +909,249 @@ namespace App.Endpoints.MVC.Controllers
                 TempData["ErrorMessage"] = "خطا در بارگذاری زیر سرویس‌ها.";
                 return RedirectToAction("ServiceHierarchy");
             }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> MyOrders(CancellationToken cancellationToken)
+        {
+            var customerId = await GetCustomerIdFromSession(cancellationToken);
+            if (!customerId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var model = new CustomerOrdersViewModel();
+
+            model.Requests = await _requestAppService.GetRequestsByCustomerIdAsync(customerId.Value, cancellationToken);
+
+            model.Proposals = await _customerAppService.GetProposalsByCustomerIdAsync(customerId.Value, cancellationToken);
+
+            var orders = await _orderAppService.GetByCustomerIdAsync(customerId.Value, cancellationToken);
+
+            if (orders != null && orders.Any())
+            {
+                model.ActiveOrders = orders.Where(o => o.Status != RequestStatus.Completed && o.IsActive).ToList();
+                model.CompletedOrders = orders.Where(o => o.Status == RequestStatus.Completed && o.IsActive).ToList();
+            }
+
+            model.Reviews = await _reviewAppService.GetByCustomerIdAsync(customerId.Value, cancellationToken);
+
+            _logger.Information("MyOrders loaded successfully for CustomerId: {CustomerId}. Requests: {RequestCount}, Proposals: {ProposalCount}, ActiveOrders: {ActiveOrderCount}, CompletedOrders: {CompletedOrderCount}",
+                customerId.Value, model.Requests.Count, model.Proposals.Count, model.ActiveOrders.Count, model.CompletedOrders.Count);
+
+            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ProposalsList(int requestId, CancellationToken cancellationToken)
+        {
+            var customerId = await GetCustomerIdFromSession(cancellationToken);
+            if (!customerId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var request = await _requestAppService.GetAsync(requestId, cancellationToken);
+            if (request == null || request.CustomerId != customerId.Value)
+            {
+                _logger.Warning("Request not found or doesn't belong to CustomerId: {CustomerId}", customerId.Value);
+                TempData["ErrorMessage"] = "درخواست مورد نظر یافت نشد یا متعلق به شما نیست.";
+                return RedirectToAction("MyOrders");
+            }
+
+            var proposals = await _proposalAppService.GetProposalsByRequestIdAsync(requestId, cancellationToken);
+
+            var orders = await _orderAppService.GetByCustomerIdAsync(customerId.Value, cancellationToken);
+            var hasActiveOrder = orders != null && orders.Any(o => o.RequestId == requestId && o.IsActive);
+
+            var model = new ProposalsListViewModel
+            {
+                Request = request,
+                Proposals = proposals ?? new List<ProposalDto>(),
+                HasActiveOrder = hasActiveOrder
+            };
+
+            _logger.Information("ProposalsList loaded successfully for RequestId: {RequestId}, CustomerId: {CustomerId}. Proposals: {ProposalCount}, HasActiveOrder: {HasActiveOrder}",
+                requestId, customerId.Value, model.Proposals.Count, model.HasActiveOrder);
+
+            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AcceptProposal(int id, CancellationToken cancellationToken)
+        {
+            var customerId = await GetCustomerIdFromSession(cancellationToken);
+            if (!customerId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            try
+            {
+                var proposal = await _customerAppService.GetProposalByIdAsync(id, cancellationToken);
+                if (proposal == null)
+                {
+                    _logger.Warning("Proposal not found with ID: {ProposalId}", id);
+                    TempData["ErrorMessage"] = "پیشنهاد مورد نظر یافت نشد.";
+                    return RedirectToAction("MyOrders");
+                }
+
+                var request = await _customerAppService.GetRequestByIdAsync(proposal.RequestId, cancellationToken);
+                if (request.CustomerId != customerId.Value)
+                {
+                    _logger.Warning("Proposal {Id} does not belong to CustomerId: {CustomerId}", id, customerId.Value);
+                    TempData["ErrorMessage"] = "شما دسترسی به این پیشنهاد ندارید.";
+                    return RedirectToAction("MyOrders");
+                }
+
+                if (proposal.Status != ProposalStatus.Pending)
+                {
+                    _logger.Warning("Cannot accept proposal {Id} with status: {Status}", id, proposal.Status);
+                    TempData["ErrorMessage"] = "این پیشنهاد قابل پذیرش نیست.";
+                    return RedirectToAction("ProposalsList", new { requestId = proposal.RequestId });
+                }
+
+                var statusUpdated = await _customerAppService.UpdateProposalStatusAsync(id, ProposalStatus.Accepted, cancellationToken);
+                if (!statusUpdated)
+                {
+                    _logger.Warning("Failed to update status for proposal {Id}", id);
+                    TempData["ErrorMessage"] = "خطا در به‌روزرسانی وضعیت پیشنهاد.";
+                    return RedirectToAction("ProposalsList", new { requestId = proposal.RequestId });
+                }
+
+                var orderId = await _customerAppService.SelectProposalAndCreateOrderAsync(id, customerId.Value, cancellationToken);
+
+                var updateRequestDto = new UpdateRequestDto
+                {
+                    Status = RequestStatus.InProgress,
+                    Deadline = request.Deadline,
+                    ExecutionDate = proposal.ExecutionDate
+                };
+                await _requestAppService.UpdateAsync(request.Id, updateRequestDto, cancellationToken);
+
+                _logger.Information("Proposal {Id} accepted and order {OrderId} created successfully for CustomerId: {CustomerId}",
+                    id, orderId, customerId.Value);
+                TempData["SuccessMessage"] = "پیشنهاد با موفقیت پذیرفته و سفارش ایجاد شد.";
+
+                return RedirectToAction("OrderDetails", new { id = orderId });
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error accepting proposal {Id} for CustomerId: {CustomerId}", id, customerId.Value);
+                TempData["ErrorMessage"] = "خطا در پذیرش پیشنهاد.";
+                return RedirectToAction("MyOrders");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RejectProposal(int id, CancellationToken cancellationToken)
+        {
+            var customerId = await GetCustomerIdFromSession(cancellationToken);
+            if (!customerId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            try
+            {
+                var proposal = await _customerAppService.GetProposalByIdAsync(id, cancellationToken);
+                if (proposal == null)
+                {
+                    _logger.Warning("Proposal not found with ID: {ProposalId}", id);
+                    TempData["ErrorMessage"] = "پیشنهاد مورد نظر یافت نشد.";
+                    return RedirectToAction("MyOrders");
+                }
+
+                var request = await _customerAppService.GetRequestByIdAsync(proposal.RequestId, cancellationToken);
+                if (request.CustomerId != customerId.Value)
+                {
+                    _logger.Warning("Proposal {Id} does not belong to CustomerId: {CustomerId}", id, customerId.Value);
+                    TempData["ErrorMessage"] = "شما دسترسی به این پیشنهاد ندارید.";
+                    return RedirectToAction("MyOrders");
+                }
+
+                if (proposal.Status != ProposalStatus.Pending)
+                {
+                    _logger.Warning("Cannot reject proposal {Id} with status: {Status}", id, proposal.Status);
+                    TempData["ErrorMessage"] = "این پیشنهاد قابل رد کردن نیست.";
+                    return RedirectToAction("ProposalsList", new { requestId = proposal.RequestId });
+                }
+
+                var result = await _customerAppService.UpdateProposalStatusAsync(id, ProposalStatus.Rejected, cancellationToken);
+
+                if (result)
+                {
+                    _logger.Information("Proposal {Id} rejected successfully for CustomerId: {CustomerId}", id, customerId.Value);
+                    TempData["SuccessMessage"] = "پیشنهاد با موفقیت رد شد.";
+                }
+                else
+                {
+                    _logger.Warning("Failed to reject proposal {Id} for CustomerId: {CustomerId}", id, customerId.Value);
+                    TempData["ErrorMessage"] = "خطا در رد پیشنهاد.";
+                }
+
+                return RedirectToAction("ProposalsList", new { requestId = proposal.RequestId });
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error rejecting proposal {Id} for CustomerId: {CustomerId}", id, customerId.Value);
+                TempData["ErrorMessage"] = "خطا در رد پیشنهاد.";
+                return RedirectToAction("MyOrders");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CancelRequest(int id, CancellationToken cancellationToken)
+        {
+            var customerId = await GetCustomerIdFromSession(cancellationToken);
+            if (!customerId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var request = await _requestAppService.GetAsync(id, cancellationToken);
+            if (request == null || request.CustomerId != customerId.Value)
+            {
+                _logger.Warning("Request not found or doesn't belong to CustomerId: {CustomerId}", customerId.Value);
+                TempData["ErrorMessage"] = "درخواست مورد نظر یافت نشد یا متعلق به شما نیست.";
+                return RedirectToAction("MyOrders");
+            }
+
+            var orders = await _orderAppService.GetByCustomerIdAsync(customerId.Value, cancellationToken);
+            var hasActiveOrder = orders != null && orders.Any(o => o.RequestId == id && o.IsActive);
+
+            if (hasActiveOrder)
+            {
+                _logger.Warning("Cannot cancel request {Id} as it has active orders", id);
+                TempData["ErrorMessage"] = "این درخواست به دلیل داشتن سفارش فعال قابل لغو نیست.";
+                return RedirectToAction("MyOrders");
+            }
+
+            var updateRequestDto = new UpdateRequestDto
+            {
+                Status = RequestStatus.Cancelled,
+                Deadline = request.Deadline,
+                ExecutionDate = request.ExecutionDate,
+                EnvironmentImagePath = request.EnvironmentImagePath
+            };
+
+            var result = await _requestAppService.UpdateAsync(id, updateRequestDto, cancellationToken);
+
+            if (result)
+            {
+                _logger.Information("Request {Id} cancelled successfully for CustomerId: {CustomerId}", id, customerId.Value);
+                TempData["SuccessMessage"] = "درخواست با موفقیت لغو شد.";
+            }
+            else
+            {
+                _logger.Warning("Failed to cancel request {Id} for CustomerId: {CustomerId}", id, customerId.Value);
+                TempData["ErrorMessage"] = "خطا در لغو درخواست.";
+            }
+
+            return RedirectToAction("MyOrders");
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.DTO.Proposals;
+using App.Domain.Core.Services.Entities;
 using App.Domain.Core.Services.Interfaces.IRepository;
 using App.Domain.Core.Services.Interfaces.IService;
 using Serilog;
@@ -33,6 +34,24 @@ namespace HomeService.Domain.Services.ProposalServices
             _logger.Information("Service: Getting proposals for order ID: {OrderId}", orderId);
             return await _proposalRepository.GetProposalsByOrderIdAsync(orderId, cancellationToken);
         }
-
+        public async Task<List<ProposalDto>> GetProposalsByExpertIdAsync(int expertId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Fetching proposals for ExpertId: {ExpertId}", expertId);
+            try
+            {
+                var proposals = await _proposalRepository.GetProposalsByExpertIdAsync(expertId, cancellationToken);
+                if (proposals == null || !proposals.Any())
+                {
+                    _logger.Warning("No proposals found for ExpertId: {ExpertId}", expertId);
+                    return new List<ProposalDto>();
+                }
+                return proposals;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error fetching proposals for ExpertId: {ExpertId}", expertId);
+                throw;
+            }
+        }
     }
 }

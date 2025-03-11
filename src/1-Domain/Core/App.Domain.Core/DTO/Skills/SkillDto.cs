@@ -11,6 +11,7 @@ namespace App.Domain.Core.DTO.Skills
         public int Id { get; set; }
         public string Name { get; set; }
         public int SubHomeServiceId { get; set; }
+        public string SubHomeServiceName { get; set; }
     }
 
 }

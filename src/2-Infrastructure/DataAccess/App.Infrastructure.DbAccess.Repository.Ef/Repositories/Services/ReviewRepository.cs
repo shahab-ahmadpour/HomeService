@@ -132,5 +132,39 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
             _logger.Information("Fetching all raw reviews");
             return await _dbContext.Reviews.AsNoTracking().ToListAsync(cancellationToken);
         }
+        public async Task<List<ReviewDto>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Fetching reviews for CustomerId: {CustomerId}", customerId);
+            try
+            {
+                var reviews = await _dbContext.Reviews
+                    .Where(r => r.CustomerId == customerId)
+                    .Select(r => new ReviewDto
+                    {
+                        Id = r.Id,
+                        OrderId = r.OrderId,
+                        CustomerId = r.CustomerId,
+                        ExpertId = r.ExpertId,
+                        Rating = r.Rating,
+                        Comment = r.Comment,
+                        IsApproved = r.IsApproved,
+                        CreatedAt = r.CreatedAt
+                    })
+                    .ToListAsync(cancellationToken);
+
+                if (reviews == null || !reviews.Any())
+                {
+                    _logger.Warning("No reviews found for CustomerId: {CustomerId}", customerId);
+                    return new List<ReviewDto>();
+                }
+
+                return reviews;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error fetching reviews for CustomerId: {CustomerId}", customerId);
+                throw;
+            }
+        }
     }
 }

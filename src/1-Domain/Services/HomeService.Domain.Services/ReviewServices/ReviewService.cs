@@ -52,6 +52,19 @@ namespace HomeService.Domain.Services.ReviewServices
         {
             return _reviewRepository.GetAllReviewsAsync(cancellationToken);
         }
+        public async Task<List<ReviewDto>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Service: Fetching reviews for CustomerId: {CustomerId}", customerId);
+            try
+            {
+                return await _reviewRepository.GetByCustomerIdAsync(customerId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Service: Error fetching reviews for CustomerId: {CustomerId}", customerId);
+                throw;
+            }
+        }
     }
 
 }

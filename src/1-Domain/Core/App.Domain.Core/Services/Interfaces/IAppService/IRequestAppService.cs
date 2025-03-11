@@ -16,6 +16,7 @@ namespace App.Domain.Core.Services.Interfaces.IAppService
         Task<List<RequestDto>> GetAllAsync(CancellationToken cancellationToken);
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
 
-        Task<List<RequestDto>> GetAvailableRequestsForExpertAsync(int expertId, CancellationToken cancellationToken);
+        Task<List<RequestDto>> GetAvailableRequestsForExpertAsync(int expertId, string expertState, List<int> subHomeServiceIds, CancellationToken cancellationToken);
     }
+
 }

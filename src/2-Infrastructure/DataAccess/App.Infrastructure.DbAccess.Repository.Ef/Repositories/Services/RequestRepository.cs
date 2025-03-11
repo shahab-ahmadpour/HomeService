@@ -24,13 +24,24 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
             _logger = logger;
         }
 
-        // این متد را در RequestRepository جایگزین کنید
 
         public async Task<bool> CreateAsync(CreateRequestDto dto, CancellationToken cancellationToken)
         {
-            _logger.Information("Creating new request for CustomerId: {CustomerId}", dto.CustomerId);
+            _logger.Information("Creating new request for CustomerId: {CustomerId}, SubHomeServiceId: {SubHomeServiceId}", dto.CustomerId, dto.SubHomeServiceId);
             try
             {
+                if (dto.CustomerId <= 0)
+                {
+                    _logger.Warning("Invalid CustomerId: {CustomerId}", dto.CustomerId);
+                    return false;
+                }
+
+                if (dto.SubHomeServiceId <= 0)
+                {
+                    _logger.Warning("Invalid SubHomeServiceId: {SubHomeServiceId}", dto.SubHomeServiceId);
+                    return false;
+                }
+
                 var request = new Request
                 {
                     CustomerId = dto.CustomerId,
@@ -43,15 +54,17 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                     IsEnabled = true
                 };
 
+                _logger.Information("Request details: CustomerId={CustomerId}, SubHomeServiceId={SubHomeServiceId}, ExecutionDate={ExecutionDate}, Description={Description}",
+                    request.CustomerId, request.SubHomeServiceId, request.ExecutionDate, request.Description);
+
                 if (dto.EnvironmentImagePaths != null && dto.EnvironmentImagePaths.Any())
                 {
-
                     request.EnvironmentImagePath = string.Join(";", dto.EnvironmentImagePaths);
                 }
 
                 _dbContext.Requests.Add(request);
                 var result = await _dbContext.SaveChangesAsync(cancellationToken);
-                _logger.Information("Request created successfully for CustomerId: {CustomerId}, Result: {Result}", dto.CustomerId, result > 0);
+                _logger.Information("Request created, SaveChanges result: {Result}", result);
                 return result > 0;
             }
             catch (Exception ex)

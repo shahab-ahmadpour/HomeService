@@ -1,8 +1,15 @@
-﻿using App.Domain.Core.DTO.Proposals;
+﻿using App.Domain.Core.DTO.City;
+using App.Domain.Core.DTO.Orders;
+using App.Domain.Core.DTO.Proposals;
 using App.Domain.Core.DTO.Users.Experts;
 using App.Domain.Core.Enums;
+using App.Domain.Core.Locations;
+using App.Domain.Core.Locations.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IAppService;
+using App.Domain.Core.Skills.Interfaces.IAppServices;
 using App.Domain.Core.Users.Interfaces.IAppService;
+using HomeService.Domain.AppServices.SkillAppServices;
+using HomeService.Domain.AppServices.SubHomeSerAppServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 
@@ -13,20 +20,29 @@ namespace App.Endpoints.MVC.Controllers
         private readonly IExpertAppService _expertAppService;
         private readonly IProposalAppService _proposalAppService;
         private readonly IOrderAppService _orderAppService;
+        private readonly ISubHomeServiceAppService _subHomeServiceAppService;
         private readonly IRequestAppService _requestAppService;
+        private readonly ISkillAppService _skillAppService;
+        private readonly ILocationAppService _locationAppService;
         private readonly Serilog.ILogger _logger;
 
         public ExpertController(
             IExpertAppService expertAppService,
             IProposalAppService proposalAppService,
             IOrderAppService orderAppService,
+            ISubHomeServiceAppService subHomeServiceAppService,
             IRequestAppService requestAppService,
+            ISkillAppService skillAppService,
+            ILocationAppService locationAppService,
             Serilog.ILogger logger)
         {
             _expertAppService = expertAppService;
             _proposalAppService = proposalAppService;
             _orderAppService = orderAppService;
+            _subHomeServiceAppService = subHomeServiceAppService;
             _requestAppService = requestAppService;
+            _skillAppService = skillAppService;
+            _locationAppService = locationAppService;
             _logger = logger;
         }
 
@@ -61,7 +77,6 @@ namespace App.Endpoints.MVC.Controllers
             }
         }
 
-        // GET: Expert/Dashboard
         public async Task<IActionResult> Dashboard(CancellationToken cancellationToken)
         {
             var expertId = await GetExpertIdFromSession(cancellationToken);
@@ -88,7 +103,6 @@ namespace App.Endpoints.MVC.Controllers
             return View(expertDto);
         }
 
-        // GET: Expert/EditProfile
         public async Task<IActionResult> EditProfile(CancellationToken cancellationToken)
         {
             var expertId = await GetExpertIdFromSession(cancellationToken);
@@ -97,6 +111,8 @@ namespace App.Endpoints.MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            _logger.Information("EditProfile called with ExpertId: {ExpertId}", expertId.Value);
+
             var editDto = await _expertAppService.GetEditExpertProfileAsync(expertId.Value, cancellationToken);
             if (editDto == null)
             {
@@ -104,11 +120,21 @@ namespace App.Endpoints.MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.Provinces = await _locationAppService.GetAllProvincesAsync(cancellationToken);
+            ViewBag.Cities = string.IsNullOrEmpty(editDto.State)
+                ? new List<CityDto>()
+                : await _locationAppService.GetCitiesByProvinceNameAsync(editDto.State, cancellationToken);
+
+            var skills = await _skillAppService.GetSkillsByExpertIdAsync(expertId.Value, cancellationToken);
+            _logger.Information("Skills loaded for ExpertId: {ExpertId}, Count: {Count}, Details: {@Skills}",
+                expertId.Value, skills?.Count ?? 0, skills);
+            ViewBag.ExpertSkills = skills;
+
+            ViewBag.SubHomeServices = await _subHomeServiceAppService.GetAllAsync(cancellationToken);
+
             return View(editDto);
         }
 
-        // POST: Expert/EditProfile
         [HttpPost]
         public async Task<IActionResult> EditProfile(EditExpertDto model, CancellationToken cancellationToken)
         {
@@ -118,71 +144,80 @@ namespace App.Endpoints.MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var expertDto = await _expertAppService.GetByIdAsync(expertId.Value, cancellationToken);
-            if (expertDto == null)
+            if (model.ProfilePictureFile == null || model.ProfilePictureFile.Length == 0)
             {
-                _logger.Warning("Expert not found for ExpertId: {ExpertId}", expertId.Value);
-                return RedirectToAction("Login", "Account");
+                ModelState.Remove("ProfilePictureFile");
             }
-
-            model.AppUserId = expertDto.AppUserId;
-            _logger.Information("Received model for update: FirstName={FirstName}, LastName={LastName}, PhoneNumber={PhoneNumber}, ProfilePicture={ProfilePicture}",
-                model.FirstName, model.LastName, model.PhoneNumber, model.ProfilePicture);
-
-            ModelState.Clear();
 
             if (!ModelState.IsValid)
             {
-                _logger.Warning("ModelState is invalid after clear for ExpertId: {ExpertId}", expertId.Value);
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    _logger.Warning("Validation error: {Error}", error.ErrorMessage);
-                }
-                ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                _logger.Error("ModelState invalid. Errors: {Errors}", string.Join(", ", errors));
+
+                ViewBag.Provinces = await _locationAppService.GetAllProvincesAsync(cancellationToken);
+                ViewBag.Cities = string.IsNullOrEmpty(model.State)
+                    ? new List<CityDto>()
+                    : await _locationAppService.GetCitiesByProvinceNameAsync(model.State, cancellationToken);
+                ViewBag.ExpertSkills = await _skillAppService.GetSkillsByExpertIdAsync(expertId.Value, cancellationToken);
+                ViewBag.SubHomeServices = await _subHomeServiceAppService.GetAllAsync(cancellationToken);
+
                 return View(model);
             }
 
-            if (model.ProfilePictureFile != null)
+            try
             {
-                try
+                if (model.ProfilePictureFile != null && model.ProfilePictureFile.Length > 0)
                 {
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ProfilePictureFile.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
+                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
+                    var filePath = Path.Combine(uploadsFolder, fileName);
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await model.ProfilePictureFile.CopyToAsync(stream);
                     }
+
                     model.ProfilePicture = $"/uploads/{fileName}";
-                    _logger.Information("New profile picture uploaded: {ProfilePicture}", model.ProfilePicture);
                 }
-                catch (Exception ex)
+                else
                 {
-                    _logger.Error(ex, "Failed to upload profile picture for ExpertId: {ExpertId}", expertId.Value);
-                    ModelState.AddModelError("ProfilePictureFile", "خطا در آپلود عکس پروفایل.");
-                    ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
-                    return View(model);
+                    var currentExpert = await _expertAppService.GetByIdAsync(expertId.Value, cancellationToken);
+                    model.ProfilePicture = currentExpert?.ProfilePicture ?? "default.png";
+                }
+
+                var result = await _expertAppService.UpdateExpertProfileAsync(model, cancellationToken);
+
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "پروفایل شما با موفقیت به‌روزرسانی شد!";
+                    return RedirectToAction("Dashboard");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "خطا در به‌روزرسانی پروفایل. لطفاً دوباره تلاش کنید.";
                 }
             }
-            else
+            catch (Exception ex)
             {
-                model.ProfilePicture = expertDto.ProfilePicture;
-                _logger.Information("No new profile picture, keeping existing: {ProfilePicture}", model.ProfilePicture);
+                _logger.Error(ex, "Error in EditProfile for ExpertId: {ExpertId}", expertId.Value);
+                TempData["ErrorMessage"] = "خطای سیستمی در به‌روزرسانی پروفایل.";
             }
 
-            var result = await _expertAppService.UpdateExpertProfileAsync(model, cancellationToken);
-            if (result)
-            {
-                _logger.Information("Profile updated successfully for ExpertId: {ExpertId}", expertId.Value);
-                TempData["SuccessMessage"] = "پروفایل شما با موفقیت به‌روزرسانی شد!";
-                return RedirectToAction("Dashboard");
-            }
-            _logger.Warning("Failed to update profile for ExpertId: {ExpertId}", expertId.Value);
-            ModelState.AddModelError("", "خطا در به‌روزرسانی پروفایل. لطفاً دوباره تلاش کنید.");
-            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.Provinces = await _locationAppService.GetAllProvincesAsync(cancellationToken);
+            ViewBag.Cities = string.IsNullOrEmpty(model.State)
+                ? new List<CityDto>() // تغییر به CityDto
+                : await _locationAppService.GetCitiesByProvinceNameAsync(model.State, cancellationToken);
+            ViewBag.ExpertSkills = await _skillAppService.GetSkillsByExpertIdAsync(expertId.Value, cancellationToken);
+            ViewBag.SubHomeServices = await _subHomeServiceAppService.GetAllAsync(cancellationToken);
+
             return View(model);
         }
 
-        // GET: Expert/Proposals
         public async Task<IActionResult> Proposals(CancellationToken cancellationToken)
         {
             var expertId = await GetExpertIdFromSession(cancellationToken);
@@ -199,7 +234,6 @@ namespace App.Endpoints.MVC.Controllers
             return View(proposals);
         }
 
-        // GET: Expert/Orders
         public async Task<IActionResult> Orders(CancellationToken cancellationToken)
         {
             var expertId = await GetExpertIdFromSession(cancellationToken);
@@ -216,7 +250,6 @@ namespace App.Endpoints.MVC.Controllers
             return View(orders);
         }
 
-        // GET: Expert/OrderDetails
         public async Task<IActionResult> OrderDetails(int orderId, CancellationToken cancellationToken)
         {
             var expertId = await GetExpertIdFromSession(cancellationToken);
@@ -247,7 +280,6 @@ namespace App.Endpoints.MVC.Controllers
             return View(order);
         }
 
-        // GET: Expert/AvailableRequests
         public async Task<IActionResult> AvailableRequests(CancellationToken cancellationToken)
         {
             var expertId = await GetExpertIdFromSession(cancellationToken);
@@ -256,7 +288,33 @@ namespace App.Endpoints.MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var requests = await _requestAppService.GetAvailableRequestsForExpertAsync(expertId.Value, cancellationToken);
+            var expert = await _expertAppService.GetByIdAsync(expertId.Value, cancellationToken);
+            if (expert == null)
+            {
+                _logger.Warning("Expert not found for ExpertId: {ExpertId}", expertId.Value);
+                TempData["ErrorMessage"] = "اطلاعات کارشناس یافت نشد.";
+                return RedirectToAction("Dashboard");
+            }
+
+            if (string.IsNullOrEmpty(expert.State) || string.IsNullOrEmpty(expert.City))
+            {
+                _logger.Warning("Expert profile is incomplete for ExpertId: {ExpertId}", expertId.Value);
+                TempData["ErrorMessage"] = "لطفاً اطلاعات پروفایل خود را با تکمیل استان و شهر کامل کنید.";
+                return RedirectToAction("EditProfile");
+            }
+
+            var skills = await _skillAppService.GetSkillsByExpertIdAsync(expertId.Value, cancellationToken);
+            if (skills == null || !skills.Any())
+            {
+                _logger.Warning("No skills found for ExpertId: {ExpertId}", expertId.Value);
+                TempData["ErrorMessage"] = "شما هنوز مهارتی ثبت نکرده‌اید. لطفاً ابتدا مهارت‌های خود را در پروفایل ثبت کنید.";
+                return RedirectToAction("EditProfile");
+            }
+
+            var subHomeServiceIds = skills.Select(s => s.SubHomeServiceId).Distinct().ToList();
+
+            var requests = await _requestAppService.GetAvailableRequestsForExpertAsync(expertId.Value, expert.State, subHomeServiceIds, cancellationToken);
+
             _logger.Information("Available requests loaded successfully for ExpertId: {ExpertId}, Count: {RequestCount}",
                 expertId.Value, requests?.Count ?? 0);
 
@@ -264,7 +322,7 @@ namespace App.Endpoints.MVC.Controllers
             return View(requests);
         }
 
-        // GET: Expert/CreateProposal
+
         public async Task<IActionResult> CreateProposal(int requestId, CancellationToken cancellationToken)
         {
             var expertId = await GetExpertIdFromSession(cancellationToken);
@@ -281,15 +339,41 @@ namespace App.Endpoints.MVC.Controllers
                 return RedirectToAction("AvailableRequests");
             }
 
+            if (request.Status != RequestStatus.Pending)
+            {
+                _logger.Warning("Cannot create proposal for request with status: {Status}", request.Status);
+                TempData["ErrorMessage"] = "امکان ارائه پیشنهاد برای این درخواست وجود ندارد.";
+                return RedirectToAction("AvailableRequests");
+            }
+
+            var existingProposals = await _proposalAppService.GetProposalsByRequestIdAsync(requestId, cancellationToken);
+            if (existingProposals != null && existingProposals.Any(p => p.ExpertId == expertId.Value))
+            {
+                _logger.Warning("Expert {ExpertId} has already submitted a proposal for request {RequestId}", expertId.Value, requestId);
+                TempData["ErrorMessage"] = "شما قبلاً برای این درخواست پیشنهاد ارائه کرده‌اید.";
+                return RedirectToAction("AvailableRequests");
+            }
+
+            var expertSkills = await _skillAppService.GetSkillsByExpertIdAndSubHomeServiceIdAsync(expertId.Value, request.SubHomeServiceId, cancellationToken);
+            if (expertSkills == null || !expertSkills.Any())
+            {
+                _logger.Warning("No skills found for ExpertId {ExpertId} and SubHomeServiceId {SubHomeServiceId}", expertId.Value, request.SubHomeServiceId);
+                TempData["ErrorMessage"] = "شما مهارت لازم برای این درخواست را ندارید.";
+                return RedirectToAction("AvailableRequests");
+            }
+
             var model = new CreateProposalDto
             {
                 ExpertId = expertId.Value,
                 RequestId = requestId,
-                ExecutionDate = DateTime.Now.AddDays(3)
+                ExecutionDate = request.ExecutionDate,
+                SkillId = expertSkills.FirstOrDefault()?.Id ?? 0
             };
 
             ViewBag.Request = request;
+
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+
             return View(model);
         }
 
@@ -304,10 +388,18 @@ namespace App.Endpoints.MVC.Controllers
 
             if (!ModelState.IsValid)
             {
-                var request = await _requestAppService.GetAsync(model.RequestId, cancellationToken);
-                ViewBag.Request = request;
+                var requestInfo = await _requestAppService.GetAsync(model.RequestId, cancellationToken);
+                ViewBag.Request = requestInfo;
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 return View(model);
+            }
+
+            var requestDetails = await _requestAppService.GetAsync(model.RequestId, cancellationToken);
+            var expertSkills = await _skillAppService.GetSkillsByExpertIdAndSubHomeServiceIdAsync(expertId.Value, requestDetails.SubHomeServiceId, cancellationToken);
+
+            if (expertSkills != null && expertSkills.Any())
+            {
+                model.SkillId = expertSkills.First().Id;
             }
 
             model.ExpertId = expertId.Value;
@@ -327,6 +419,168 @@ namespace App.Endpoints.MVC.Controllers
                     expertId.Value, model.RequestId);
                 TempData["ErrorMessage"] = "خطا در ثبت پیشنهاد.";
                 return RedirectToAction("AvailableRequests");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CompleteOrder(int orderId, CancellationToken cancellationToken)
+        {
+            var expertId = await GetExpertIdFromSession(cancellationToken);
+            if (!expertId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var order = await _orderAppService.GetAsync(orderId, cancellationToken);
+            if (order == null)
+            {
+                _logger.Warning("Order not found for OrderId: {OrderId}", orderId);
+                TempData["ErrorMessage"] = "سفارش یافت نشد.";
+                return RedirectToAction("Orders");
+            }
+
+            if (order.ExpertId != expertId.Value)
+            {
+                _logger.Warning("Order {OrderId} does not belong to ExpertId: {ExpertId}", orderId, expertId.Value);
+                TempData["ErrorMessage"] = "شما دسترسی به این سفارش ندارید.";
+                return RedirectToAction("Orders");
+            }
+
+            if (order.Status == RequestStatus.Completed)
+            {
+                _logger.Warning("Order {OrderId} is already completed", orderId);
+                TempData["ErrorMessage"] = "این سفارش قبلاً تکمیل شده است.";
+                return RedirectToAction("Orders");
+            }
+
+            try
+            {
+                var updateOrderDto = new UpdateOrderDto
+                {
+                    Status = RequestStatus.Completed,
+                    CompletionDate = DateTime.Now,
+                    PaymentStatus = order.PaymentStatus,
+                    IsActive = order.IsActive
+                };
+
+                var result = await _orderAppService.UpdateAsync(orderId, updateOrderDto, cancellationToken);
+
+                if (result)
+                {
+                    _logger.Information("Order {OrderId} completed successfully by ExpertId: {ExpertId}", orderId, expertId.Value);
+                    TempData["SuccessMessage"] = "سفارش با موفقیت تکمیل شد.";
+                }
+                else
+                {
+                    _logger.Warning("Failed to complete order {OrderId} by ExpertId: {ExpertId}", orderId, expertId.Value);
+                    TempData["ErrorMessage"] = "خطا در تکمیل سفارش.";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error completing order {OrderId} by ExpertId: {ExpertId}", orderId, expertId.Value);
+                TempData["ErrorMessage"] = "خطا در تکمیل سفارش.";
+            }
+
+            return RedirectToAction("Orders");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCitiesByProvinceName(string provinceName, CancellationToken cancellationToken)
+        {
+            try
+            {
+                _logger.Information("Fetching cities for Province: {ProvinceName}", provinceName);
+                if (string.IsNullOrEmpty(provinceName))
+                {
+                    _logger.Warning("ProvinceName is empty, returning empty list");
+                    return Json(new List<CityDto>());
+                }
+
+                var cities = await _locationAppService.GetCitiesByProvinceNameAsync(provinceName, cancellationToken);
+                _logger.Information("Cities loaded for Province: {ProvinceName}, Count: {Count}, Details: {@Cities}",
+                    provinceName, cities.Count, cities);
+                return Json(cities);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error fetching cities for Province: {ProvinceName}", provinceName);
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSkill(int subHomeServiceId, CancellationToken cancellationToken)
+        {
+            var expertId = await GetExpertIdFromSession(cancellationToken);
+            if (!expertId.HasValue)
+            {
+                return Json(new { success = false, message = "لطفاً وارد حساب کاربری خود شوید." });
+            }
+
+            try
+            {
+                var subHomeService = await _subHomeServiceAppService.GetAsync(subHomeServiceId, cancellationToken);
+                if (subHomeService == null)
+                {
+                    return Json(new { success = false, message = "سرویس مورد نظر یافت نشد." });
+                }
+
+                var expertSkills = await _skillAppService.GetSkillsByExpertIdAsync(expertId.Value, cancellationToken);
+                if (expertSkills != null && expertSkills.Any(s => s.SubHomeServiceId == subHomeServiceId))
+                {
+                    return Json(new { success = false, message = "این مهارت قبلاً به لیست مهارت‌های شما اضافه شده است." });
+                }
+
+                var result = await _expertAppService.AddSkillAsync(expertId.Value, subHomeServiceId, cancellationToken);
+
+                if (result)
+                {
+                    return Json(new { success = true, message = "مهارت با موفقیت اضافه شد." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "خطا در افزودن مهارت." });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error adding skill for Expert: {ExpertId}, SubHomeService: {SubHomeServiceId}",
+                    expertId.Value, subHomeServiceId);
+                return Json(new { success = false, message = "خطای سیستمی در افزودن مهارت." });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveSkill(int subHomeServiceId, CancellationToken cancellationToken)
+        {
+            var expertId = await GetExpertIdFromSession(cancellationToken);
+            if (!expertId.HasValue)
+            {
+                return Json(new { success = false, message = "لطفاً وارد حساب کاربری خود شوید." });
+            }
+
+            try
+            {
+                var result = await _expertAppService.RemoveSkillAsync(expertId.Value, subHomeServiceId, cancellationToken);
+                if (result)
+                {
+                    _logger.Information("Skill removed successfully for Expert: {ExpertId}, SubHomeService: {SubHomeServiceId}",
+                        expertId.Value, subHomeServiceId);
+                    return Json(new { success = true, message = "مهارت با موفقیت حذف شد." });
+                }
+                else
+                {
+                    _logger.Warning("Failed to remove skill for Expert: {ExpertId}, SubHomeService: {SubHomeServiceId}",
+                        expertId.Value, subHomeServiceId);
+                    return Json(new { success = false, message = "خطا در حذف مهارت." });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error removing skill for Expert: {ExpertId}, SubHomeService: {SubHomeServiceId}",
+                    expertId.Value, subHomeServiceId);
+                return Json(new { success = false, message = "خطای سیستمی در حذف مهارت." });
             }
         }
 

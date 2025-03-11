@@ -14,5 +14,8 @@ namespace App.Domain.Core.Users.Interfaces.IService
         Task<bool> UpdateBalanceAsync(int expertId, decimal newBalance, CancellationToken cancellationToken);
 
         Task<Expert> GetExpertByAppUserIdAsync(int appUserId, CancellationToken cancellationToken);
+
+        Task<bool> AddSkillAsync(int expertId, int subHomeServiceId, CancellationToken cancellationToken);
+        Task<bool> RemoveSkillAsync(int expertId, int subHomeServiceId, CancellationToken cancellationToken);
     }
 }

@@ -158,5 +158,43 @@ namespace HomeService.Domain.AppServices.ProposalAppServices
                 return false;
             }
         }
+
+
+        public async Task<List<ProposalDto>> GetProposalsByRequestIdAsync(int requestId, CancellationToken cancellationToken)
+        {
+            _logger.Information("AppService: Getting proposals for RequestId: {RequestId}", requestId);
+
+            string cacheKey = $"Proposals_Request_{requestId}";
+            if (!_memoryCache.TryGetValue(cacheKey, out List<ProposalDto> cachedProposals))
+            {
+                try
+                {
+                    var proposals = await _proposalRepository.GetProposalsByRequestIdAsync(requestId, cancellationToken);
+                    if (proposals != null && proposals.Any())
+                    {
+                        _logger.Information("Caching {ProposalCount} proposals for RequestId: {RequestId}", proposals.Count, requestId);
+                        var cacheOptions = new MemoryCacheEntryOptions
+                        {
+                            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10),
+                            SlidingExpiration = TimeSpan.FromMinutes(5)
+                        };
+                        _memoryCache.Set(cacheKey, proposals, cacheOptions);
+                    }
+
+                    return proposals ?? new List<ProposalDto>();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to fetch proposals for RequestId: {RequestId}", requestId);
+                    return new List<ProposalDto>();
+                }
+            }
+            else
+            {
+                _logger.Information("Proposals retrieved from cache for RequestId: {RequestId}, Count: {ProposalCount}",
+                    requestId, cachedProposals.Count);
+                return cachedProposals;
+            }
+        }
     }
 }

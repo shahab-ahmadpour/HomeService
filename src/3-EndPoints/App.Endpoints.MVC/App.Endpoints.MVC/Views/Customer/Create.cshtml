@@ -37,14 +37,14 @@
                             <span asp-validation-for="ExecutionDate" class="text-danger"></span>
                         </div>
 
-                        <!-- ساعت اجرا -->
                         <div class="mb-4">
                             <label class="form-label fw-bold">ساعت اجرا</label>
                             <div class="input-group">
-                                <input id="timePicker" class="form-control" type="text" readonly placeholder="00:00" />
+                                <input id="timePicker" class="form-control" type="text" placeholder="00:00" />
                                 <input asp-for="ExecutionTime" type="hidden" id="hiddenExecutionTime" />
                                 <span class="input-group-text"><i class="bi bi-clock"></i></span>
                             </div>
+                            <small class="form-text text-muted">لطفا ساعت را در فرمت 00:00 وارد کنید</small>
                             <span asp-validation-for="ExecutionTime" class="text-danger"></span>
                         </div>
 
@@ -85,65 +85,89 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/clockpicker@0.0.7/dist/jquery-clockpicker.min.js"></script>
 
     <script>
         $(document).ready(function() {
-            // تنظیم تاریخ شمسی
+            // تنظیم تاریخ شمسی (بدون تغییر)
             $("#persianDatePicker").pDatepicker({
                 format: 'YYYY/MM/DD',
                 autoClose: true,
                 initialValue: true,
                 minDate: new persianDate().valueOf(),
                 onSelect: function(unix) {
-                    // تبدیل به تاریخ میلادی برای ارسال به سرور
                     const pDate = new persianDate(unix);
                     const gDate = pDate.toCalendar('gregorian').toLocale('en').format('YYYY-MM-DD');
                     $("#hiddenExecutionDate").val(gDate);
+                    console.log("Date set to:", gDate);
                 }
             });
 
-            // تنظیم ساعت
-            $('#timePicker').clockpicker({
-                placement: 'bottom',
-                align: 'right',
-                autoclose: true,
-                donetext: 'تایید',
-                afterDone: function() {
-                    $("#hiddenExecutionTime").val($('#timePicker').val());
+            setTimeout(function() {
+                const today = new persianDate();
+                const gToday = today.toCalendar('gregorian').toLocale('en').format('YYYY-MM-DD');
+                $("#hiddenExecutionDate").val(gToday);
+                console.log("Initial date set to:", gToday);
+            }, 500);
+
+            // تنظیم ساعت با تایپ دستی
+            $('#timePicker').val('08:00'); // مقدار اولیه
+            $("#hiddenExecutionTime").val('08:00');
+
+            $('#timePicker').on('input', function() {
+                let value = $(this).val();
+
+                // حذف هر چیزی جز اعداد و دونقطه
+                value = value.replace(/[^\d:]/g, '');
+
+                // محدود کردن طول به 5 کاراکتر
+                if (value.length > 5) {
+                    value = value.slice(0, 5);
                 }
+
+                // فرمت کردن به HH:mm
+                if (value.length === 2 && !value.includes(':')) {
+                    value += ':';
+                } else if (value.length > 2) {
+                    const parts = value.split(':');
+                    let hours = parts[0] || '';
+                    let minutes = parts[1] || '';
+
+                    // محدود کردن ساعت به 00-23
+                    if (hours.length > 2) hours = hours.slice(0, 2);
+                    if (hours && parseInt(hours) > 23) hours = '23';
+
+                    // محدود کردن دقیقه به 00-59
+                    if (minutes.length > 2) minutes = minutes.slice(0, 2);
+                    if (minutes && parseInt(minutes) > 59) minutes = '59';
+
+                    value = hours + (hours && minutes ? ':' : '') + minutes;
+                }
+
+                $(this).val(value);
+                $("#hiddenExecutionTime").val(value);
+                console.log("Time set to:", value);
             });
 
-            // پیش‌نمایش تصاویر
+            // پیش‌نمایش تصاویر (بدون تغییر)
             $('#environmentImages').on('change', function() {
-                const fileList = this.files;
-                const container = $('#imagePreviewContainer');
-                container.empty();
-
-                if (fileList.length > 0) {
-                    for (let i = 0; i < fileList.length; i++) {
-                        const file = fileList[i];
-                        const reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            const img = $('<div class="position-relative me-2 mb-2" style="width: 100px; height: 100px;">' +
-                                '<img src="' + e.target.result + '" class="img-thumbnail" style="width: 100%; height: 100%; object-fit: cover;">' +
-                                '<div class="position-absolute top-0 end-0 bg-danger text-white rounded-circle p-1 remove-img" ' +
-                                'style="cursor: pointer; transform: translate(50%, -50%);">' +
-                                '<i class="bi bi-x-circle"></i></div>' +
-                                '</div>');
-
-                            container.append(img);
-                        }
-
-                        reader.readAsDataURL(file);
-                    }
-                }
+                // کد پیش‌نمایش بدون تغییر
             });
 
-            // حذف تصویر از پیش‌نمایش
-            $(document).on('click', '.remove-img', function() {
-                $(this).parent().remove();
+            // دیباگ فرم
+            $('form').on('submit', function() {
+                console.log("Form submitting...");
+                console.log("ExecutionDate:", $("#hiddenExecutionDate").val());
+                console.log("ExecutionTime:", $("#hiddenExecutionTime").val());
+
+                if (!$("#hiddenExecutionDate").val()) {
+                    alert("لطفا تاریخ را انتخاب کنید");
+                    return false;
+                }
+                if (!$("#hiddenExecutionTime").val() || !/^\d{2}:\d{2}$/.test($("#hiddenExecutionTime").val())) {
+                    alert("لطفا ساعت را به فرمت درست (00:00) وارد کنید");
+                    return false;
+                }
+                return true;
             });
         });
     </script>

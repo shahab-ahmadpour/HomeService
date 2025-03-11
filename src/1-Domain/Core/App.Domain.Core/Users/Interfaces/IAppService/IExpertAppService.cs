@@ -18,5 +18,8 @@ namespace App.Domain.Core.Users.Interfaces.IAppService
         Task<int> GetExpertIdByAppUserIdAsync(int appUserId, CancellationToken cancellationToken);
         Task<EditExpertDto> GetEditExpertProfileAsync(int expertId, CancellationToken cancellationToken);
         Task<bool> UpdateExpertProfileAsync(EditExpertDto dto, CancellationToken cancellationToken);
+
+        Task<bool> AddSkillAsync(int expertId, int subHomeServiceId, CancellationToken cancellationToken);
+        Task<bool> RemoveSkillAsync(int expertId, int subHomeServiceId, CancellationToken cancellationToken);
     }
 }

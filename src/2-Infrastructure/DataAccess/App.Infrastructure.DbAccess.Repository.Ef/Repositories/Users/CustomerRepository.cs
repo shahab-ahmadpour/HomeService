@@ -246,5 +246,26 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
             _logger.Information("Balance updated for CustomerId: {CustomerId}", customerId);
             return true;
         }
+
+        public async Task<List<Customer>> GetCustomersByIdsAsync(List<int> customerIds, CancellationToken cancellationToken)
+        {
+            _logger.Information("Repository: Fetching customers by IDs: {CustomerIds}", string.Join(",", customerIds));
+
+            try
+            {
+                var customers = await _dbContext.Customers
+                    .Include(c => c.AppUser)
+                    .Where(c => customerIds.Contains(c.Id))
+                    .ToListAsync(cancellationToken);
+
+                _logger.Information("Found {Count} customers from {TotalIds} requested IDs", customers.Count, customerIds.Count);
+                return customers;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error fetching customers by IDs");
+                throw;
+            }
+        }
     }
 }

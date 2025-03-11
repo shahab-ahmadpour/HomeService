@@ -24,5 +24,7 @@ namespace App.Domain.Core.Users.Interfaces.IRepository
 
         Task<decimal> GetBalanceAsync(int customerId, CancellationToken cancellationToken);
         Task<bool> UpdateBalanceAsync(int customerId, decimal newBalance, CancellationToken cancellationToken);
+
+        Task<List<Customer>> GetCustomersByIdsAsync(List<int> customerIds, CancellationToken cancellationToken);
     }
 }

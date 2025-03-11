@@ -231,32 +231,41 @@ namespace HomeService.Domain.Services.CustomerServices
                     SubHomeServiceName = o.Request?.SubHomeService?.Name ?? "نامشخص",
                     ProposalId = o.ProposalId ?? 0,
                     Proposals = o.Proposal != null ? new List<ProposalDto>
-                    {
-                        new ProposalDto
-                        {
-                            Id = o.Proposal.Id,
-                            ExpertId = o.Proposal.ExpertId,
-                            ExpertName = o.Proposal.Expert?.AppUser != null ? $"{o.Proposal.Expert.AppUser.FirstName} {o.Proposal.Expert.AppUser.LastName}" : "نامشخص",
-                            OrderId = o.Id,
-                            RequestId = o.Proposal.RequestId,
-                            RequestDescription = o.Proposal.Request?.Description ?? "نامشخص",
-                            SkillId = o.Proposal.SkillId,
-                            Price = o.Proposal.Price,
-                            ExecutionDate = o.Proposal.ExecutionDate,
-                            Description = o.Proposal.Description,
-                            Status = o.Proposal.Status,
-                            ResponseTime = o.Proposal.ResponseTime,
-                            CreatedAt = o.Proposal.CreatedAt,
-                            IsEnabled = o.Proposal.IsEnabled,
-                            SubHomeServiceName = o.Proposal.Request?.SubHomeService?.Name ?? "نامشخص"
-                        }
-                    } : new List<ProposalDto>(),
+            {
+                new ProposalDto
+                {
+                    Id = o.Proposal.Id,
+                    ExpertId = o.Proposal.ExpertId,
+                    ExpertName = o.Proposal.Expert?.AppUser != null ? $"{o.Proposal.Expert.AppUser.FirstName} {o.Proposal.Expert.AppUser.LastName}" : "نامشخص",
+                    OrderId = o.Id,
+                    RequestId = o.Proposal.RequestId,
+                    RequestDescription = o.Proposal.Request?.Description ?? "نامشخص",
+                    SkillId = o.Proposal.SkillId,
+                    Price = o.Proposal.Price,
+                    ExecutionDate = o.Proposal.ExecutionDate,
+                    Description = o.Proposal.Description,
+                    Status = o.Proposal.Status,
+                    ResponseTime = o.Proposal.ResponseTime,
+                    CreatedAt = o.Proposal.CreatedAt,
+                    IsEnabled = o.Proposal.IsEnabled,
+                    SubHomeServiceName = o.Proposal.Request?.SubHomeService?.Name ?? "نامشخص"
+                }
+            } : new List<ProposalDto>(),
                     FinalPrice = o.FinalPrice,
                     PaymentStatus = o.PaymentStatus,
                     IsActive = o.IsActive,
                     CreatedAt = o.CreatedAt,
                     OrderDate = o.CreatedAt,
-                    Status = o.PaymentStatus.ToString()
+                    Status = o.PaymentStatus switch
+                    {
+                        PaymentStatus.Pending => RequestStatus.Pending,
+                        PaymentStatus.paid => RequestStatus.InProgress,
+                        PaymentStatus.Failed => RequestStatus.Cancelled,
+                        PaymentStatus.Completed => RequestStatus.Completed,
+                        _ => RequestStatus.Pending
+                    },
+                    RequestImagePath = o.Request?.EnvironmentImagePath ?? "",
+                    ExecutionDate = o.Proposal?.ExecutionDate ?? o.Request?.ExecutionDate ?? DateTime.MinValue 
                 }).ToList() ?? new List<OrderDto>();
             }
             catch (Exception ex)
@@ -427,6 +436,25 @@ namespace HomeService.Domain.Services.CustomerServices
         public async Task<bool> UpdateBalanceAsync(int customerId, decimal newBalance, CancellationToken cancellationToken)
         {
             return await _customerRepository.UpdateBalanceAsync(customerId, newBalance, cancellationToken);
+        }
+        public async Task<List<Customer>> GetCustomersByIdsAsync(List<int> customerIds, CancellationToken cancellationToken)
+        {
+            _logger.Information("Fetching customers for IDs: {CustomerIds}", string.Join(",", customerIds));
+            try
+            {
+                var customers = await _customerRepository.GetCustomersByIdsAsync(customerIds, cancellationToken);
+                if (customers == null || !customers.Any())
+                {
+                    _logger.Warning("No customers found for IDs: {CustomerIds}", string.Join(",", customerIds));
+                    return new List<Customer>();
+                }
+                return customers;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error fetching customers for IDs: {CustomerIds}", string.Join(",", customerIds));
+                throw;
+            }
         }
     }
 }

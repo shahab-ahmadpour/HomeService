@@ -11,23 +11,24 @@ namespace App.Domain.Core.DTO.Orders
     public class OrderDto
     {
         public int Id { get; set; }
-
         public int CustomerId { get; set; }
-        public string CustomerName { get; set; } = string.Empty;
-
         public int ExpertId { get; set; }
-        public string ExpertName { get; set; } = string.Empty;
-        public int RequestId { get; set; }
-        public string RequestDescription { get; set; } = string.Empty;
-        public string SubHomeServiceName { get; set; }
-        public int ProposalId { get; set; }
         public List<ProposalDto> Proposals { get; set; } = new List<ProposalDto>();
+        public int RequestId { get; set; }
         public decimal FinalPrice { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
+        public RequestStatus Status { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string CustomerName { get; set; }
+        public string ExpertName { get; set; }
+        public string SubHomeServiceName { get; set; }
+        public string RequestDescription { get; set; }
+        public DateTime? CompletionDate { get; set; }
         public DateTime OrderDate { get; set; }
-        public string Status { get; set; }
-    }
+        public int? ProposalId { get; set; }
 
+        public string RequestImagePath { get; set; }
+        public DateTime ExecutionDate { get; set; }
+    }
 }

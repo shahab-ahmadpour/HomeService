@@ -18,5 +18,8 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
 
         Task<List<ProposalDto>> GetProposalsByExpertIdAsync(int expertId, CancellationToken cancellationToken);
         Task<bool> CreateAsync(Proposal proposal, CancellationToken cancellationToken);
+
+        Task<List<ProposalDto>> GetProposalsByRequestIdAsync(int requestId, CancellationToken cancellationToken);
     }
+
 }
