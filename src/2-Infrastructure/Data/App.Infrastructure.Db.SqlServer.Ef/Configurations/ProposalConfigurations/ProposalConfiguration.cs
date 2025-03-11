@@ -28,11 +28,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.ProposalConfiguratio
             builder.Property(p => p.OrderId).IsRequired(false);
             builder.HasOne(p => p.Order).WithOne(o => o.Proposal).HasForeignKey<Proposal>(p => p.OrderId).IsRequired(false).OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasData(
-                new Proposal { Id = 1, ExpertId = 1, RequestId = 1, SkillId = 1, OrderId = null, Price = 450000, ExecutionDate = DateTime.UtcNow.AddDays(5), Description = "پیشنهاد انجام خدمات برای درخواست بنایی", Status = ProposalStatus.Pending, ResponseTime = DateTime.UtcNow.AddDays(1), CreatedAt = DateTime.UtcNow, IsEnabled = true },
-                new Proposal { Id = 2, ExpertId = 1, RequestId = 2, SkillId = 2, OrderId = null, Price = 600000, ExecutionDate = DateTime.UtcNow.AddDays(3), Description = "پیشنهاد انجام خدمات برای درخواست کاغذ دیواری", Status = ProposalStatus.Pending, ResponseTime = DateTime.UtcNow.AddDays(1), CreatedAt = DateTime.UtcNow, IsEnabled = true },
-                new Proposal { Id = 3, ExpertId = 2, RequestId = 3, SkillId = 3, OrderId = null, Price = 780000, ExecutionDate = DateTime.UtcNow.AddDays(7), Description = "پیشنهاد انجام خدمات برای درخواست سنگ کاری", Status = ProposalStatus.Pending, ResponseTime = DateTime.UtcNow.AddDays(2), CreatedAt = DateTime.UtcNow, IsEnabled = false }
-            );
+            //builder.HasData(
+            //    new Proposal { Id = 1, ExpertId = 1, RequestId = 1, SkillId = 1, OrderId = null, Price = 450000, ExecutionDate = DateTime.UtcNow.AddDays(5), Description = "پیشنهاد انجام خدمات برای درخواست بنایی", Status = ProposalStatus.Pending, ResponseTime = DateTime.UtcNow.AddDays(1), CreatedAt = DateTime.UtcNow, IsEnabled = true },
+            //    new Proposal { Id = 2, ExpertId = 1, RequestId = 2, SkillId = 2, OrderId = null, Price = 600000, ExecutionDate = DateTime.UtcNow.AddDays(3), Description = "پیشنهاد انجام خدمات برای درخواست کاغذ دیواری", Status = ProposalStatus.Pending, ResponseTime = DateTime.UtcNow.AddDays(1), CreatedAt = DateTime.UtcNow, IsEnabled = true },
+            //    new Proposal { Id = 3, ExpertId = 2, RequestId = 3, SkillId = 3, OrderId = null, Price = 780000, ExecutionDate = DateTime.UtcNow.AddDays(7), Description = "پیشنهاد انجام خدمات برای درخواست سنگ کاری", Status = ProposalStatus.Pending, ResponseTime = DateTime.UtcNow.AddDays(2), CreatedAt = DateTime.UtcNow, IsEnabled = false }
+            //);
         }
     }
 }

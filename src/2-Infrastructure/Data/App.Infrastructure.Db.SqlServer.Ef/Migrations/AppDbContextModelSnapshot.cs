@@ -445,7 +445,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 1,
                             Description = "خدمات نظافتی وسیله نقلیه و منزل و شرکت‌ها",
-                            ImagePath = "images\\Categories\\tamizkari\\1.webp",
+                            ImagePath = "/images/Categories/tamizkari/1.webp",
                             IsActive = true,
                             Name = "تمیزکاری"
                         },
@@ -453,7 +453,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 2,
                             Description = "خدمات مربوط به ساخت و ساز",
-                            ImagePath = "images\\Categories\\sakhteman\\1.webp",
+                            ImagePath = "/images/Categories/sakhteman/1.webp",
                             IsActive = true,
                             Name = "ساختمان"
                         },
@@ -461,7 +461,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 3,
                             Description = "خدمات تعمیر لوازم شخصی و خانگی و تجهیزات الکترونیکی",
-                            ImagePath = "images\\Categories\\tamirat\\1.webp",
+                            ImagePath = "/images/Categories/tamirat/1.webp",
                             IsActive = true,
                             Name = "تعمیرات اشیا"
                         },
@@ -469,7 +469,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 4,
                             Description = "خدمات حمل بار و اسباب کشی و جابجایی اشیا",
-                            ImagePath = "images\\Categories\\asbabkeshi\\1.webp",
+                            ImagePath = "/images/Categories/asbabkeshi/1.webp",
                             IsActive = true,
                             Name = "اسباب کشی"
                         },
@@ -477,7 +477,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 5,
                             Description = "خدمات تعمیر و سرویس و نظافت وسیله نقلیه",
-                            ImagePath = "images\\Categories\\khodro\\1.webp",
+                            ImagePath = "/images/Categories/khodro/1.webp",
                             IsActive = true,
                             Name = "خودرو"
                         },
@@ -485,7 +485,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 6,
                             Description = "خدمات پزشکی و پرستاری و مشاوره",
-                            ImagePath = "images\\Categories\\salamti\\1.webp",
+                            ImagePath = "/images/Categories/salamti/1.webp",
                             IsActive = true,
                             Name = "سلامت و زیبایی"
                         },
@@ -493,7 +493,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 7,
                             Description = "خدمات دیگر",
-                            ImagePath = "images\\Categories\\sayer\\1.webp",
+                            ImagePath = "/images/Categories/sayer/1.webp",
                             IsActive = true,
                             Name = "سایر"
                         });
@@ -542,7 +542,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Description = "انواع خدمات نظافت کار در منزل  و پذیرایی برای مجالس",
-                            ImagePath = "images\\HomeServices\\nezafat\\1.webp",
+                            ImagePath = "/images/HomeServices/nezafat/1.webp",
                             IsActive = true,
                             Name = "نظافت و پذیرایی"
                         },
@@ -551,7 +551,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 2,
                             CategoryId = 1,
                             Description = "خدمات نظافت تخصصی",
-                            ImagePath = "images\\HomeServices\\shoshtosho\\1.webp",
+                            ImagePath = "/images/HomeServices/shoshtosho/1.webp",
                             IsActive = true,
                             Name = "شستشو"
                         },
@@ -560,7 +560,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 3,
                             CategoryId = 2,
                             Description = "خدمات تعمیرات تخصصی سیستم های سرمایشی و گرمایشی",
-                            ImagePath = "images\\HomeServices\\saramyesh\\1.webp",
+                            ImagePath = "/images/HomeServices/saramyesh/1.webp",
                             IsActive = true,
                             Name = "سرمایش و گرمایش"
                         },
@@ -569,7 +569,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 4,
                             CategoryId = 2,
                             Description = "خدمات تعمیرات مربوط به ساختمان و نما",
-                            ImagePath = "images\\HomeServices\\taamiratsakhteman\\1.webp",
+                            ImagePath = "/images/HomeServices/taamiratsakhteman/1.webp",
                             IsActive = true,
                             Name = "تعمیرات ساختمان"
                         },
@@ -578,7 +578,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 5,
                             CategoryId = 2,
                             Description = "خدمات تخصصی تعمیر لوله ساختمان",
-                            ImagePath = "images\\HomeServices\\lolekeshi\\1.webp",
+                            ImagePath = "/images/HomeServices/lolekeshi/1.webp",
                             IsActive = true,
                             Name = "لوله کشی"
                         },
@@ -587,7 +587,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 6,
                             CategoryId = 2,
                             Description = "خدمات تخصصی برق و سیم کشی ساختمان",
-                            ImagePath = "images\\HomeServices\\barghkari\\1.webp",
+                            ImagePath = "/images/HomeServices/barghkari/1.webp",
                             IsActive = true,
                             Name = "برقکاری"
                         },
@@ -596,7 +596,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 7,
                             CategoryId = 3,
                             Description = "تعمیرات تخصصی انواع لوازم های خانگی",
-                            ImagePath = "images\\HomeServices\\lavazemkhanegi\\1.webp",
+                            ImagePath = "/images/HomeServices/lavazemkhanegi/1.webp",
                             IsActive = true,
                             Name = "نصب و تعمیرات لوازم خانگی"
                         },
@@ -605,7 +605,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 8,
                             CategoryId = 3,
                             Description = "تعمیرات تخصصی کامپیوتر های شخصی و لپ تاپ",
-                            ImagePath = "images\\HomeServices\\Computer\\1.webp",
+                            ImagePath = "/images/HomeServices/Computer/1.webp",
                             IsActive = true,
                             Name = "خدمات کامپیتوتری"
                         },
@@ -614,7 +614,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 9,
                             CategoryId = 3,
                             Description = "تعمیرات تخصصی انواع تلفن همراه",
-                            ImagePath = "images\\HomeServices\\Mobile\\1.webp",
+                            ImagePath = "/images/HomeServices/Mobile/1.webp",
                             IsActive = true,
                             Name = "تعمیرات موبایل"
                         },
@@ -623,7 +623,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 10,
                             CategoryId = 4,
                             Description = "خدمات تخصصی برای جابجایی و باربری",
-                            ImagePath = "images\\HomeServices\\barbari\\1.webp",
+                            ImagePath = "/images/HomeServices/barbari/1.webp",
                             IsActive = true,
                             Name = "باربری و جابجایی"
                         },
@@ -632,7 +632,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 11,
                             CategoryId = 5,
                             Description = "تعمیرات تخصصی خودرو و وسیله های نقلیه",
-                            ImagePath = "images\\HomeServices\\khodro\\1.webp",
+                            ImagePath = "/images/HomeServices/khodro/1.webp",
                             IsActive = true,
                             Name = "خدمات و تعمیرات خودرو"
                         },
@@ -641,7 +641,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 12,
                             CategoryId = 5,
                             Description = "خدمات نظافت خودرو",
-                            ImagePath = "images\\HomeServices\\carwash\\1.webp",
+                            ImagePath = "/images/HomeServices/carwash/1.webp",
                             IsActive = true,
                             Name = "کارواش و دیتیلینگ"
                         },
@@ -650,7 +650,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 13,
                             CategoryId = 6,
                             Description = "خدمات پزشکی و درمانی",
-                            ImagePath = "images\\HomeServices\\pezeshki\\1.webp",
+                            ImagePath = "/images/HomeServices/pezeshki/1.webp",
                             IsActive = true,
                             Name = "پزشکی و پرستاری"
                         },
@@ -659,7 +659,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 14,
                             CategoryId = 6,
                             Description = "خدمات دامپزشکی و حیوانات خانگی",
-                            ImagePath = "images\\HomeServices\\pet\\1.webp",
+                            ImagePath = "/images/HomeServices/pet/1.webp",
                             IsActive = true,
                             Name = "حیوانات خانگی"
                         },
@@ -668,7 +668,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 15,
                             CategoryId = 7,
                             Description = "خدمات و تعمیر انواع لباس های مردانه و زنانه",
-                            ImagePath = "images\\HomeServices\\khayati\\1.webp",
+                            ImagePath = "/images/HomeServices/khayati/1.webp",
                             IsActive = true,
                             Name = "خیاطی و تعیمرات لباس"
                         },
@@ -677,7 +677,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 16,
                             CategoryId = 7,
                             Description = "خدمات مجالس و تشریفات",
-                            ImagePath = "images\\HomeServices\\event\\1.webp",
+                            ImagePath = "/images/HomeServices/event/1.webp",
                             IsActive = true,
                             Name = "مجالس و رویداد ها"
                         },
@@ -686,7 +686,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 17,
                             CategoryId = 7,
                             Description = "خدمات آموزشی",
-                            ImagePath = "images\\HomeServices\\amoozesh\\1.webp",
+                            ImagePath = "/images/HomeServices/amoozesh/1.webp",
                             IsActive = true,
                             Name = "آموزش"
                         });
@@ -797,50 +797,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("SkillId");
 
                     b.ToTable("Proposals", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6414),
-                            Description = "پیشنهاد انجام خدمات برای درخواست بنایی",
-                            ExecutionDate = new DateTime(2025, 3, 12, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6408),
-                            ExpertId = 1,
-                            IsEnabled = true,
-                            Price = 450000m,
-                            RequestId = 1,
-                            ResponseTime = new DateTime(2025, 3, 8, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6412),
-                            SkillId = 1,
-                            Status = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6419),
-                            Description = "پیشنهاد انجام خدمات برای درخواست کاغذ دیواری",
-                            ExecutionDate = new DateTime(2025, 3, 10, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6417),
-                            ExpertId = 1,
-                            IsEnabled = true,
-                            Price = 600000m,
-                            RequestId = 2,
-                            ResponseTime = new DateTime(2025, 3, 8, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6418),
-                            SkillId = 2,
-                            Status = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6422),
-                            Description = "پیشنهاد انجام خدمات برای درخواست سنگ کاری",
-                            ExecutionDate = new DateTime(2025, 3, 14, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6421),
-                            ExpertId = 2,
-                            IsEnabled = false,
-                            Price = 780000m,
-                            RequestId = 3,
-                            ResponseTime = new DateTime(2025, 3, 9, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6421),
-                            SkillId = 3,
-                            Status = 0
-                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Request", b =>
@@ -892,44 +848,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("SubHomeServiceId");
 
                     b.ToTable("Requests", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(827),
-                            CustomerId = 1,
-                            Deadline = new DateTime(2025, 3, 12, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(821),
-                            Description = "درخواست بنایی ساختمان",
-                            ExecutionDate = new DateTime(2025, 3, 10, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(827),
-                            IsEnabled = true,
-                            Status = 0,
-                            SubHomeServiceId = 10
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(831),
-                            CustomerId = 1,
-                            Deadline = new DateTime(2025, 3, 14, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(830),
-                            Description = "درخواست کاغذ دیواری",
-                            ExecutionDate = new DateTime(2025, 3, 12, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(830),
-                            IsEnabled = true,
-                            Status = 0,
-                            SubHomeServiceId = 11
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(834),
-                            CustomerId = 2,
-                            Deadline = new DateTime(2025, 3, 17, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(833),
-                            Description = "درخواست سنگ کاری",
-                            ExecutionDate = new DateTime(2025, 3, 15, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(833),
-                            IsEnabled = true,
-                            Status = 0,
-                            SubHomeServiceId = 12
-                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Services.Entities.Review", b =>
@@ -1029,7 +947,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات نظافت عادی ",
                             HomeServiceId = 1,
-                            ImagePath = "images\\SubHomeServices\\tamizkari\\nezafat\\service adi.jpg",
+                            ImagePath = "/images/SubHomeServices/tamizkari/nezafat/service adi.jpg",
                             IsActive = true,
                             Name = "سرویس عادی نظافت",
                             Views = 0
@@ -1040,7 +958,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 500000m,
                             Description = "خدمات نظافت ویژه",
                             HomeServiceId = 1,
-                            ImagePath = "images\\SubHomeServices\\tamizkari\\nezafat\\service vizhe.jpg",
+                            ImagePath = "/images/SubHomeServices/tamizkari/nezafat/service vizhe.jpg",
                             IsActive = true,
                             Name = "سرویس ویژه نظافت ",
                             Views = 0
@@ -1051,7 +969,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "نظافت راه پله های ساختمان مسکونی ",
                             HomeServiceId = 1,
-                            ImagePath = "images\\SubHomeServices\\tamizkari\\nezafat\\rah pele.jpg",
+                            ImagePath = "/images/SubHomeServices/tamizkari/nezafat/rah pele.jpg",
                             IsActive = true,
                             Name = "نظافت راه پله",
                             Views = 0
@@ -1062,7 +980,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "شستشوی فرش",
                             HomeServiceId = 2,
-                            ImagePath = "images\\SubHomeServices\\tamizkari\\shostosho\\ghalishoie.jpg",
+                            ImagePath = "/images/SubHomeServices/tamizkari/shostosho/ghalishoie.jpg",
                             IsActive = true,
                             Name = "قالیشویی",
                             Views = 0
@@ -1073,7 +991,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خشکشویی انواع لباس های شما",
                             HomeServiceId = 2,
-                            ImagePath = "images\\SubHomeServices\\tamizkari\\shostosho\\khoshkshoie.jpg",
+                            ImagePath = "/images/SubHomeServices/tamizkari/shostosho/khoshkshoie.jpg",
                             IsActive = true,
                             Name = "خشکشویی",
                             Views = 0
@@ -1084,7 +1002,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "انواع خدمات شستشو مبل موکت تشک",
                             HomeServiceId = 2,
-                            ImagePath = "images\\SubHomeServices\\tamizkari\\shostosho\\shostesho dar mahal.jpg",
+                            ImagePath = "/images/SubHomeServices/tamizkari/shostosho/shostesho dar mahal.jpg",
                             IsActive = true,
                             Name = "شستشو در محل",
                             Views = 0
@@ -1095,7 +1013,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "انواع خدمات و تعمیرات تخصصی کولر آبی",
                             HomeServiceId = 3,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\coolerabi.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/coolerabi.jpg",
                             IsActive = true,
                             Name = "تعمیر کولر آبی و سرویس کولر آبی",
                             Views = 0
@@ -1106,7 +1024,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "تعمیر پکیج",
                             HomeServiceId = 3,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\pakgegarm.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/pakgegarm.jpg",
                             IsActive = true,
                             Name = "تعمیر و سرویس پکیج",
                             Views = 0
@@ -1117,7 +1035,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "انواع خدمات و تعمیرات تخصصی رادیاتور",
                             HomeServiceId = 3,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\shofazh.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/shofazh.jpg",
                             IsActive = true,
                             Name = "سرویس رادیاتور و تعمیر شوفاژ",
                             Views = 0
@@ -1128,7 +1046,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات بنایی",
                             HomeServiceId = 4,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\tamiratsakhteman\\banaie.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/tamiratsakhteman/banaie.jpg",
                             IsActive = true,
                             Name = "بنایی",
                             Views = 0
@@ -1139,7 +1057,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "نصب کاغذ دیواری",
                             HomeServiceId = 4,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\tamiratsakhteman\\kaqazdivari.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/tamiratsakhteman/kaqazdivari.jpg",
                             IsActive = true,
                             Name = "کاغذ دیواری",
                             Views = 0
@@ -1150,7 +1068,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات سنگ کاری",
                             HomeServiceId = 4,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\tamiratsakhteman\\sangkari.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/tamiratsakhteman/sangkari.jpg",
                             IsActive = true,
                             Name = "سنگ کاری",
                             Views = 0
@@ -1161,7 +1079,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "نصب شیرآلات ساختمانی و بهداشتی",
                             HomeServiceId = 5,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\lole keshi\\shiralat.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/lole keshi/shiralat.jpg",
                             IsActive = true,
                             Name = "شیرآلات",
                             Views = 0
@@ -1172,7 +1090,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "تخلیه چاه و لوله بازکنی",
                             HomeServiceId = 5,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\takhliye chah.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/takhliye chah.jpg",
                             IsActive = true,
                             Name = "لوله بازکنی",
                             Views = 0
@@ -1183,7 +1101,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "تعمیر و سرویس پمپ آب خانگی",
                             HomeServiceId = 5,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\pomp ab.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/pomp ab.jpg",
                             IsActive = true,
                             Name = "پمپ آب",
                             Views = 0
@@ -1194,7 +1112,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "سیم کشی ساختمان - برق کشی ساختمان",
                             HomeServiceId = 6,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\barghkari\\simkeshi.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/barghkari/simkeshi.jpg",
                             IsActive = true,
                             Name = "سیم کشی",
                             Views = 0
@@ -1205,7 +1123,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "نصب و تعمیر لوستر",
                             HomeServiceId = 6,
-                            ImagePath = "images\\SubHomeServices\\Sakhteman\\barghkari\\cheragh.jpg",
+                            ImagePath = "/images/SubHomeServices/Sakhteman/barghkari/cheragh.jpg",
                             IsActive = true,
                             Name = "نصب چراغ",
                             Views = 0
@@ -1216,7 +1134,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "تعمیرات تخصصی یخچال",
                             HomeServiceId = 7,
-                            ImagePath = "images\\SubHomeServices\\TamiratAshia\\nasb va taamirat\\2.jpg",
+                            ImagePath = "/images/SubHomeServices/TamiratAshia/nasb va taamirat/2.jpg",
                             IsActive = true,
                             Name = "نصب و تعمیر یخچال",
                             Views = 0
@@ -1227,7 +1145,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "تعمیرات تخصصی ماشین لباسشویی",
                             HomeServiceId = 7,
-                            ImagePath = "images\\SubHomeServices\\TamiratAshia\\nasb va taamirat\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/TamiratAshia/nasb va taamirat/1.jpg",
                             IsActive = true,
                             Name = "نصب و تعمیر ماشین لباسشویی",
                             Views = 0
@@ -1238,7 +1156,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "تعمیرات تخصصی کامپیوتر و لپتاپ",
                             HomeServiceId = 8,
-                            ImagePath = "images\\SubHomeServices\\TamiratAshia\\khadamat computer\\1.webp",
+                            ImagePath = "/images/SubHomeServices/TamiratAshia/khadamat computer/1.webp",
                             IsActive = true,
                             Name = "تعمیر کامپیوتر و لپتاپ",
                             Views = 0
@@ -1249,7 +1167,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات تخصصی شبکه",
                             HomeServiceId = 8,
-                            ImagePath = "images\\SubHomeServices\\TamiratAshia\\khadamat computer\\2.webp",
+                            ImagePath = "/images/SubHomeServices/TamiratAshia/khadamat computer/2.webp",
                             IsActive = true,
                             Name = "پشتیبانی شبکه و سرور",
                             Views = 0
@@ -1260,7 +1178,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "تعمیرات تخصصی تاچ و ال سی دی موبایل",
                             HomeServiceId = 9,
-                            ImagePath = "images\\SubHomeServices\\TamiratAshia\\mobile\\2.jpg",
+                            ImagePath = "/images/SubHomeServices/TamiratAshia/mobile/2.jpg",
                             IsActive = true,
                             Name = "خدمات تاچ و ال سی دی",
                             Views = 0
@@ -1271,7 +1189,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات تخصصی و تعویض باتری موبایل",
                             HomeServiceId = 9,
-                            ImagePath = "images\\SubHomeServices\\TamiratAshia\\mobile\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/TamiratAshia/mobile/1.jpg",
                             IsActive = true,
                             Name = "خدمات باتری",
                             Views = 0
@@ -1282,7 +1200,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "حمل و باربری اشیای سنگین با خاور و کامیون",
                             HomeServiceId = 10,
-                            ImagePath = "images\\SubHomeServices\\Barbari\\Asbab keshi khavar\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/Barbari/Asbab keshi khavar/1.jpg",
                             IsActive = true,
                             Name = "اسباب کشی با خاور و کامیون",
                             Views = 0
@@ -1293,7 +1211,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "حمل و باربری اشیا با وانت و نیسان",
                             HomeServiceId = 10,
-                            ImagePath = "images\\SubHomeServices\\Barbari\\Asbab keshi khavar\\2.jpg",
+                            ImagePath = "/images/SubHomeServices/Barbari/Asbab keshi khavar/2.jpg",
                             IsActive = true,
                             Name = "اسباب کشی با وانت و نیسان",
                             Views = 0
@@ -1304,7 +1222,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات تخصصی مکانیک خودرو",
                             HomeServiceId = 11,
-                            ImagePath = "images\\SubHomeServices\\khodro\\khdamat khodro\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/khodro/khdamat khodro/1.jpg",
                             IsActive = true,
                             Name = "مکانیکی خودرو",
                             Views = 0
@@ -1315,7 +1233,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات تخصصی تعویض باتری خودرو",
                             HomeServiceId = 11,
-                            ImagePath = "images\\SubHomeServices\\khodro\\khdamat khodro\\2.jpg",
+                            ImagePath = "/images/SubHomeServices/khodro/khdamat khodro/2.jpg",
                             IsActive = true,
                             Name = "تعویض باتری خودرو",
                             Views = 0
@@ -1326,7 +1244,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات کارواش نانو وسیله نقلیه",
                             HomeServiceId = 12,
-                            ImagePath = "images\\SubHomeServices\\khodro\\carwash\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/khodro/carwash/1.jpg",
                             IsActive = true,
                             Name = "کارواش نانو",
                             Views = 0
@@ -1337,7 +1255,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات واکس و پولیش خودرو",
                             HomeServiceId = 12,
-                            ImagePath = "images\\SubHomeServices\\khodro\\carwash\\2.jpg",
+                            ImagePath = "/images/SubHomeServices/khodro/carwash/2.jpg",
                             IsActive = true,
                             Name = "واکس و پولیش خودرو",
                             Views = 0
@@ -1348,7 +1266,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات معاینه پزشکی",
                             HomeServiceId = 13,
-                            ImagePath = "images\\SubHomeServices\\salamati\\pezeshki\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/salamati/pezeshki/1.jpg",
                             IsActive = true,
                             Name = "معاینه پزشکی",
                             Views = 0
@@ -1359,7 +1277,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات پرستاری و تزریقات در محل",
                             HomeServiceId = 13,
-                            ImagePath = "images\\SubHomeServices\\salamati\\pezeshki\\2.jpg",
+                            ImagePath = "/images/SubHomeServices/salamati/pezeshki/2.jpg",
                             IsActive = true,
                             Name = "پرستاری و تزریقات",
                             Views = 0
@@ -1370,7 +1288,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات دامپزشکی انواع حیوانات خانگی",
                             HomeServiceId = 14,
-                            ImagePath = "images\\SubHomeServices\\salamati\\dampezeshki\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/salamati/dampezeshki/1.jpg",
                             IsActive = true,
                             Name = "خدمات دامپزشکی در محل",
                             Views = 0
@@ -1381,7 +1299,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات تخصصی تعمیر انواع لباس",
                             HomeServiceId = 15,
-                            ImagePath = "images\\SubHomeServices\\Sayer\\khayati lebas\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/Sayer/khayati lebas/1.jpg",
                             IsActive = true,
                             Name = "تعمیرات لباس",
                             Views = 0
@@ -1392,7 +1310,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات تخصصی تعمیر انواع کیف و کفش",
                             HomeServiceId = 15,
-                            ImagePath = "images\\SubHomeServices\\Sayer\\khayati lebas\\2.jpg",
+                            ImagePath = "/images/SubHomeServices/Sayer/khayati lebas/2.jpg",
                             IsActive = true,
                             Name = "تعمیر کیف و کفش",
                             Views = 0
@@ -1403,7 +1321,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات انواع کیک و شیرینی های مجالس و مراسم",
                             HomeServiceId = 16,
-                            ImagePath = "images\\SubHomeServices\\Sayer\\Sayer\\event\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/Sayer/Sayer/event/1.jpg",
                             IsActive = true,
                             Name = "کیک و شیرینی",
                             Views = 0
@@ -1414,7 +1332,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات ارسال هدیه",
                             HomeServiceId = 16,
-                            ImagePath = "images\\SubHomeServices\\Sayer\\Sayer\\event\\2.jpg",
+                            ImagePath = "/images/SubHomeServices/Sayer/Sayer/event/2.jpg",
                             IsActive = true,
                             Name = "ارسال هدیه",
                             Views = 0
@@ -1425,7 +1343,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "انواع خدمات آموزشی  برای آمادگی کنکور",
                             HomeServiceId = 17,
-                            ImagePath = "images\\SubHomeServices\\Sayer\\amoozesh\\1.jpg",
+                            ImagePath = "/images/SubHomeServices/Sayer/amoozesh/1.jpg",
                             IsActive = true,
                             Name = "آمادگی برای کنکور",
                             Views = 0
@@ -1436,7 +1354,7 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             BasePrice = 300000m,
                             Description = "خدمات آموزشی انواع زبان های خارجی",
                             HomeServiceId = 17,
-                            ImagePath = "images\\SubHomeServices\\Sayer\\amoozesh\\2.jpg",
+                            ImagePath = "/images/SubHomeServices/Sayer/amoozesh/2.jpg",
                             IsActive = true,
                             Name = "آموزش زبان های خارجی",
                             Views = 0
@@ -1464,26 +1382,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("SkillId");
 
                     b.ToTable("ExpertSkills", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ExpertId = 1,
-                            SkillId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ExpertId = 1,
-                            SkillId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ExpertId = 2,
-                            SkillId = 3
-                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Skills.Entities.Skill", b =>
@@ -1507,26 +1405,6 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                     b.HasIndex("SubHomeServiceId");
 
                     b.ToTable("Skills", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "بنایی",
-                            SubHomeServiceId = 10
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "کاغذ دیواری",
-                            SubHomeServiceId = 11
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "سنگ کاری",
-                            SubHomeServiceId = 12
-                        });
                 });
 
             modelBuilder.Entity("App.Domain.Core.Transactions.Entities.Transaction", b =>
@@ -1708,8 +1586,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             AccountBalance = 1000m,
-                            ConcurrencyStamp = "3f01898b-ab43-4532-84a9-2d535f09d8b9",
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 469, DateTimeKind.Utc).AddTicks(8703),
+                            ConcurrencyStamp = "f7a6de3f-46f3-4d87-a150-06c673d2f801",
+                            CreatedAt = new DateTime(2025, 3, 11, 17, 3, 3, 351, DateTimeKind.Utc).AddTicks(5186),
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -1719,11 +1597,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBAbfgAlNw72yyrTPGrqz0VB+dualL4wwYyoua9s1IoKjCubauIRzBCbI8664jaAmA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDY7DnnybxWdYu4yejPY06ZLFAZW9X0vQHHNZiE2PQM3Quxl6T6iPEXd4lN7XgnrWw==",
                             PhoneNumberConfirmed = false,
-                            ProfilePicture = "images\\User\\Admin\\admin.png",
+                            ProfilePicture = "/images/User/Admin/admin.png",
                             Role = 3,
-                            SecurityStamp = "36eb3ad0-b9f6-49fd-9529-250b48ab24a5",
+                            SecurityStamp = "ec42db8c-9b31-4494-919e-e26c4f43a3c6",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -1732,8 +1610,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             AccountBalance = 2000000m,
-                            ConcurrencyStamp = "af3902cf-2fb3-4443-89a2-7b4d12a029b8",
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 525, DateTimeKind.Utc).AddTicks(8610),
+                            ConcurrencyStamp = "8203482f-b649-45d5-9c6b-d8f413003c97",
+                            CreatedAt = new DateTime(2025, 3, 11, 17, 3, 3, 410, DateTimeKind.Utc).AddTicks(2348),
                             Email = "ali@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "علی",
@@ -1743,11 +1621,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ALI@GMAIL.COM",
                             NormalizedUserName = "ALI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMNqomD1Ue5fN5gn+s99zpzb53rUpgydkqyV3QkJhbAUY9GzZb5b5IbEc+YZ5zmBHg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELNRUF1//3e+JYG7kAxw97qUKcNKzqm9yeRerT+zCNKSMg9agKHT+xxgSwH4Qyd2ew==",
                             PhoneNumberConfirmed = false,
-                            ProfilePicture = "images\\User\\Customer\\ali.jpg",
+                            ProfilePicture = "/images/User/Customer/ali.jpg",
                             Role = 1,
-                            SecurityStamp = "26dba629-3910-4982-8fd1-07b8c1989480",
+                            SecurityStamp = "f2c0d3da-cbcf-4c27-bc36-98334fc3bf58",
                             TwoFactorEnabled = false,
                             UserName = "ali@gmail.com"
                         },
@@ -1756,8 +1634,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 3,
                             AccessFailedCount = 0,
                             AccountBalance = 2000000m,
-                            ConcurrencyStamp = "daadc522-d356-4c6e-bc4d-b90d14a28567",
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 583, DateTimeKind.Utc).AddTicks(9999),
+                            ConcurrencyStamp = "1244de0d-f6f3-4ffb-969d-0a432484166a",
+                            CreatedAt = new DateTime(2025, 3, 11, 17, 3, 3, 469, DateTimeKind.Utc).AddTicks(8680),
                             Email = "sina47@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "سینا",
@@ -1767,11 +1645,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SINA47@GMAIL.COM",
                             NormalizedUserName = "SINA47@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHLQyP7hZTgtanH6IE7yGAvPJ6xKZF6cFinzqHo/vRjVdA/gU7aQqnTJBjzWc+5b9w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEaN2rgtHUQgqVjFLH23LQIJPTAeNK3baeXQ7aCIYvEFRX2vzIKFupbNqbvYUzuqzQ==",
                             PhoneNumberConfirmed = false,
-                            ProfilePicture = "images\\User\\Customer\\sina.png",
+                            ProfilePicture = "/images/User/Customer/sina.png",
                             Role = 1,
-                            SecurityStamp = "07969a58-7e6f-4191-b684-fe653bb6189c",
+                            SecurityStamp = "43c796ec-bc94-4ea7-b811-07387a7fdcf4",
                             TwoFactorEnabled = false,
                             UserName = "sina47@gmail.com"
                         },
@@ -1780,8 +1658,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 4,
                             AccessFailedCount = 0,
                             AccountBalance = 750m,
-                            ConcurrencyStamp = "52337636-c848-4217-899a-ab5030381a75",
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 639, DateTimeKind.Utc).AddTicks(2354),
+                            ConcurrencyStamp = "a717ec03-2785-41b8-98a2-7f5eb6f997e2",
+                            CreatedAt = new DateTime(2025, 3, 11, 17, 3, 3, 538, DateTimeKind.Utc).AddTicks(6359),
                             Email = "shahin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "شاهین",
@@ -1791,11 +1669,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SHAHIN@GMAIL.COM",
                             NormalizedUserName = "SHAHIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJysqcorUzG0rX80V4METmwWTwZRnJJkYKzKxPv9WRe7WZ3/rYm2kLJKgBzBDTLhBQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF2uNsFY/oo4/6CrdrCICEykimMW8F747+NVNWw7LjCNXmma1bOs+H69CsJoQ6derg==",
                             PhoneNumberConfirmed = false,
-                            ProfilePicture = "images\\User\\Expert\\shahin.png",
+                            ProfilePicture = "/images/User/Expert/shahin.png",
                             Role = 2,
-                            SecurityStamp = "bb127e55-198c-4ba5-babc-fa9579b72348",
+                            SecurityStamp = "c8645a2f-23d7-4069-8f64-8109595ede67",
                             TwoFactorEnabled = false,
                             UserName = "shahin@gmail.com"
                         },
@@ -1804,8 +1682,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 5,
                             AccessFailedCount = 0,
                             AccountBalance = 100m,
-                            ConcurrencyStamp = "4fdb65b9-a8ea-4913-9a68-278631cd6cd4",
-                            CreatedAt = new DateTime(2025, 3, 7, 10, 3, 49, 695, DateTimeKind.Utc).AddTicks(5026),
+                            ConcurrencyStamp = "54472ba3-f0b6-4893-9890-dff03649d94d",
+                            CreatedAt = new DateTime(2025, 3, 11, 17, 3, 3, 604, DateTimeKind.Utc).AddTicks(1421),
                             Email = "karimi@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "فاطمه",
@@ -1815,11 +1693,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KARIMI@GMAIL.COM",
                             NormalizedUserName = "KARIMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJauoyjsSP430xF65mgN0pnIuwRMIYRzWhd/2pBOXfxT3L7JYVpiVNuNxn15DXVejg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKtEIfpZ8FeqWcO4ikOlKBmxIJ+nfD+CkhOFtRP5sFQepNEgT7f4D9WGIlGQL6r4Pw==",
                             PhoneNumberConfirmed = false,
-                            ProfilePicture = "images\\User\\Expert\\fatemeh.png",
+                            ProfilePicture = "/images/User/Expert/fatemeh.png",
                             Role = 2,
-                            SecurityStamp = "4dec609e-1af3-4952-992e-af91a030c06a",
+                            SecurityStamp = "2152a283-4b6f-4b2b-8c6d-36e593da71e3",
                             TwoFactorEnabled = false,
                             UserName = "karimi@gmail.com"
                         });

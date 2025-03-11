@@ -576,11 +576,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountBalance", "ConcurrencyStamp", "CreatedAt", "Email", "EmailConfirmed", "FirstName", "IsConfirmed", "IsEnabled", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePicture", "Role", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, 1000m, "3f01898b-ab43-4532-84a9-2d535f09d8b9", new DateTime(2025, 3, 7, 10, 3, 49, 469, DateTimeKind.Utc).AddTicks(8703), "admin@gmail.com", false, "Admin", true, true, "User", false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEBAbfgAlNw72yyrTPGrqz0VB+dualL4wwYyoua9s1IoKjCubauIRzBCbI8664jaAmA==", null, false, "images\\User\\Admin\\admin.png", 3, "36eb3ad0-b9f6-49fd-9529-250b48ab24a5", false, "admin@gmail.com" },
-                    { 2, 0, 2000000m, "af3902cf-2fb3-4443-89a2-7b4d12a029b8", new DateTime(2025, 3, 7, 10, 3, 49, 525, DateTimeKind.Utc).AddTicks(8610), "ali@gmail.com", false, "علی", true, true, "عباسی", false, null, "ALI@GMAIL.COM", "ALI@GMAIL.COM", "AQAAAAIAAYagAAAAEMNqomD1Ue5fN5gn+s99zpzb53rUpgydkqyV3QkJhbAUY9GzZb5b5IbEc+YZ5zmBHg==", null, false, "images\\User\\Customer\\ali.jpg", 1, "26dba629-3910-4982-8fd1-07b8c1989480", false, "ali@gmail.com" },
-                    { 3, 0, 2000000m, "daadc522-d356-4c6e-bc4d-b90d14a28567", new DateTime(2025, 3, 7, 10, 3, 49, 583, DateTimeKind.Utc).AddTicks(9999), "sina47@gmail.com", false, "سینا", false, true, "مرادی", false, null, "SINA47@GMAIL.COM", "SINA47@GMAIL.COM", "AQAAAAIAAYagAAAAEHLQyP7hZTgtanH6IE7yGAvPJ6xKZF6cFinzqHo/vRjVdA/gU7aQqnTJBjzWc+5b9w==", null, false, "images\\User\\Customer\\sina.png", 1, "07969a58-7e6f-4191-b684-fe653bb6189c", false, "sina47@gmail.com" },
-                    { 4, 0, 750m, "52337636-c848-4217-899a-ab5030381a75", new DateTime(2025, 3, 7, 10, 3, 49, 639, DateTimeKind.Utc).AddTicks(2354), "shahin@gmail.com", false, "شاهین", false, true, "حسنی", false, null, "SHAHIN@GMAIL.COM", "SHAHIN@GMAIL.COM", "AQAAAAIAAYagAAAAEJysqcorUzG0rX80V4METmwWTwZRnJJkYKzKxPv9WRe7WZ3/rYm2kLJKgBzBDTLhBQ==", null, false, "images\\User\\Expert\\shahin.png", 2, "bb127e55-198c-4ba5-babc-fa9579b72348", false, "shahin@gmail.com" },
-                    { 5, 0, 100m, "4fdb65b9-a8ea-4913-9a68-278631cd6cd4", new DateTime(2025, 3, 7, 10, 3, 49, 695, DateTimeKind.Utc).AddTicks(5026), "karimi@gmail.com", false, "فاطمه", false, true, "کریمی", false, null, "KARIMI@GMAIL.COM", "KARIMI@GMAIL.COM", "AQAAAAIAAYagAAAAEJauoyjsSP430xF65mgN0pnIuwRMIYRzWhd/2pBOXfxT3L7JYVpiVNuNxn15DXVejg==", null, false, "images\\User\\Expert\\fatemeh.png", 2, "4dec609e-1af3-4952-992e-af91a030c06a", false, "karimi@gmail.com" }
+                    { 1, 0, 1000m, "f7a6de3f-46f3-4d87-a150-06c673d2f801", new DateTime(2025, 3, 11, 17, 3, 3, 351, DateTimeKind.Utc).AddTicks(5186), "admin@gmail.com", false, "Admin", true, true, "User", false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAIAAYagAAAAEDY7DnnybxWdYu4yejPY06ZLFAZW9X0vQHHNZiE2PQM3Quxl6T6iPEXd4lN7XgnrWw==", null, false, "/images/User/Admin/admin.png", 3, "ec42db8c-9b31-4494-919e-e26c4f43a3c6", false, "admin@gmail.com" },
+                    { 2, 0, 2000000m, "8203482f-b649-45d5-9c6b-d8f413003c97", new DateTime(2025, 3, 11, 17, 3, 3, 410, DateTimeKind.Utc).AddTicks(2348), "ali@gmail.com", false, "علی", true, true, "عباسی", false, null, "ALI@GMAIL.COM", "ALI@GMAIL.COM", "AQAAAAIAAYagAAAAELNRUF1//3e+JYG7kAxw97qUKcNKzqm9yeRerT+zCNKSMg9agKHT+xxgSwH4Qyd2ew==", null, false, "/images/User/Customer/ali.jpg", 1, "f2c0d3da-cbcf-4c27-bc36-98334fc3bf58", false, "ali@gmail.com" },
+                    { 3, 0, 2000000m, "1244de0d-f6f3-4ffb-969d-0a432484166a", new DateTime(2025, 3, 11, 17, 3, 3, 469, DateTimeKind.Utc).AddTicks(8680), "sina47@gmail.com", false, "سینا", false, true, "مرادی", false, null, "SINA47@GMAIL.COM", "SINA47@GMAIL.COM", "AQAAAAIAAYagAAAAEEaN2rgtHUQgqVjFLH23LQIJPTAeNK3baeXQ7aCIYvEFRX2vzIKFupbNqbvYUzuqzQ==", null, false, "/images/User/Customer/sina.png", 1, "43c796ec-bc94-4ea7-b811-07387a7fdcf4", false, "sina47@gmail.com" },
+                    { 4, 0, 750m, "a717ec03-2785-41b8-98a2-7f5eb6f997e2", new DateTime(2025, 3, 11, 17, 3, 3, 538, DateTimeKind.Utc).AddTicks(6359), "shahin@gmail.com", false, "شاهین", false, true, "حسنی", false, null, "SHAHIN@GMAIL.COM", "SHAHIN@GMAIL.COM", "AQAAAAIAAYagAAAAEF2uNsFY/oo4/6CrdrCICEykimMW8F747+NVNWw7LjCNXmma1bOs+H69CsJoQ6derg==", null, false, "/images/User/Expert/shahin.png", 2, "c8645a2f-23d7-4069-8f64-8109595ede67", false, "shahin@gmail.com" },
+                    { 5, 0, 100m, "54472ba3-f0b6-4893-9890-dff03649d94d", new DateTime(2025, 3, 11, 17, 3, 3, 604, DateTimeKind.Utc).AddTicks(1421), "karimi@gmail.com", false, "فاطمه", false, true, "کریمی", false, null, "KARIMI@GMAIL.COM", "KARIMI@GMAIL.COM", "AQAAAAIAAYagAAAAEKtEIfpZ8FeqWcO4ikOlKBmxIJ+nfD+CkhOFtRP5sFQepNEgT7f4D9WGIlGQL6r4Pw==", null, false, "/images/User/Expert/fatemeh.png", 2, "2152a283-4b6f-4b2b-8c6d-36e593da71e3", false, "karimi@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -588,13 +588,13 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                 columns: new[] { "Id", "Description", "ImagePath", "IsActive", "Name" },
                 values: new object[,]
                 {
-                    { 1, "خدمات نظافتی وسیله نقلیه و منزل و شرکت‌ها", "images\\Categories\\tamizkari\\1.webp", true, "تمیزکاری" },
-                    { 2, "خدمات مربوط به ساخت و ساز", "images\\Categories\\sakhteman\\1.webp", true, "ساختمان" },
-                    { 3, "خدمات تعمیر لوازم شخصی و خانگی و تجهیزات الکترونیکی", "images\\Categories\\tamirat\\1.webp", true, "تعمیرات اشیا" },
-                    { 4, "خدمات حمل بار و اسباب کشی و جابجایی اشیا", "images\\Categories\\asbabkeshi\\1.webp", true, "اسباب کشی" },
-                    { 5, "خدمات تعمیر و سرویس و نظافت وسیله نقلیه", "images\\Categories\\khodro\\1.webp", true, "خودرو" },
-                    { 6, "خدمات پزشکی و پرستاری و مشاوره", "images\\Categories\\salamti\\1.webp", true, "سلامت و زیبایی" },
-                    { 7, "خدمات دیگر", "images\\Categories\\sayer\\1.webp", true, "سایر" }
+                    { 1, "خدمات نظافتی وسیله نقلیه و منزل و شرکت‌ها", "/images/Categories/tamizkari/1.webp", true, "تمیزکاری" },
+                    { 2, "خدمات مربوط به ساخت و ساز", "/images/Categories/sakhteman/1.webp", true, "ساختمان" },
+                    { 3, "خدمات تعمیر لوازم شخصی و خانگی و تجهیزات الکترونیکی", "/images/Categories/tamirat/1.webp", true, "تعمیرات اشیا" },
+                    { 4, "خدمات حمل بار و اسباب کشی و جابجایی اشیا", "/images/Categories/asbabkeshi/1.webp", true, "اسباب کشی" },
+                    { 5, "خدمات تعمیر و سرویس و نظافت وسیله نقلیه", "/images/Categories/khodro/1.webp", true, "خودرو" },
+                    { 6, "خدمات پزشکی و پرستاری و مشاوره", "/images/Categories/salamti/1.webp", true, "سلامت و زیبایی" },
+                    { 7, "خدمات دیگر", "/images/Categories/sayer/1.webp", true, "سایر" }
                 });
 
             migrationBuilder.InsertData(
@@ -708,23 +708,23 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                 columns: new[] { "Id", "CategoryId", "Description", "ImagePath", "IsActive", "Name" },
                 values: new object[,]
                 {
-                    { 1, 1, "انواع خدمات نظافت کار در منزل  و پذیرایی برای مجالس", "images\\HomeServices\\nezafat\\1.webp", true, "نظافت و پذیرایی" },
-                    { 2, 1, "خدمات نظافت تخصصی", "images\\HomeServices\\shoshtosho\\1.webp", true, "شستشو" },
-                    { 3, 2, "خدمات تعمیرات تخصصی سیستم های سرمایشی و گرمایشی", "images\\HomeServices\\saramyesh\\1.webp", true, "سرمایش و گرمایش" },
-                    { 4, 2, "خدمات تعمیرات مربوط به ساختمان و نما", "images\\HomeServices\\taamiratsakhteman\\1.webp", true, "تعمیرات ساختمان" },
-                    { 5, 2, "خدمات تخصصی تعمیر لوله ساختمان", "images\\HomeServices\\lolekeshi\\1.webp", true, "لوله کشی" },
-                    { 6, 2, "خدمات تخصصی برق و سیم کشی ساختمان", "images\\HomeServices\\barghkari\\1.webp", true, "برقکاری" },
-                    { 7, 3, "تعمیرات تخصصی انواع لوازم های خانگی", "images\\HomeServices\\lavazemkhanegi\\1.webp", true, "نصب و تعمیرات لوازم خانگی" },
-                    { 8, 3, "تعمیرات تخصصی کامپیوتر های شخصی و لپ تاپ", "images\\HomeServices\\Computer\\1.webp", true, "خدمات کامپیتوتری" },
-                    { 9, 3, "تعمیرات تخصصی انواع تلفن همراه", "images\\HomeServices\\Mobile\\1.webp", true, "تعمیرات موبایل" },
-                    { 10, 4, "خدمات تخصصی برای جابجایی و باربری", "images\\HomeServices\\barbari\\1.webp", true, "باربری و جابجایی" },
-                    { 11, 5, "تعمیرات تخصصی خودرو و وسیله های نقلیه", "images\\HomeServices\\khodro\\1.webp", true, "خدمات و تعمیرات خودرو" },
-                    { 12, 5, "خدمات نظافت خودرو", "images\\HomeServices\\carwash\\1.webp", true, "کارواش و دیتیلینگ" },
-                    { 13, 6, "خدمات پزشکی و درمانی", "images\\HomeServices\\pezeshki\\1.webp", true, "پزشکی و پرستاری" },
-                    { 14, 6, "خدمات دامپزشکی و حیوانات خانگی", "images\\HomeServices\\pet\\1.webp", true, "حیوانات خانگی" },
-                    { 15, 7, "خدمات و تعمیر انواع لباس های مردانه و زنانه", "images\\HomeServices\\khayati\\1.webp", true, "خیاطی و تعیمرات لباس" },
-                    { 16, 7, "خدمات مجالس و تشریفات", "images\\HomeServices\\event\\1.webp", true, "مجالس و رویداد ها" },
-                    { 17, 7, "خدمات آموزشی", "images\\HomeServices\\amoozesh\\1.webp", true, "آموزش" }
+                    { 1, 1, "انواع خدمات نظافت کار در منزل  و پذیرایی برای مجالس", "/images/HomeServices/nezafat/1.webp", true, "نظافت و پذیرایی" },
+                    { 2, 1, "خدمات نظافت تخصصی", "/images/HomeServices/shoshtosho/1.webp", true, "شستشو" },
+                    { 3, 2, "خدمات تعمیرات تخصصی سیستم های سرمایشی و گرمایشی", "/images/HomeServices/saramyesh/1.webp", true, "سرمایش و گرمایش" },
+                    { 4, 2, "خدمات تعمیرات مربوط به ساختمان و نما", "/images/HomeServices/taamiratsakhteman/1.webp", true, "تعمیرات ساختمان" },
+                    { 5, 2, "خدمات تخصصی تعمیر لوله ساختمان", "/images/HomeServices/lolekeshi/1.webp", true, "لوله کشی" },
+                    { 6, 2, "خدمات تخصصی برق و سیم کشی ساختمان", "/images/HomeServices/barghkari/1.webp", true, "برقکاری" },
+                    { 7, 3, "تعمیرات تخصصی انواع لوازم های خانگی", "/images/HomeServices/lavazemkhanegi/1.webp", true, "نصب و تعمیرات لوازم خانگی" },
+                    { 8, 3, "تعمیرات تخصصی کامپیوتر های شخصی و لپ تاپ", "/images/HomeServices/Computer/1.webp", true, "خدمات کامپیتوتری" },
+                    { 9, 3, "تعمیرات تخصصی انواع تلفن همراه", "/images/HomeServices/Mobile/1.webp", true, "تعمیرات موبایل" },
+                    { 10, 4, "خدمات تخصصی برای جابجایی و باربری", "/images/HomeServices/barbari/1.webp", true, "باربری و جابجایی" },
+                    { 11, 5, "تعمیرات تخصصی خودرو و وسیله های نقلیه", "/images/HomeServices/khodro/1.webp", true, "خدمات و تعمیرات خودرو" },
+                    { 12, 5, "خدمات نظافت خودرو", "/images/HomeServices/carwash/1.webp", true, "کارواش و دیتیلینگ" },
+                    { 13, 6, "خدمات پزشکی و درمانی", "/images/HomeServices/pezeshki/1.webp", true, "پزشکی و پرستاری" },
+                    { 14, 6, "خدمات دامپزشکی و حیوانات خانگی", "/images/HomeServices/pet/1.webp", true, "حیوانات خانگی" },
+                    { 15, 7, "خدمات و تعمیر انواع لباس های مردانه و زنانه", "/images/HomeServices/khayati/1.webp", true, "خیاطی و تعیمرات لباس" },
+                    { 16, 7, "خدمات مجالس و تشریفات", "/images/HomeServices/event/1.webp", true, "مجالس و رویداد ها" },
+                    { 17, 7, "خدمات آموزشی", "/images/HomeServices/amoozesh/1.webp", true, "آموزش" }
                 });
 
             migrationBuilder.InsertData(
@@ -732,89 +732,45 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                 columns: new[] { "Id", "BasePrice", "Description", "HomeServiceId", "ImagePath", "IsActive", "Name" },
                 values: new object[,]
                 {
-                    { 1, 300000m, "خدمات نظافت عادی ", 1, "images\\SubHomeServices\\tamizkari\\nezafat\\service adi.jpg", true, "سرویس عادی نظافت" },
-                    { 2, 500000m, "خدمات نظافت ویژه", 1, "images\\SubHomeServices\\tamizkari\\nezafat\\service vizhe.jpg", true, "سرویس ویژه نظافت " },
-                    { 3, 300000m, "نظافت راه پله های ساختمان مسکونی ", 1, "images\\SubHomeServices\\tamizkari\\nezafat\\rah pele.jpg", true, "نظافت راه پله" },
-                    { 4, 300000m, "شستشوی فرش", 2, "images\\SubHomeServices\\tamizkari\\shostosho\\ghalishoie.jpg", true, "قالیشویی" },
-                    { 5, 300000m, "خشکشویی انواع لباس های شما", 2, "images\\SubHomeServices\\tamizkari\\shostosho\\khoshkshoie.jpg", true, "خشکشویی" },
-                    { 6, 300000m, "انواع خدمات شستشو مبل موکت تشک", 2, "images\\SubHomeServices\\tamizkari\\shostosho\\shostesho dar mahal.jpg", true, "شستشو در محل" },
-                    { 7, 300000m, "انواع خدمات و تعمیرات تخصصی کولر آبی", 3, "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\coolerabi.jpg", true, "تعمیر کولر آبی و سرویس کولر آبی" },
-                    { 8, 300000m, "تعمیر پکیج", 3, "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\pakgegarm.jpg", true, "تعمیر و سرویس پکیج" },
-                    { 9, 300000m, "انواع خدمات و تعمیرات تخصصی رادیاتور", 3, "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\shofazh.jpg", true, "سرویس رادیاتور و تعمیر شوفاژ" },
-                    { 10, 300000m, "خدمات بنایی", 4, "images\\SubHomeServices\\Sakhteman\\tamiratsakhteman\\banaie.jpg", true, "بنایی" },
-                    { 11, 300000m, "نصب کاغذ دیواری", 4, "images\\SubHomeServices\\Sakhteman\\tamiratsakhteman\\kaqazdivari.jpg", true, "کاغذ دیواری" },
-                    { 12, 300000m, "خدمات سنگ کاری", 4, "images\\SubHomeServices\\Sakhteman\\tamiratsakhteman\\sangkari.jpg", true, "سنگ کاری" },
-                    { 13, 300000m, "نصب شیرآلات ساختمانی و بهداشتی", 5, "images\\SubHomeServices\\Sakhteman\\lole keshi\\shiralat.jpg", true, "شیرآلات" },
-                    { 14, 300000m, "تخلیه چاه و لوله بازکنی", 5, "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\takhliye chah.jpg", true, "لوله بازکنی" },
-                    { 15, 300000m, "تعمیر و سرویس پمپ آب خانگی", 5, "images\\SubHomeServices\\Sakhteman\\garmayesh sarmayesh\\pomp ab.jpg", true, "پمپ آب" },
-                    { 16, 300000m, "سیم کشی ساختمان - برق کشی ساختمان", 6, "images\\SubHomeServices\\Sakhteman\\barghkari\\simkeshi.jpg", true, "سیم کشی" },
-                    { 17, 300000m, "نصب و تعمیر لوستر", 6, "images\\SubHomeServices\\Sakhteman\\barghkari\\cheragh.jpg", true, "نصب چراغ" },
-                    { 18, 300000m, "تعمیرات تخصصی یخچال", 7, "images\\SubHomeServices\\TamiratAshia\\nasb va taamirat\\2.jpg", true, "نصب و تعمیر یخچال" },
-                    { 19, 300000m, "تعمیرات تخصصی ماشین لباسشویی", 7, "images\\SubHomeServices\\TamiratAshia\\nasb va taamirat\\1.jpg", true, "نصب و تعمیر ماشین لباسشویی" },
-                    { 20, 300000m, "تعمیرات تخصصی کامپیوتر و لپتاپ", 8, "images\\SubHomeServices\\TamiratAshia\\khadamat computer\\1.webp", true, "تعمیر کامپیوتر و لپتاپ" },
-                    { 21, 300000m, "خدمات تخصصی شبکه", 8, "images\\SubHomeServices\\TamiratAshia\\khadamat computer\\2.webp", true, "پشتیبانی شبکه و سرور" },
-                    { 22, 300000m, "تعمیرات تخصصی تاچ و ال سی دی موبایل", 9, "images\\SubHomeServices\\TamiratAshia\\mobile\\2.jpg", true, "خدمات تاچ و ال سی دی" },
-                    { 23, 300000m, "خدمات تخصصی و تعویض باتری موبایل", 9, "images\\SubHomeServices\\TamiratAshia\\mobile\\1.jpg", true, "خدمات باتری" },
-                    { 24, 300000m, "حمل و باربری اشیای سنگین با خاور و کامیون", 10, "images\\SubHomeServices\\Barbari\\Asbab keshi khavar\\1.jpg", true, "اسباب کشی با خاور و کامیون" },
-                    { 25, 300000m, "حمل و باربری اشیا با وانت و نیسان", 10, "images\\SubHomeServices\\Barbari\\Asbab keshi khavar\\2.jpg", true, "اسباب کشی با وانت و نیسان" },
-                    { 26, 300000m, "خدمات تخصصی مکانیک خودرو", 11, "images\\SubHomeServices\\khodro\\khdamat khodro\\1.jpg", true, "مکانیکی خودرو" },
-                    { 27, 300000m, "خدمات تخصصی تعویض باتری خودرو", 11, "images\\SubHomeServices\\khodro\\khdamat khodro\\2.jpg", true, "تعویض باتری خودرو" },
-                    { 28, 300000m, "خدمات کارواش نانو وسیله نقلیه", 12, "images\\SubHomeServices\\khodro\\carwash\\1.jpg", true, "کارواش نانو" },
-                    { 29, 300000m, "خدمات واکس و پولیش خودرو", 12, "images\\SubHomeServices\\khodro\\carwash\\2.jpg", true, "واکس و پولیش خودرو" },
-                    { 30, 300000m, "خدمات معاینه پزشکی", 13, "images\\SubHomeServices\\salamati\\pezeshki\\1.jpg", true, "معاینه پزشکی" },
-                    { 31, 300000m, "خدمات پرستاری و تزریقات در محل", 13, "images\\SubHomeServices\\salamati\\pezeshki\\2.jpg", true, "پرستاری و تزریقات" },
-                    { 32, 300000m, "خدمات دامپزشکی انواع حیوانات خانگی", 14, "images\\SubHomeServices\\salamati\\dampezeshki\\1.jpg", true, "خدمات دامپزشکی در محل" },
-                    { 33, 300000m, "خدمات تخصصی تعمیر انواع لباس", 15, "images\\SubHomeServices\\Sayer\\khayati lebas\\1.jpg", true, "تعمیرات لباس" },
-                    { 34, 300000m, "خدمات تخصصی تعمیر انواع کیف و کفش", 15, "images\\SubHomeServices\\Sayer\\khayati lebas\\2.jpg", true, "تعمیر کیف و کفش" },
-                    { 35, 300000m, "خدمات انواع کیک و شیرینی های مجالس و مراسم", 16, "images\\SubHomeServices\\Sayer\\Sayer\\event\\1.jpg", true, "کیک و شیرینی" },
-                    { 36, 300000m, "خدمات ارسال هدیه", 16, "images\\SubHomeServices\\Sayer\\Sayer\\event\\2.jpg", true, "ارسال هدیه" },
-                    { 37, 300000m, "انواع خدمات آموزشی  برای آمادگی کنکور", 17, "images\\SubHomeServices\\Sayer\\amoozesh\\1.jpg", true, "آمادگی برای کنکور" },
-                    { 38, 300000m, "خدمات آموزشی انواع زبان های خارجی", 17, "images\\SubHomeServices\\Sayer\\amoozesh\\2.jpg", true, "آموزش زبان های خارجی" }
+                    { 1, 300000m, "خدمات نظافت عادی ", 1, "/images/SubHomeServices/tamizkari/nezafat/service adi.jpg", true, "سرویس عادی نظافت" },
+                    { 2, 500000m, "خدمات نظافت ویژه", 1, "/images/SubHomeServices/tamizkari/nezafat/service vizhe.jpg", true, "سرویس ویژه نظافت " },
+                    { 3, 300000m, "نظافت راه پله های ساختمان مسکونی ", 1, "/images/SubHomeServices/tamizkari/nezafat/rah pele.jpg", true, "نظافت راه پله" },
+                    { 4, 300000m, "شستشوی فرش", 2, "/images/SubHomeServices/tamizkari/shostosho/ghalishoie.jpg", true, "قالیشویی" },
+                    { 5, 300000m, "خشکشویی انواع لباس های شما", 2, "/images/SubHomeServices/tamizkari/shostosho/khoshkshoie.jpg", true, "خشکشویی" },
+                    { 6, 300000m, "انواع خدمات شستشو مبل موکت تشک", 2, "/images/SubHomeServices/tamizkari/shostosho/shostesho dar mahal.jpg", true, "شستشو در محل" },
+                    { 7, 300000m, "انواع خدمات و تعمیرات تخصصی کولر آبی", 3, "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/coolerabi.jpg", true, "تعمیر کولر آبی و سرویس کولر آبی" },
+                    { 8, 300000m, "تعمیر پکیج", 3, "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/pakgegarm.jpg", true, "تعمیر و سرویس پکیج" },
+                    { 9, 300000m, "انواع خدمات و تعمیرات تخصصی رادیاتور", 3, "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/shofazh.jpg", true, "سرویس رادیاتور و تعمیر شوفاژ" },
+                    { 10, 300000m, "خدمات بنایی", 4, "/images/SubHomeServices/Sakhteman/tamiratsakhteman/banaie.jpg", true, "بنایی" },
+                    { 11, 300000m, "نصب کاغذ دیواری", 4, "/images/SubHomeServices/Sakhteman/tamiratsakhteman/kaqazdivari.jpg", true, "کاغذ دیواری" },
+                    { 12, 300000m, "خدمات سنگ کاری", 4, "/images/SubHomeServices/Sakhteman/tamiratsakhteman/sangkari.jpg", true, "سنگ کاری" },
+                    { 13, 300000m, "نصب شیرآلات ساختمانی و بهداشتی", 5, "/images/SubHomeServices/Sakhteman/lole keshi/shiralat.jpg", true, "شیرآلات" },
+                    { 14, 300000m, "تخلیه چاه و لوله بازکنی", 5, "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/takhliye chah.jpg", true, "لوله بازکنی" },
+                    { 15, 300000m, "تعمیر و سرویس پمپ آب خانگی", 5, "/images/SubHomeServices/Sakhteman/garmayesh sarmayesh/pomp ab.jpg", true, "پمپ آب" },
+                    { 16, 300000m, "سیم کشی ساختمان - برق کشی ساختمان", 6, "/images/SubHomeServices/Sakhteman/barghkari/simkeshi.jpg", true, "سیم کشی" },
+                    { 17, 300000m, "نصب و تعمیر لوستر", 6, "/images/SubHomeServices/Sakhteman/barghkari/cheragh.jpg", true, "نصب چراغ" },
+                    { 18, 300000m, "تعمیرات تخصصی یخچال", 7, "/images/SubHomeServices/TamiratAshia/nasb va taamirat/2.jpg", true, "نصب و تعمیر یخچال" },
+                    { 19, 300000m, "تعمیرات تخصصی ماشین لباسشویی", 7, "/images/SubHomeServices/TamiratAshia/nasb va taamirat/1.jpg", true, "نصب و تعمیر ماشین لباسشویی" },
+                    { 20, 300000m, "تعمیرات تخصصی کامپیوتر و لپتاپ", 8, "/images/SubHomeServices/TamiratAshia/khadamat computer/1.webp", true, "تعمیر کامپیوتر و لپتاپ" },
+                    { 21, 300000m, "خدمات تخصصی شبکه", 8, "/images/SubHomeServices/TamiratAshia/khadamat computer/2.webp", true, "پشتیبانی شبکه و سرور" },
+                    { 22, 300000m, "تعمیرات تخصصی تاچ و ال سی دی موبایل", 9, "/images/SubHomeServices/TamiratAshia/mobile/2.jpg", true, "خدمات تاچ و ال سی دی" },
+                    { 23, 300000m, "خدمات تخصصی و تعویض باتری موبایل", 9, "/images/SubHomeServices/TamiratAshia/mobile/1.jpg", true, "خدمات باتری" },
+                    { 24, 300000m, "حمل و باربری اشیای سنگین با خاور و کامیون", 10, "/images/SubHomeServices/Barbari/Asbab keshi khavar/1.jpg", true, "اسباب کشی با خاور و کامیون" },
+                    { 25, 300000m, "حمل و باربری اشیا با وانت و نیسان", 10, "/images/SubHomeServices/Barbari/Asbab keshi khavar/2.jpg", true, "اسباب کشی با وانت و نیسان" },
+                    { 26, 300000m, "خدمات تخصصی مکانیک خودرو", 11, "/images/SubHomeServices/khodro/khdamat khodro/1.jpg", true, "مکانیکی خودرو" },
+                    { 27, 300000m, "خدمات تخصصی تعویض باتری خودرو", 11, "/images/SubHomeServices/khodro/khdamat khodro/2.jpg", true, "تعویض باتری خودرو" },
+                    { 28, 300000m, "خدمات کارواش نانو وسیله نقلیه", 12, "/images/SubHomeServices/khodro/carwash/1.jpg", true, "کارواش نانو" },
+                    { 29, 300000m, "خدمات واکس و پولیش خودرو", 12, "/images/SubHomeServices/khodro/carwash/2.jpg", true, "واکس و پولیش خودرو" },
+                    { 30, 300000m, "خدمات معاینه پزشکی", 13, "/images/SubHomeServices/salamati/pezeshki/1.jpg", true, "معاینه پزشکی" },
+                    { 31, 300000m, "خدمات پرستاری و تزریقات در محل", 13, "/images/SubHomeServices/salamati/pezeshki/2.jpg", true, "پرستاری و تزریقات" },
+                    { 32, 300000m, "خدمات دامپزشکی انواع حیوانات خانگی", 14, "/images/SubHomeServices/salamati/dampezeshki/1.jpg", true, "خدمات دامپزشکی در محل" },
+                    { 33, 300000m, "خدمات تخصصی تعمیر انواع لباس", 15, "/images/SubHomeServices/Sayer/khayati lebas/1.jpg", true, "تعمیرات لباس" },
+                    { 34, 300000m, "خدمات تخصصی تعمیر انواع کیف و کفش", 15, "/images/SubHomeServices/Sayer/khayati lebas/2.jpg", true, "تعمیر کیف و کفش" },
+                    { 35, 300000m, "خدمات انواع کیک و شیرینی های مجالس و مراسم", 16, "/images/SubHomeServices/Sayer/Sayer/event/1.jpg", true, "کیک و شیرینی" },
+                    { 36, 300000m, "خدمات ارسال هدیه", 16, "/images/SubHomeServices/Sayer/Sayer/event/2.jpg", true, "ارسال هدیه" },
+                    { 37, 300000m, "انواع خدمات آموزشی  برای آمادگی کنکور", 17, "/images/SubHomeServices/Sayer/amoozesh/1.jpg", true, "آمادگی برای کنکور" },
+                    { 38, 300000m, "خدمات آموزشی انواع زبان های خارجی", 17, "/images/SubHomeServices/Sayer/amoozesh/2.jpg", true, "آموزش زبان های خارجی" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Requests",
-                columns: new[] { "Id", "CreatedAt", "CustomerId", "Deadline", "Description", "EnvironmentImagePath", "ExecutionDate", "IsEnabled", "Status", "SubHomeServiceId" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(827), 1, new DateTime(2025, 3, 12, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(821), "درخواست بنایی ساختمان", null, new DateTime(2025, 3, 10, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(827), true, 0, 10 },
-                    { 2, new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(831), 1, new DateTime(2025, 3, 14, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(830), "درخواست کاغذ دیواری", null, new DateTime(2025, 3, 12, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(830), true, 0, 11 },
-                    { 3, new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(834), 2, new DateTime(2025, 3, 17, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(833), "درخواست سنگ کاری", null, new DateTime(2025, 3, 15, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(833), true, 0, 12 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Skills",
-                columns: new[] { "Id", "Name", "SubHomeServiceId" },
-                values: new object[,]
-                {
-                    { 1, "بنایی", 10 },
-                    { 2, "کاغذ دیواری", 11 },
-                    { 3, "سنگ کاری", 12 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "ExpertSkills",
-                columns: new[] { "Id", "ExpertId", "SkillId" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 2, 1, 2 },
-                    { 3, 2, 3 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Proposals",
-                columns: new[] { "Id", "CreatedAt", "Description", "ExecutionDate", "ExpertId", "IsEnabled", "OrderId", "Price", "RequestId", "ResponseTime", "SkillId", "Status" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6414), "پیشنهاد انجام خدمات برای درخواست بنایی", new DateTime(2025, 3, 12, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6408), 1, true, null, 450000m, 1, new DateTime(2025, 3, 8, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6412), 1, 0 },
-                    { 2, new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6419), "پیشنهاد انجام خدمات برای درخواست کاغذ دیواری", new DateTime(2025, 3, 10, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6417), 1, true, null, 600000m, 2, new DateTime(2025, 3, 8, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6418), 2, 0 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Proposals",
-                columns: new[] { "Id", "CreatedAt", "Description", "ExecutionDate", "ExpertId", "OrderId", "Price", "RequestId", "ResponseTime", "SkillId", "Status" },
-                values: new object[] { 3, new DateTime(2025, 3, 7, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6422), "پیشنهاد انجام خدمات برای درخواست سنگ کاری", new DateTime(2025, 3, 14, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6421), 2, null, 780000m, 3, new DateTime(2025, 3, 9, 10, 3, 49, 467, DateTimeKind.Utc).AddTicks(6421), 3, 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_AppUserId",

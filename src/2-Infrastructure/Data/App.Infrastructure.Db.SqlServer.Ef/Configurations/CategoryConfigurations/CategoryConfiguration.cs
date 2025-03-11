@@ -36,13 +36,13 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Configurations.CategoryConfiguratio
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
-                new Category { Id = 1, Name = "تمیزکاری", Description = "خدمات نظافتی وسیله نقلیه و منزل و شرکت‌ها", ImagePath = "images\\Categories\\tamizkari\\1.webp" },
-                new Category { Id = 2, Name = "ساختمان", Description = "خدمات مربوط به ساخت و ساز", ImagePath= "images\\Categories\\sakhteman\\1.webp" },
-                new Category { Id = 3, Name = "تعمیرات اشیا", Description ="خدمات تعمیر لوازم شخصی و خانگی و تجهیزات الکترونیکی", ImagePath = "images\\Categories\\tamirat\\1.webp" },
-                new Category { Id = 4, Name = "اسباب کشی", Description = "خدمات حمل بار و اسباب کشی و جابجایی اشیا", ImagePath = "images\\Categories\\asbabkeshi\\1.webp" },
-                new Category { Id = 5, Name = "خودرو", Description = "خدمات تعمیر و سرویس و نظافت وسیله نقلیه", ImagePath = "images\\Categories\\khodro\\1.webp" },
-                new Category { Id = 6, Name = "سلامت و زیبایی", Description = "خدمات پزشکی و پرستاری و مشاوره" , ImagePath = "images\\Categories\\salamti\\1.webp" },
-                new Category { Id = 7, Name = "سایر", Description = "خدمات دیگر", ImagePath = "images\\Categories\\sayer\\1.webp" }
+                new Category { Id = 1, Name = "تمیزکاری", Description = "خدمات نظافتی وسیله نقلیه و منزل و شرکت‌ها", ImagePath = "/images/Categories/tamizkari/1.webp" },
+                new Category { Id = 2, Name = "ساختمان", Description = "خدمات مربوط به ساخت و ساز", ImagePath = "/images/Categories/sakhteman/1.webp" },
+                new Category { Id = 3, Name = "تعمیرات اشیا", Description = "خدمات تعمیر لوازم شخصی و خانگی و تجهیزات الکترونیکی", ImagePath = "/images/Categories/tamirat/1.webp" },
+                new Category { Id = 4, Name = "اسباب کشی", Description = "خدمات حمل بار و اسباب کشی و جابجایی اشیا", ImagePath = "/images/Categories/asbabkeshi/1.webp" },
+                new Category { Id = 5, Name = "خودرو", Description = "خدمات تعمیر و سرویس و نظافت وسیله نقلیه", ImagePath = "/images/Categories/khodro/1.webp" },
+                new Category { Id = 6, Name = "سلامت و زیبایی", Description = "خدمات پزشکی و پرستاری و مشاوره", ImagePath = "/images/Categories/salamti/1.webp" },
+                new Category { Id = 7, Name = "سایر", Description = "خدمات دیگر", ImagePath = "/images/Categories/sayer/1.webp" }
             );
         }
     }
