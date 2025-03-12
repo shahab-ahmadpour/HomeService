@@ -36,6 +36,12 @@
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="proposals-tab" data-bs-toggle="tab" data-bs-target="#proposals-tab-pane"
+                            type="button" role="tab" aria-controls="proposals-tab-pane" aria-selected="false">
+                        <i class="bi bi-clipboard-check me-1"></i> پیشنهادات
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
                     <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders-tab-pane"
                             type="button" role="tab" aria-controls="orders-tab-pane" aria-selected="false">
                         <i class="bi bi-bag-check me-1"></i> سفارش‌های فعال
@@ -120,6 +126,71 @@
                                                            onclick="return confirm('آیا از لغو این درخواست اطمینان دارید؟');"
                                                            title="لغو درخواست">
                                                             <i class="bi bi-x-circle"></i>
+                                                        </a>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+
+                <!-- پیشنهادات -->
+                <div class="tab-pane fade" id="proposals-tab-pane" role="tabpanel" aria-labelledby="proposals-tab" tabindex="0">
+                    @if (!Model.Proposals.Any())
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-clipboard-check text-muted" style="font-size: 3rem;"></i>
+                            <p class="mt-3 text-muted">شما هنوز پیشنهادی دریافت نکرده‌اید</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>شماره</th>
+                                        <th>سرویس</th>
+                                        <th>کارشناس</th>
+                                        <th>قیمت</th>
+                                        <th>وضعیت</th>
+                                        <th>تاریخ ایجاد</th>
+                                        <th>تاریخ اجرا</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var proposal in Model.Proposals.OrderByDescending(p => p.CreatedAt))
+                                    {
+                                        <tr>
+                                            <td>@proposal.Id</td>
+                                            <td>@proposal.SubHomeServiceName</td>
+                                            <td>@proposal.ExpertName</td>
+                                            <td>@proposal.Price.ToString("N0") ریال</td>
+                                            <td>
+                                                <span class="badge @GetProposalStatusBadgeClass(proposal.Status)">
+                                                    @proposal.Status.GetDisplayName()
+                                                </span>
+                                            </td>
+                                            <td>@proposal.CreatedAt.ToPersianDate()</td>
+                                            <td>@proposal.ExecutionDate.ToPersianDate()</td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    @if (proposal.Status == ProposalStatus.Pending)
+                                                    {
+                                                        <a href="@Url.Action("AcceptProposal", new { id = proposal.Id })"
+                                                           class="btn btn-sm btn-outline-success me-1"
+                                                           onclick="return confirm('آیا از پذیرش این پیشنهاد اطمینان دارید؟');">
+                                                            <i class="bi bi-check-lg"></i>
+                                                        </a>
+                                                        <a href="@Url.Action("RejectProposal", new { id = proposal.Id })"
+                                                           class="btn btn-sm btn-outline-danger"
+                                                           onclick="return confirm('آیا از رد این پیشنهاد اطمینان دارید؟');">
+                                                            <i class="bi bi-x-lg"></i>
                                                         </a>
                                                     }
                                                 </div>
@@ -319,6 +390,17 @@
             PaymentStatus.paid => "bg-success",
             PaymentStatus.Failed => "bg-danger",
             PaymentStatus.Completed => "bg-primary",
+            _ => "bg-secondary"
+        };
+    }
+
+    public string GetProposalStatusBadgeClass(ProposalStatus status)
+    {
+        return status switch
+        {
+            ProposalStatus.Pending => "bg-warning",
+            ProposalStatus.Accepted => "bg-success",
+            ProposalStatus.Rejected => "bg-danger",
             _ => "bg-secondary"
         };
     }

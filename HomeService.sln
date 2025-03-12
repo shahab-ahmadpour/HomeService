@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeService.Domain.AppServi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Infrastructure.DbAccess.Repository.Dapper", "src\2-Infrastructure\DataAccess\App.Infrastructure.DbAccess.Repository.Dapper\App.Infrastructure.DbAccess.Repository.Dapper.csproj", "{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Endpoints.Api", "src\3-EndPoints\App.Endpoints.Api\App.Endpoints.Api\App.Endpoints.Api.csproj", "{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,5 +99,6 @@ Global
 		{74830173-0B31-4845-A001-325804D255E7} = {A6FBEFB8-8182-4F0C-B15F-82435989B219}
 		{C70A562E-7C6B-4417-B533-25014E2E7B8E} = {A6FBEFB8-8182-4F0C-B15F-82435989B219}
 		{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B} = {F162D6B7-072E-49A6-8685-F2B7267B63AC}
+		{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C} = {DAD5C6D3-6DE7-41C6-BFB1-7C96A9743821}
 	EndGlobalSection
 EndGlobal

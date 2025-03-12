@@ -3,12 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C4F48E4D-CBA7-4179-9BE8-47C1329AA0DF}|src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\App.Endpoints.MVC.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.mvc\\app.endpoints.mvc\\views\\customer\\proposalslist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C4F48E4D-CBA7-4179-9BE8-47C1329AA0DF}|src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\App.Endpoints.MVC.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.mvc\\app.endpoints.mvc\\views\\customer\\proposalslist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\controllers\\categoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\controllers\\requestscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\controllers\\requestscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}|src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\App.Infrastructure.DbAccess.Repository.Dapper.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\2-infrastructure\\dataaccess\\app.infrastructure.dbaccess.repository.dapper\\services\\categorydapperrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}|src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\App.Infrastructure.DbAccess.Repository.Dapper.csproj|solutionrelative:src\\2-infrastructure\\dataaccess\\app.infrastructure.dbaccess.repository.dapper\\services\\categorydapperrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\models\\registerrequestmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\models\\registerrequestmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\filters\\apikeyauthattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{12A2BD2E-C9CC-49A8-AF4B-D71F4169101C}|src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\App.Endpoints.Api.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.api\\app.endpoints.api\\filters\\apikeyauthattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C4F48E4D-CBA7-4179-9BE8-47C1329AA0DF}|src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\App.Endpoints.MVC.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.mvc\\app.endpoints.mvc\\views\\customer\\myorders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{C4F48E4D-CBA7-4179-9BE8-47C1329AA0DF}|src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\App.Endpoints.MVC.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.mvc\\app.endpoints.mvc\\views\\customer\\myorders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4F48E4D-CBA7-4179-9BE8-47C1329AA0DF}|src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\App.Endpoints.MVC.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\3-endpoints\\app.endpoints.mvc\\app.endpoints.mvc\\views\\customer\\proposalslist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C4F48E4D-CBA7-4179-9BE8-47C1329AA0DF}|src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\App.Endpoints.MVC.csproj|solutionrelative:src\\3-endpoints\\app.endpoints.mvc\\app.endpoints.mvc\\views\\customer\\proposalslist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E759D1D7-A573-4160-B7DA-F162ACF8FE5B}|src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\App.Infrastructure.Db.SqlServer.Ef.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\2-infrastructure\\data\\app.infrastructure.db.sqlserver.ef\\migrations\\20250311170304_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -69,10 +105,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}|src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\App.Infrastructure.DbAccess.Repository.Dapper.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\2-infrastructure\\dataaccess\\app.infrastructure.dbaccess.repository.dapper\\services\\homeservicedapperrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}|src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\App.Infrastructure.DbAccess.Repository.Dapper.csproj|solutionrelative:src\\2-infrastructure\\dataaccess\\app.infrastructure.dbaccess.repository.dapper\\services\\homeservicedapperrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}|src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\App.Infrastructure.DbAccess.Repository.Dapper.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\2-infrastructure\\dataaccess\\app.infrastructure.dbaccess.repository.dapper\\services\\categorydapperrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}|src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\App.Infrastructure.DbAccess.Repository.Dapper.csproj|solutionrelative:src\\2-infrastructure\\dataaccess\\app.infrastructure.dbaccess.repository.dapper\\services\\categorydapperrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BDEC5A4B-143C-42FF-9E6D-7DB2F778AD7B}|src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\App.Infrastructure.DbAccess.Repository.Dapper.csproj|c:\\users\\shaha\\source\\repos\\homeservicefinalproject\\homeservice\\src\\2-infrastructure\\dataaccess\\app.infrastructure.dbaccess.repository.dapper\\locations\\locationdapperrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -142,11 +174,153 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RequestsController.cs",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\RequestsController.cs",
+              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\RequestsController.cs",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\RequestsController.cs",
+              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\RequestsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-11T18:36:25.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ServicesController.cs",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\ServicesController.cs",
+              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\ServicesController.cs",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\ServicesController.cs",
+              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\ServicesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-11T18:06:24.774Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "CategoriesController.cs",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\CategoriesController.cs",
+              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\CategoriesController.cs",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\CategoriesController.cs",
+              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\CategoriesController.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAYwEoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-11T18:05:53.229Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RegisterRequestModel.cs",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Models\\RegisterRequestModel.cs",
+              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Models\\RegisterRequestModel.cs",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Models\\RegisterRequestModel.cs",
+              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Models\\RegisterRequestModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-11T17:47:11.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-11T17:46:21.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ApiKeyAuthAttribute.cs",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Filters\\ApiKeyAuthAttribute.cs",
+              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Filters\\ApiKeyAuthAttribute.cs",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Filters\\ApiKeyAuthAttribute.cs",
+              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Filters\\ApiKeyAuthAttribute.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-11T17:45:15.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\appsettings.json",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\appsettings.json",
+              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-11T17:43:30.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Program.cs",
+              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Program.cs",
+              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.Api\\App.Endpoints.Api\\Program.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAAEUAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-11T17:43:26.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MyOrders.cshtml",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\MyOrders.cshtml",
+              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\MyOrders.cshtml",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\MyOrders.cshtml",
+              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\MyOrders.cshtml",
+              "ViewState": "AgIAAGQBAAAAAAAAAAAmwJYBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-11T17:22:50.41Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CategoryDapperRepository.cs",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\CategoryDapperRepository.cs",
+              "RelativeDocumentMoniker": "src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\CategoryDapperRepository.cs",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\CategoryDapperRepository.cs",
+              "RelativeToolTip": "src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\CategoryDapperRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-11T15:09:18.854Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "20250311170304_init.cs",
+              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Migrations\\20250311170304_init.cs",
+              "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Migrations\\20250311170304_init.cs",
+              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Migrations\\20250311170304_init.cs",
+              "RelativeToolTip": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Migrations\\20250311170304_init.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-11T17:03:04.232Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "ProposalsList.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\ProposalsList.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\ProposalsList.cshtml",
@@ -159,33 +333,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MyOrders.cshtml",
-              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\MyOrders.cshtml",
-              "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\MyOrders.cshtml",
-              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\MyOrders.cshtml",
-              "RelativeToolTip": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\MyOrders.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-11T17:07:22.198Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "20250311170304_init.cs",
-              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Migrations\\20250311170304_init.cs",
-              "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Migrations\\20250311170304_init.cs",
-              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Migrations\\20250311170304_init.cs",
-              "RelativeToolTip": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Migrations\\20250311170304_init.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-11T17:03:04.232Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\AppDbContext.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\AppDbContext.cs",
@@ -197,7 +345,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 15,
               "Title": "CategoryConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\CategoryConfigurations\\CategoryConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\CategoryConfigurations\\CategoryConfiguration.cs",
@@ -209,7 +357,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 16,
               "Title": "TransactionConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\TransactionConfigurations\\TransactionConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\TransactionConfigurations\\TransactionConfiguration.cs",
@@ -221,7 +369,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 17,
               "Title": "ExpertSkillConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\ExpertSkillConfigurations\\ExpertSkillConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\ExpertSkillConfigurations\\ExpertSkillConfiguration.cs",
@@ -233,7 +381,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 13,
               "Title": "HomeServiceConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\HomeServiceConfigurations\\HomeServiceConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\HomeServiceConfigurations\\HomeServiceConfiguration.cs",
@@ -245,7 +393,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 18,
               "Title": "OrderConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\OrderConfigurations\\OrderConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\OrderConfigurations\\OrderConfiguration.cs",
@@ -257,7 +405,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 19,
               "Title": "ProposalConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\ProposalConfigurations\\ProposalConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\ProposalConfigurations\\ProposalConfiguration.cs",
@@ -269,7 +417,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 14,
               "Title": "SkillConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\SkillConfigurations\\SkillConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\SkillConfigurations\\SkillConfiguration.cs",
@@ -281,7 +429,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 20,
               "Title": "ReviewConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\ReviewConfigurations\\ReviewConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\ReviewConfigurations\\ReviewConfiguration.cs",
@@ -293,7 +441,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 21,
               "Title": "RequestConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\RequestConfigurations\\RequestConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\RequestConfigurations\\RequestConfiguration.cs",
@@ -305,7 +453,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 22,
               "Title": "SubHomeServiceConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\SubHomeServiceConfigurations\\SubHomeServiceConfiguration.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\Data\\App.Infrastructure.Db.SqlServer.Ef\\Configurations\\SubHomeServiceConfigurations\\SubHomeServiceConfiguration.cs",
@@ -317,7 +465,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 23,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Program.cs",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Program.cs",
@@ -329,7 +477,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 24,
               "Title": "SubHomeServiceDapperRepository.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\SubHomeServiceDapperRepository.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\SubHomeServiceDapperRepository.cs",
@@ -341,7 +489,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 25,
               "Title": "HomeServiceDapperRepository.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\HomeServiceDapperRepository.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\HomeServiceDapperRepository.cs",
@@ -353,19 +501,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "CategoryDapperRepository.cs",
-              "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\CategoryDapperRepository.cs",
-              "RelativeDocumentMoniker": "src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\CategoryDapperRepository.cs",
-              "ToolTip": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\CategoryDapperRepository.cs",
-              "RelativeToolTip": "src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Services\\CategoryDapperRepository.cs",
-              "ViewState": "AgIAAKEAAAAAAAAAAAAgwNcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-11T15:09:18.854Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 26,
               "Title": "LocationDapperRepository.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Locations\\LocationDapperRepository.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\Locations\\LocationDapperRepository.cs",
@@ -377,7 +513,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 27,
               "Title": "DapperRepositoryBase.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\DapperRepositoryBase.cs",
               "RelativeDocumentMoniker": "src\\2-Infrastructure\\DataAccess\\App.Infrastructure.DbAccess.Repository.Dapper\\DapperRepositoryBase.cs",
@@ -389,7 +525,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 30,
               "Title": "CreateProposal.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Expert\\CreateProposal.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Expert\\CreateProposal.cshtml",
@@ -401,7 +537,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 31,
               "Title": "Dashboard.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Expert\\Dashboard.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Expert\\Dashboard.cshtml",
@@ -413,7 +549,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 32,
               "Title": "Proposals.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Proposals.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Proposals.cshtml",
@@ -425,7 +561,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 33,
               "Title": "Requests.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Requests.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Requests.cshtml",
@@ -437,7 +573,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 29,
               "Title": "EditProfile.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\EditProfile.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\EditProfile.cshtml",
@@ -449,7 +585,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 28,
               "Title": "CustomerController.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Controllers\\CustomerController.cs",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Controllers\\CustomerController.cs",
@@ -461,7 +597,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 34,
               "Title": "RequestDetails.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\RequestDetails.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\RequestDetails.cshtml",
@@ -473,7 +609,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 35,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Index.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Index.cshtml",
@@ -485,7 +621,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 36,
               "Title": "Dashboard.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Dashboard.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Dashboard.cshtml",
@@ -497,7 +633,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 37,
               "Title": "CreateReview.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\CreateReview.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\CreateReview.cshtml",
@@ -509,7 +645,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 39,
               "Title": "_ServicesPartial.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\_ServicesPartial.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\_ServicesPartial.cshtml",
@@ -521,7 +657,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 38,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Create.cshtml",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Views\\Customer\\Create.cshtml",
@@ -533,7 +669,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 40,
               "Title": "ExpertController.cs",
               "DocumentMoniker": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Controllers\\ExpertController.cs",
               "RelativeDocumentMoniker": "src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\Controllers\\ExpertController.cs",
