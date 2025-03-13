@@ -664,6 +664,18 @@ namespace App.Endpoints.MVC.Controllers
                         TempData["ErrorMessage"] = "تغییر وضعیت پیشنهاد با خطا مواجه شد.";
                         return RedirectToAction("Proposals");
                     }
+
+                    var allProposals = await _proposalAppService.GetProposalsByRequestIdAsync(proposalDto.RequestId, cancellationToken);
+
+                    foreach (var otherProposal in allProposals)
+                    {
+                        if (otherProposal.Id != id && otherProposal.Status == ProposalStatus.Pending)
+                        {
+                            await _customerAppService.UpdateProposalStatusAsync(otherProposal.Id, ProposalStatus.Rejected, cancellationToken);
+                            _logger.Information("Auto-rejected proposal {Id} after accepting proposal {AcceptedId} for request {RequestId}",
+                                otherProposal.Id, id, proposalDto.RequestId);
+                        }
+                    }
                 }
                 else if (proposalDto.Status != ProposalStatus.Accepted)
                 {
@@ -1022,6 +1034,18 @@ namespace App.Endpoints.MVC.Controllers
                     return RedirectToAction("ProposalsList", new { requestId = proposal.RequestId });
                 }
 
+                var allProposals = await _proposalAppService.GetProposalsByRequestIdAsync(proposal.RequestId, cancellationToken);
+
+                foreach (var otherProposal in allProposals)
+                {
+                    if (otherProposal.Id != id && otherProposal.Status == ProposalStatus.Pending)
+                    {
+                        await _customerAppService.UpdateProposalStatusAsync(otherProposal.Id, ProposalStatus.Rejected, cancellationToken);
+                        _logger.Information("Auto-rejected proposal {Id} after accepting proposal {AcceptedId} for request {RequestId}",
+                            otherProposal.Id, id, proposal.RequestId);
+                    }
+                }
+
                 var orderId = await _customerAppService.SelectProposalAndCreateOrderAsync(id, customerId.Value, cancellationToken);
 
                 var updateRequestDto = new UpdateRequestDto
@@ -1153,7 +1177,42 @@ namespace App.Endpoints.MVC.Controllers
 
             return RedirectToAction("MyOrders");
         }
+        [HttpGet]
+        public async Task<IActionResult> Wallet(CancellationToken cancellationToken)
+        {
+            var customerId = await GetCustomerIdFromSession(cancellationToken);
+            if (!customerId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
+            var balance = await _customerAppService.GetBalanceAsync(customerId.Value, cancellationToken);
+            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+            return View(balance);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChargeWallet(decimal amount, CancellationToken cancellationToken)
+        {
+            var customerId = await GetCustomerIdFromSession(cancellationToken);
+            if (!customerId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var (success, message) = await _customerAppService.ChargeWalletAsync(customerId.Value, amount, cancellationToken);
+
+            if (success)
+            {
+                TempData["SuccessMessage"] = message;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = message;
+            }
+
+            return RedirectToAction("Wallet");
+        }
         [HttpPost]
         public IActionResult Logout()
         {

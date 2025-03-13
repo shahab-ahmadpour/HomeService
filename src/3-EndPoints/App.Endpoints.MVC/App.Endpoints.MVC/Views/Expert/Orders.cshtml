@@ -98,7 +98,7 @@
                                                         <td>@order.SubHomeServiceName</td>
                                                         <td>@order.CustomerName</td>
                                                         <td>@order.CreatedAt.ToPersianDate()</td>
-                                                        <td>@order.FinalPrice.ToString("N0") ریال</td>
+                                                        <td>@order.FinalPrice.ToString("N0") تومان</td>
                                                         <td>
                                                             <div class="d-flex">
                                                                 <a href="@Url.Action("OrderDetails", "Expert", new { orderId = order.Id })"
@@ -158,7 +158,7 @@
                                                         <td>@order.CustomerName</td>
                                                         <td>@order.CreatedAt.ToPersianDate()</td>
                                                         <td>@(order.CompletionDate?.ToPersianDate() ?? "نامشخص")</td>
-                                                        <td>@order.FinalPrice.ToString("N0") ریال</td>
+                                                        <td>@order.FinalPrice.ToString("N0") تومان</td>
                                                         <td>
                                                             <span class="badge @GetPaymentStatusBadgeClass(order.PaymentStatus)">
                                                                 @order.PaymentStatus.GetDisplayName()

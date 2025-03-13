@@ -21,7 +21,7 @@ namespace App.Domain.Core.Users.Entities
         [Required, Column(TypeName = "decimal(18,2)")]
         public decimal AccountBalance { get; set; } = 0;
 
-        public string ProfilePicture { get; set; } = "default.png";
+        public string ProfilePicture { get; set; } = "/images/User/default.png";
         public bool IsEnabled { get; set; } = false;
         public bool IsConfirmed { get; set; } = false;
 

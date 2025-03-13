@@ -1,0 +1,90 @@
+﻿@model decimal
+@{
+    ViewData["Title"] = "کیف پول من";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container py-4">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <div class="card">
+        <div class="card-header">
+            <h4>کیف پول من</h4>
+        </div>
+        <div class="card-body">
+            <div class="mb-4">
+                <h5>موجودی فعلی: @Model.ToString("N0") تومان</h5>
+            </div>
+
+            <form method="post" asp-action="ChargeWallet" id="walletForm">
+                <div class="mb-3">
+                    <label for="displayAmount" class="form-label">مبلغ شارژ (تومان):</label>
+                    <input type="text" id="displayAmount" class="form-control"
+                           placeholder="مثلا: 100.000" required />
+
+                    <!-- فیلد مخفی برای ارسال مقدار واقعی به سرور -->
+                    <input type="hidden" id="amount" name="amount" />
+
+                    <small class="text-muted">حداکثر مجاز شارژ در هر بار: 3,000,000 تومان</small>
+                </div>
+                <button type="submit" class="btn btn-primary">شارژ کیف پول</button>
+                <a asp-action="Dashboard" class="btn btn-secondary">بازگشت</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // فیلد نمایشی با فرمت سه‌رقمی
+            const displayAmount = document.getElementById('displayAmount');
+            // فیلد مخفی برای ارسال مقدار واقعی
+            const hiddenAmount = document.getElementById('amount');
+            // فرم
+            const walletForm = document.getElementById('walletForm');
+
+            // تابع فرمت‌دهی اعداد با جداکننده هزارگان (نقطه)
+            function formatNumber(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+
+            // تابع حذف جداکننده‌ها برای استخراج عدد خالص
+            function unformatNumber(str) {
+                return str.replace(/\./g, "");
+            }
+
+            // رویداد تغییر مقدار فیلد نمایشی
+            displayAmount.addEventListener('input', function(e) {
+                // فقط اعداد را قبول کن
+                let value = this.value.replace(/[^\d]/g, '');
+
+                if (value) {
+                    // فرمت‌دهی عدد با جداکننده هزارگان
+                    this.value = formatNumber(value);
+                    // ذخیره مقدار بدون فرمت در فیلد مخفی
+                    hiddenAmount.value = value;
+                } else {
+                    this.value = '';
+                    hiddenAmount.value = '';
+                }
+            });
+
+            // هنگام ارسال فرم مطمئن شو که مقدار معتبر داریم
+            walletForm.addEventListener('submit', function(e) {
+                if (!hiddenAmount.value || isNaN(hiddenAmount.value) || parseInt(hiddenAmount.value) <= 0) {
+                    e.preventDefault();
+                    alert('لطفاً یک مبلغ معتبر وارد کنید.');
+                    return false;
+                }
+            });
+        });
+    </script>
+}

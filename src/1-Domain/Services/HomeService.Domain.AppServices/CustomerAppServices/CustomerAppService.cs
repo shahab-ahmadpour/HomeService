@@ -303,5 +303,9 @@ namespace HomeService.Domain.AppServices.CustomerAppServices
         {
             return await _customerService.UpdateBalanceAsync(customerId, newBalance, cancellationToken);
         }
+        public async Task<(bool Success, string Message)> ChargeWalletAsync(int customerId, decimal amount, CancellationToken cancellationToken)
+        {
+            return await _customerService.ChargeWalletAsync(customerId, amount, cancellationToken);
+        }
     }
 }

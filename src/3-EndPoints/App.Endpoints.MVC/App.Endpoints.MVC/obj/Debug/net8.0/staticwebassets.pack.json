@@ -605,6 +605,10 @@
       "PackagePath": "staticwebassets\\images\\User\\Expert\\shahin.png"
     },
     {
+      "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\images\\User\\default.png",
+      "PackagePath": "staticwebassets\\images\\User\\default.png"
+    },
+    {
       "Id": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\images\\hero-bg.jpg",
       "PackagePath": "staticwebassets\\images\\hero-bg.jpg"
     },

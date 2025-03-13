@@ -144,9 +144,54 @@ namespace App.Endpoints.MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            var expertDto = await _expertAppService.GetByIdAsync(expertId.Value, cancellationToken);
+            if (expertDto == null)
+            {
+                _logger.Warning("Expert not found for ExpertId: {ExpertId}", expertId.Value);
+                return RedirectToAction("Login", "Account");
+            }
+
+            model.AppUserId = expertDto.AppUserId;
+
             if (model.ProfilePictureFile == null || model.ProfilePictureFile.Length == 0)
             {
                 ModelState.Remove("ProfilePictureFile");
+            }
+
+            if (string.IsNullOrEmpty(model.FirstName))
+            {
+                ModelState.Remove("FirstName");
+                model.FirstName = expertDto.FirstName;
+            }
+
+            if (string.IsNullOrEmpty(model.LastName))
+            {
+                ModelState.Remove("LastName");
+                model.LastName = expertDto.LastName;
+            }
+
+            if (string.IsNullOrEmpty(model.PhoneNumber))
+            {
+                ModelState.Remove("PhoneNumber");
+                model.PhoneNumber = expertDto.PhoneNumber;
+            }
+
+            if (string.IsNullOrEmpty(model.Address))
+            {
+                ModelState.Remove("Address");
+                model.Address = expertDto.Address;
+            }
+
+            if (string.IsNullOrEmpty(model.State))
+            {
+                ModelState.Remove("State");
+                model.State = expertDto.State;
+            }
+
+            if (string.IsNullOrEmpty(model.City))
+            {
+                ModelState.Remove("City");
+                model.City = expertDto.City;
             }
 
             if (!ModelState.IsValid)
@@ -210,7 +255,7 @@ namespace App.Endpoints.MVC.Controllers
 
             ViewBag.Provinces = await _locationAppService.GetAllProvincesAsync(cancellationToken);
             ViewBag.Cities = string.IsNullOrEmpty(model.State)
-                ? new List<CityDto>() // تغییر به CityDto
+                ? new List<CityDto>()
                 : await _locationAppService.GetCitiesByProvinceNameAsync(model.State, cancellationToken);
             ViewBag.ExpertSkills = await _skillAppService.GetSkillsByExpertIdAsync(expertId.Value, cancellationToken);
             ViewBag.SubHomeServices = await _subHomeServiceAppService.GetAllAsync(cancellationToken);

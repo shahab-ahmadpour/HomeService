@@ -456,6 +456,33 @@ namespace HomeService.Domain.Services.CustomerServices
                 throw;
             }
         }
+        public async Task<(bool Success, string Message)> ChargeWalletAsync(int customerId, decimal amount, CancellationToken cancellationToken)
+        {
+            if (amount <= 0)
+            {
+                return (false, "مبلغ باید بزرگتر از صفر باشد.");
+            }
+
+            if (amount > 3000000) 
+            {
+                return (false, "حداکثر مبلغ مجاز شارژ در هر بار 3,000,000 تومان است.");
+            }
+
+            var currentBalance = await GetBalanceAsync(customerId, cancellationToken);
+
+            var newBalance = currentBalance + amount;
+
+            var result = await _customerRepository.UpdateBalanceAsync(customerId, newBalance, cancellationToken);
+
+            if (result)
+            {
+                return (true, $"مبلغ {amount:N0} تومان با موفقیت به کیف پول شما اضافه شد.");
+            }
+            else
+            {
+                return (false, "خطا در شارژ کیف پول. لطفاً دوباره تلاش کنید.");
+            }
+        }
     }
 }
 

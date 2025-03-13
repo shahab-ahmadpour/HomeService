@@ -125,32 +125,41 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
-            // بارگذاری شهرها با تغییر استان
+            var initialState = $("#stateSelect").val();
+            if (initialState) {
+                loadCities(initialState, '@Model.City');
+            }
+
             $("#stateSelect").change(function() {
                 var provinceName = $(this).val();
                 if (provinceName) {
-                    $.ajax({
-                        url: '/Customer/GetCitiesByProvinceName', // تغییر به CustomerController
-                        type: 'GET',
-                        data: { provinceName: provinceName },
-                        success: function(cities) {
-                            var citySelect = $("#citySelect");
-                            citySelect.empty();
-                            citySelect.append('<option value="">-- انتخاب شهر --</option>');
-                            $.each(cities, function(i, city) {
-                                citySelect.append($('<option></option>').val(city.name).text(city.name));
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.error("Error loading cities:", error);
-                            alert("خطا در بارگذاری شهرها");
-                        }
-                    });
+                    loadCities(provinceName, '');
                 } else {
                     $("#citySelect").empty();
                     $("#citySelect").append('<option value="">-- ابتدا استان را انتخاب کنید --</option>');
                 }
             });
+
+            function loadCities(provinceName, selectedCity) {
+                $.ajax({
+                    url: '/Customer/GetCitiesByProvinceName',
+                    type: 'GET',
+                    data: { provinceName: provinceName },
+                    success: function(cities) {
+                        var citySelect = $("#citySelect");
+                        citySelect.empty();
+                        citySelect.append('<option value="">-- انتخاب شهر --</option>');
+                        $.each(cities, function(i, city) {
+                            var selected = (city.name == selectedCity) ? 'selected' : '';
+                            citySelect.append($('<option ' + selected + '></option>').val(city.name).text(city.name));
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error loading cities:", error);
+                        alert("خطا در بارگذاری شهرها");
+                    }
+                });
+            }
         });
     </script>
 }

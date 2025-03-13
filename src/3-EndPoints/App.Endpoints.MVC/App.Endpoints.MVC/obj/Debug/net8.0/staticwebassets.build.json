@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "npBd/I3AgeOEdSibnvxW0/VnA5H8U6LwEGS3H8HjyhE=",
+  "Hash": "WMiOkcbzT/Ee2s6j7LxKMNnWnvmQu3swJwpJC9wDaH4=",
   "Source": "App.Endpoints.MVC",
   "BasePath": "_content/App.Endpoints.MVC",
   "Mode": "Default",
@@ -3249,6 +3249,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\User\\Customer\\sina.png"
+    },
+    {
+      "Identity": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\images\\User\\default.png",
+      "SourceId": "App.Endpoints.MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\",
+      "BasePath": "_content/App.Endpoints.MVC",
+      "RelativePath": "images/User/default#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "d67yhpl536",
+      "Integrity": "K2K7nLrmVtaBhBUeYh0LnFilHIAsdChuyMEuyGjwLA8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\User\\default.png"
     },
     {
       "Identity": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\images\\User\\Expert\\fatemeh.png",
@@ -59200,6 +59221,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-Lvg/MF6RGg11xhstUx2ibijfeN3dqId8SbGxuLuZh9k="
+        }
+      ]
+    },
+    {
+      "Route": "images/User/default.d67yhpl536.png",
+      "AssetFile": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\images\\User\\default.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "142249"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"K2K7nLrmVtaBhBUeYh0LnFilHIAsdChuyMEuyGjwLA8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 26 Nov 2024 09:15:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "d67yhpl536"
+        },
+        {
+          "Name": "label",
+          "Value": "images/User/default.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-K2K7nLrmVtaBhBUeYh0LnFilHIAsdChuyMEuyGjwLA8="
+        }
+      ]
+    },
+    {
+      "Route": "images/User/default.png",
+      "AssetFile": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\images\\User\\default.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "142249"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"K2K7nLrmVtaBhBUeYh0LnFilHIAsdChuyMEuyGjwLA8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 26 Nov 2024 09:15:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-K2K7nLrmVtaBhBUeYh0LnFilHIAsdChuyMEuyGjwLA8="
         }
       ]
     },

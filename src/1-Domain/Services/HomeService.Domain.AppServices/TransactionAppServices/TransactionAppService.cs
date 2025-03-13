@@ -24,6 +24,8 @@ using App.Domain.Core.DTO.Users.AppUsers;
 using App.Domain.Core.Users.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IAppService;
 using HomeService.Domain.AppServices.OrderAppServices;
+using HomeService.Domain.AppServices.UserAppServices;
+using Microsoft.Extensions.Configuration;
 
 namespace HomeService.Domain.AppServices.TransactionAppServices
 {
@@ -32,13 +34,13 @@ namespace HomeService.Domain.AppServices.TransactionAppServices
         private readonly IOrderAppService _orderAppService;
         private readonly ICustomerAppService _customerAppService;
         private readonly IExpertAppService _expertAppService;
-        private readonly IAppUserRepository _userRepository;
+        private readonly IUserAppService _userAppService;
         private readonly ITransactionService _transactionService;
         private readonly Serilog.ILogger _logger;
 
         public TransactionAppService(
             IOrderAppService orderAppService,
-            IAppUserRepository userRepository,
+            IUserAppService userAppService,
             IExpertAppService expertAppService,
             ICustomerAppService customerAppService,
             ITransactionService transactionService,
@@ -48,7 +50,7 @@ namespace HomeService.Domain.AppServices.TransactionAppServices
             _orderAppService= orderAppService;
             _customerAppService = customerAppService;
             _expertAppService = expertAppService;
-            _userRepository = userRepository;
+            _userAppService = userAppService;
             _transactionService = transactionService;
             _logger = logger;
         }
@@ -92,6 +94,13 @@ namespace HomeService.Domain.AppServices.TransactionAppServices
                 return false;
             }
 
+            decimal adminCommissionRate = 0.05m;
+            decimal adminCommission = order.FinalPrice * adminCommissionRate;
+            decimal expertAmount = order.FinalPrice - adminCommission;
+
+            _logger.Information("Calculated admin commission: {AdminCommission} ({Rate}%), Expert amount: {ExpertAmount}",
+                adminCommission, adminCommissionRate * 100, expertAmount);
+
             var newCustomerBalance = customerBalance - order.FinalPrice;
             if (!await _customerAppService.UpdateBalanceAsync(customerId, newCustomerBalance, cancellationToken))
             {
@@ -101,13 +110,33 @@ namespace HomeService.Domain.AppServices.TransactionAppServices
             _logger.Information("Customer balance updated to: {NewBalance} for CustomerId: {CustomerId}", newCustomerBalance, customerId);
 
             var expertBalance = await _expertAppService.GetBalanceAsync(order.ExpertId, cancellationToken);
-            var newExpertBalance = expertBalance + order.FinalPrice;
+            var newExpertBalance = expertBalance + expertAmount;
             if (!await _expertAppService.UpdateBalanceAsync(order.ExpertId, newExpertBalance, cancellationToken))
             {
                 _logger.Error("Failed to update expert balance for ExpertId: {ExpertId}", order.ExpertId);
                 return false;
             }
             _logger.Information("Expert balance updated to: {NewBalance} for ExpertId: {ExpertId}", newExpertBalance, order.ExpertId);
+
+            try
+            {
+                int adminId = 1;
+                var adminBalance = await _userAppService.GetAdminBalanceAsync(adminId, cancellationToken);
+                var newAdminBalance = adminBalance + adminCommission;
+
+                if (!await _userAppService.UpdateAdminBalanceAsync(adminId, newAdminBalance, cancellationToken))
+                {
+                    _logger.Error("Failed to update admin balance for AdminId: {AdminId}", adminId);
+                }
+                else
+                {
+                    _logger.Information("Admin balance updated to: {NewBalance} for AdminId: {AdminId}", newAdminBalance, adminId);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error updating admin balance, continuing with payment process");
+            }
 
             var transactionDto = new CreateTransactionDto
             {
@@ -136,9 +165,26 @@ namespace HomeService.Domain.AppServices.TransactionAppServices
             }
             _logger.Information("Payment status updated to Completed for OrderId: {OrderId}", orderId);
 
+            var updateOrderDto = new UpdateOrderDto
+            {
+                Id = order.Id,
+                PaymentStatus = PaymentStatus.Completed,
+                Status = RequestStatus.Completed,
+                IsActive = true,
+                CompletionDate = DateTime.Now
+            };
+
+            if (!await _orderAppService.UpdateAsync(orderId, updateOrderDto, cancellationToken))
+            {
+                _logger.Error("Failed to update order status to Completed for OrderId: {OrderId}", orderId);
+                return false;
+            }
+            _logger.Information("Order status updated to Completed for OrderId: {OrderId}", orderId);
+
             _logger.Information("Payment process completed successfully for OrderId: {OrderId}, CustomerId: {CustomerId}", orderId, customerId);
             return true;
         }
+
 
         public async Task<bool> CreateTransactionAsync(CreateTransactionDto dto, CancellationToken cancellationToken)
         {

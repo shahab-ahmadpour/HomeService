@@ -62,7 +62,17 @@ namespace HomeService.Domain.AppServices.UserAppServices
             _logger.Information("Logging in user with email: {Email}", email);
             return await _userService.LoginAsync(email, password, rememberMe);
         }
+        public async Task<decimal> GetAdminBalanceAsync(int adminId, CancellationToken cancellationToken)
+        {
+            _logger.Information("UserAppService: Getting admin balance for AdminId: {AdminId}", adminId);
+            return await _userService.GetAdminBalanceAsync(adminId, cancellationToken);
+        }
 
+        public async Task<bool> UpdateAdminBalanceAsync(int adminId, decimal newBalance, CancellationToken cancellationToken)
+        {
+            _logger.Information("UserAppService: Updating admin balance for AdminId: {AdminId} to {NewBalance}", adminId, newBalance);
+            return await _userService.UpdateAdminBalanceAsync(adminId, newBalance, cancellationToken);
+        }
         public async Task LogoutAsync()
         {
             _logger.Information("Logging out user.");

@@ -19,7 +19,7 @@ namespace App.Domain.Core.DTO.Users.AppUsers
 
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public string ProfilePicture { get; set; } = "default.png";
+        public string ProfilePicture { get; set; } = "/images/User/default.png";
         public decimal AccountBalance { get; set; } = 0;
 
         [Required(ErrorMessage = "نقش الزامی است.")]

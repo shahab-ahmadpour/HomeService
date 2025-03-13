@@ -2,7 +2,7 @@
 using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Endpoints.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,63 +13,66 @@ namespace App.Endpoints.Api.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryAppService _categoryAppService;
-        private readonly IHomeServiceAppService _homeServiceAppService;
         private readonly Serilog.ILogger _logger;
 
         public CategoriesController(
             ICategoryAppService categoryAppService,
-            IHomeServiceAppService homeServiceAppService,
             Serilog.ILogger logger)
         {
             _categoryAppService = categoryAppService;
-            _homeServiceAppService = homeServiceAppService;
             _logger = logger;
         }
 
-        /// <summary>
-        /// دریافت همه دسته‌بندی‌ها
-        /// </summary>
-        /// <param name="cancellationToken">توکن لغو</param>
-        /// <returns>لیست تمام دسته‌بندی‌ها</returns>
         [HttpGet]
-        public async Task<ActionResult<List<CategoryDto>>> GetAll(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            _logger.Information("API: دریافت تمام دسته‌بندی‌ها");
-            var categories = await _categoryAppService.GetAllAsync(cancellationToken);
-            return Ok(categories);
-        }
-
-        /// <summary>
-        /// دریافت دسته‌بندی با شناسه
-        /// </summary>
-        /// <param name="id">شناسه دسته‌بندی</param>
-        /// <param name="cancellationToken">توکن لغو</param>
-        /// <returns>دسته‌بندی با شناسه مشخص</returns>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryDto>> GetById(int id, CancellationToken cancellationToken)
-        {
-            _logger.Information("API: دریافت دسته‌بندی با شناسه {Id}", id);
-            var category = await _categoryAppService.GetAsync(id, cancellationToken);
-            if (category == null)
+            try
             {
-                _logger.Warning("API: دسته‌بندی با شناسه {Id} یافت نشد", id);
-                return NotFound();
+                var categories = await _categoryAppService.GetAllAsync(cancellationToken);
+                return Ok(categories);
             }
-            return Ok(category);
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "خطا در دریافت دسته‌بندی‌ها");
+                return StatusCode(500, "خطای داخلی سرور");
+            }
         }
 
-        /// <summary>
-        /// دریافت تمام دسته‌بندی‌ها به همراه سرویس‌ها
-        /// </summary>
-        /// <param name="cancellationToken">توکن لغو</param>
-        /// <returns>لیست دسته‌بندی‌ها به همراه سرویس‌های مرتبط</returns>
-        [HttpGet("with-services")]
-        [ApiKeyAuth] // اعمال فیلتر احراز هویت API Key
-        public async Task<ActionResult<List<CategoryDto>>> GetAllWithServices(CancellationToken cancellationToken)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
         {
-            _logger.Information("API: دریافت تمام دسته‌بندی‌ها به همراه سرویس‌ها");
-            var categoriesWithServices = await _categoryAppService.GetAllWithServicesAsync(cancellationToken);
-            return Ok(categoriesWithServices);
+            try
+            {
+                var category = await _categoryAppService.GetAsync(id, cancellationToken);
+
+                if (category == null)
+                {
+                    return NotFound("دسته‌بندی یافت نشد");
+                }
+
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "خطا در دریافت دسته‌بندی");
+                return StatusCode(500, "خطای داخلی سرور");
+            }
+        }
+
+        [HttpGet("with-services")]
+        [ApiKeyAuth]
+        public async Task<IActionResult> GetAllWithServices(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var categoriesWithServices = await _categoryAppService.GetAllWithServicesAsync(cancellationToken);
+                return Ok(categoriesWithServices);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "خطا در دریافت دسته‌بندی‌ها با سرویس‌ها");
+                return StatusCode(500, "خطای داخلی سرور");
+            }
         }
     }
 }

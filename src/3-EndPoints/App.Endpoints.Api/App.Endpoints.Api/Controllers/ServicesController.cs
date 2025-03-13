@@ -1,9 +1,7 @@
-﻿using App.Domain.Core.DTO.HomeServices;
-using App.Domain.Core.DTO.SubHomeServices;
-using App.Domain.Core.Services.Interfaces.IAppService;
+﻿using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Endpoints.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,88 +25,98 @@ namespace App.Endpoints.Api.Controllers
             _logger = logger;
         }
 
-        /// <summary>
-        /// دریافت همه سرویس‌های اصلی
-        /// </summary>
-        /// <param name="cancellationToken">توکن لغو</param>
-        /// <returns>لیست تمام سرویس‌های اصلی</returns>
         [HttpGet]
-        public async Task<ActionResult<List<HomeServiceListItemDto>>> GetAllHomeServices(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllHomeServices(CancellationToken cancellationToken)
         {
-            _logger.Information("API: دریافت تمام سرویس‌های اصلی");
-            var homeServices = await _homeServiceAppService.GetAllAsync(cancellationToken);
-            return Ok(homeServices);
+            try
+            {
+                var homeServices = await _homeServiceAppService.GetAllAsync(cancellationToken);
+                return Ok(homeServices);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "خطا در دریافت سرویس‌های اصلی");
+                return StatusCode(500, "خطای داخلی سرور");
+            }
         }
 
-        /// <summary>
-        /// دریافت سرویس اصلی با شناسه
-        /// </summary>
-        /// <param name="id">شناسه سرویس اصلی</param>
-        /// <param name="cancellationToken">توکن لغو</param>
-        /// <returns>سرویس اصلی با شناسه مشخص</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<HomeServiceDto>> GetHomeServiceById(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetHomeServiceById(int id, CancellationToken cancellationToken)
         {
-            _logger.Information("API: دریافت سرویس اصلی با شناسه {Id}", id);
-            var homeService = await _homeServiceAppService.GetAsync(id, cancellationToken);
-            if (homeService == null)
+            try
             {
-                _logger.Warning("API: سرویس اصلی با شناسه {Id} یافت نشد", id);
-                return NotFound();
+                var homeService = await _homeServiceAppService.GetAsync(id, cancellationToken);
+
+                if (homeService == null)
+                {
+                    return NotFound("سرویس اصلی یافت نشد");
+                }
+
+                return Ok(homeService);
             }
-            return Ok(homeService);
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "خطا در دریافت سرویس اصلی");
+                return StatusCode(500, "خطای داخلی سرور");
+            }
         }
 
-        /// <summary>
-        /// دریافت همه سرویس‌های اصلی به همراه زیرسرویس‌ها
-        /// </summary>
-        /// <param name="cancellationToken">توکن لغو</param>
-        /// <returns>لیست سرویس‌های اصلی به همراه زیرسرویس‌های مرتبط</returns>
         [HttpGet("with-sub-services")]
-        [ApiKeyAuth] // اعمال فیلتر احراز هویت API Key
-        public async Task<ActionResult<List<HomeServiceDto>>> GetAllWithSubServices(CancellationToken cancellationToken)
+        [ApiKeyAuth]
+        public async Task<IActionResult> GetAllWithSubServices(CancellationToken cancellationToken)
         {
-            _logger.Information("API: دریافت تمام سرویس‌های اصلی به همراه زیرسرویس‌ها");
-            var homeServicesWithSubServices = await _homeServiceAppService.GetAllWithSubServicesAsync(cancellationToken);
-            return Ok(homeServicesWithSubServices);
+            try
+            {
+                var homeServicesWithSubServices = await _homeServiceAppService.GetAllWithSubServicesAsync(cancellationToken);
+                return Ok(homeServicesWithSubServices);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "خطا در دریافت سرویس‌های اصلی با زیرسرویس‌ها");
+                return StatusCode(500, "خطای داخلی سرور");
+            }
         }
 
-        /// <summary>
-        /// دریافت زیرسرویس‌های یک سرویس اصلی
-        /// </summary>
-        /// <param name="homeServiceId">شناسه سرویس اصلی</param>
-        /// <param name="cancellationToken">توکن لغو</param>
-        /// <returns>لیست زیرسرویس‌های سرویس اصلی</returns>
         [HttpGet("{homeServiceId}/sub-services")]
-        public async Task<ActionResult<List<SubHomeServiceListItemDto>>> GetSubServicesByHomeServiceId(int homeServiceId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetSubServicesByHomeServiceId(int homeServiceId, CancellationToken cancellationToken)
         {
-            _logger.Information("API: دریافت زیرسرویس‌های سرویس اصلی با شناسه {HomeServiceId}", homeServiceId);
-            var subServices = await _subHomeServiceAppService.GetSubHomeServicesByHomeServiceIdAsync(homeServiceId, cancellationToken);
-            if (subServices == null || subServices.Count == 0)
+            try
             {
-                _logger.Warning("API: هیچ زیرسرویسی برای سرویس اصلی با شناسه {HomeServiceId} یافت نشد", homeServiceId);
-                return NotFound();
+                var subServices = await _subHomeServiceAppService.GetSubHomeServicesByHomeServiceIdAsync(homeServiceId, cancellationToken);
+
+                if (subServices == null || subServices.Count == 0)
+                {
+                    return NotFound("زیرسرویسی برای سرویس اصلی مشخص شده یافت نشد");
+                }
+
+                return Ok(subServices);
             }
-            return Ok(subServices);
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "خطا در دریافت زیرسرویس‌ها");
+                return StatusCode(500, "خطای داخلی سرور");
+            }
         }
 
-        /// <summary>
-        /// دریافت اطلاعات یک زیرسرویس
-        /// </summary>
-        /// <param name="id">شناسه زیرسرویس</param>
-        /// <param name="cancellationToken">توکن لغو</param>
-        /// <returns>اطلاعات زیرسرویس</returns>
         [HttpGet("sub-services/{id}")]
-        public async Task<ActionResult<SubHomeServiceDto>> GetSubServiceById(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetSubServiceById(int id, CancellationToken cancellationToken)
         {
-            _logger.Information("API: دریافت زیرسرویس با شناسه {Id}", id);
-            var subService = await _subHomeServiceAppService.GetAsync(id, cancellationToken);
-            if (subService == null)
+            try
             {
-                _logger.Warning("API: زیرسرویس با شناسه {Id} یافت نشد", id);
-                return NotFound();
+                var subService = await _subHomeServiceAppService.GetAsync(id, cancellationToken);
+
+                if (subService == null)
+                {
+                    return NotFound("زیرسرویس یافت نشد");
+                }
+
+                return Ok(subService);
             }
-            return Ok(subService);
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "خطا در دریافت زیرسرویس");
+                return StatusCode(500, "خطای داخلی سرور");
+            }
         }
     }
 }

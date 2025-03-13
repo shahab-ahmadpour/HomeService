@@ -69,7 +69,6 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
         {
             _logger.Information("Creating a new user via admin panel with Email: {Email}", dto.Email);
 
-            // ساخت کاربر اصلی (AppUser)
             var user = new AppUser
             {
                 UserName = dto.Email,
@@ -80,7 +79,7 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
                 IsEnabled = dto.IsEnabled,
                 IsConfirmed = false, 
                 CreatedAt = DateTime.UtcNow,
-                ProfilePicture = "default.png", 
+                ProfilePicture = "/images/User/default.png", 
                 AccountBalance = 0 
             };
 

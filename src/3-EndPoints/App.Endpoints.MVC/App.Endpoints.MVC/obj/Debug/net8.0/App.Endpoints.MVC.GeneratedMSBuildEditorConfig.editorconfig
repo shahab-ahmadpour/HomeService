@@ -180,6 +180,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcU3ViSG9tZVNlcnZpY2VzTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Customer/Wallet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcV2FsbGV0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/shaha/source/repos/HomeServiceFinalProject/HomeService/src/3-EndPoints/App.Endpoints.MVC/App.Endpoints.MVC/Views/Customer/_ServicesPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJcX1NlcnZpY2VzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

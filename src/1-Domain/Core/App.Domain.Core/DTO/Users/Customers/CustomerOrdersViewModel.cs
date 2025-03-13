@@ -14,5 +14,6 @@ namespace App.Domain.Core.DTO.Users.Customers
         public List<OrderDto> ActiveOrders { get; set; } = new List<OrderDto>();
         public List<OrderDto> CompletedOrders { get; set; } = new List<OrderDto>();
         public List<ReviewDto> Reviews { get; set; } = new List<ReviewDto>();
+
     }
 }

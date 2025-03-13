@@ -150,6 +150,7 @@ wwwroot\images\SubHomeServices\tamizkari\shostosho\shostesho dar mahal.jpg
 wwwroot\images\User\Admin\admin.png
 wwwroot\images\User\Customer\ali.jpg
 wwwroot\images\User\Customer\sina.png
+wwwroot\images\User\default.png
 wwwroot\images\User\Expert\fatemeh.png
 wwwroot\images\User\Expert\shahin.png
 wwwroot\js\adminlte.min.js

@@ -103,7 +103,7 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
                 LastName = dto.LastName ?? "Default",
                 Email = dto.Email,
                 UserName = dto.Email,
-                ProfilePicture = dto.ProfilePicture ?? "default.png",
+                ProfilePicture = dto.ProfilePicture ?? "/images/User/default.png",
                 AccountBalance = dto.AccountBalance,
                 IsEnabled = dto.IsEnabled,
                 IsConfirmed = dto.IsConfirmed,
@@ -215,6 +215,57 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Users
         {
             _logger.Information("Attempting to log in user with email: {Email}", email);
             return await _signInManager.PasswordSignInAsync(email, password, rememberMe, lockoutOnFailure: false);
+        }
+
+        public async Task<decimal> GetAdminBalanceAsync(int adminId, CancellationToken cancellationToken)
+        {
+            _logger.Information("Getting admin balance for AdminId: {AdminId}", adminId);
+            try
+            {
+                var appUser = await _dbContext.Users
+                    .FirstOrDefaultAsync(u => u.Id == adminId && u.Role == UserRole.Admin, cancellationToken);
+
+                if (appUser == null)
+                {
+                    _logger.Warning("AppUser for AdminId: {AdminId} not found", adminId);
+                    return 0;
+                }
+
+                _logger.Information("Admin balance for AdminId: {AdminId} is {Balance}", adminId, appUser.AccountBalance);
+                return appUser.AccountBalance;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error getting admin balance for AdminId: {AdminId}", adminId);
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateAdminBalanceAsync(int adminId, decimal newBalance, CancellationToken cancellationToken)
+        {
+            _logger.Information("Updating admin balance for AdminId: {AdminId} to {NewBalance}", adminId, newBalance);
+            try
+            {
+                var appUser = await _dbContext.Users
+                    .FirstOrDefaultAsync(u => u.Id == adminId && u.Role == UserRole.Admin, cancellationToken);
+
+                if (appUser == null)
+                {
+                    _logger.Warning("AppUser for AdminId: {AdminId} not found", adminId);
+                    return false;
+                }
+
+                appUser.AccountBalance = newBalance;
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+                _logger.Information("Admin balance updated successfully for AdminId: {AdminId} to {NewBalance}", adminId, newBalance);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error updating admin balance for AdminId: {AdminId}", adminId);
+                return false;
+            }
         }
 
         public async Task LogoutAsync()

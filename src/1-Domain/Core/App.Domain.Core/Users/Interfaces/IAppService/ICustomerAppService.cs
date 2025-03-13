@@ -33,5 +33,6 @@ namespace App.Domain.Core.Users.Interfaces.IAppService
         Task<RequestDto> GetRequestByIdAsync(int requestId, CancellationToken cancellationToken);
         Task<decimal> GetBalanceAsync(int customerId, CancellationToken cancellationToken);
         Task<bool> UpdateBalanceAsync(int customerId, decimal newBalance, CancellationToken cancellationToken);
+        Task<(bool Success, string Message)> ChargeWalletAsync(int customerId, decimal amount, CancellationToken cancellationToken);
     }
 }

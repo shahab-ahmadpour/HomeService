@@ -179,10 +179,25 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
+            // تنظیم اولیه: اگر استان انتخاب شده باشد، شهرهای مربوط به آن را بارگیری کن
+            var initialState = $("#stateSelect").val();
+            if (initialState) {
+                loadCities(initialState, '@Model.City');
+            }
+            
             // بارگذاری شهرها با تغییر استان
-        $("#stateSelect").change(function() {
-            var provinceName = $(this).val();
-            if (provinceName) {
+            $("#stateSelect").change(function() {
+                var provinceName = $(this).val();
+                if (provinceName) {
+                    loadCities(provinceName, '');
+                } else {
+                    $("#citySelect").empty();
+                    $("#citySelect").append('<option value="">-- ابتدا استان را انتخاب کنید --</option>');
+                }
+            });
+            
+            // تابع بارگذاری شهرها
+            function loadCities(provinceName, selectedCity) {
                 $.ajax({
                     url: '/Expert/GetCitiesByProvinceName',
                     type: 'GET',
@@ -192,7 +207,8 @@
                         citySelect.empty();
                         citySelect.append('<option value="">-- انتخاب شهر --</option>');
                         $.each(cities, function(i, city) {
-                            citySelect.append($('<option></option>').val(city.name).text(city.name));
+                            var selected = (city.name == selectedCity) ? 'selected' : '';
+                            citySelect.append($('<option ' + selected + '></option>').val(city.name).text(city.name));
                         });
                     },
                     error: function(xhr, status, error) {
@@ -200,37 +216,34 @@
                         alert("خطا در بارگذاری شهرها");
                     }
                 });
-            } else {
-                $("#citySelect").empty();
-                $("#citySelect").append('<option value="">-- ابتدا استان را انتخاب کنید --</option>');
-            }
-        });
-
-        $("#addSkillBtn").click(function() {
-            var skillId = $("#skillSelect").val();
-            if (!skillId) {
-                alert("لطفاً یک مهارت انتخاب کنید");
-                return;
             }
 
-            $.ajax({
-                url: '/Expert/AddSkill',
-                type: 'POST',
-                data: { subHomeServiceId: skillId },
-                success: function(result) {
-                    if (result.success) {
-                        alert(result.message);
-                        location.reload();
-                    } else {
-                        alert(result.message || "خطا در افزودن مهارت");
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error adding skill:", error);
-                    alert("خطا در ارتباط با سرور");
+            // کد مربوط به افزودن و حذف مهارت
+            $("#addSkillBtn").click(function() {
+                var skillId = $("#skillSelect").val();
+                if (!skillId) {
+                    alert("لطفاً یک مهارت انتخاب کنید");
+                    return;
                 }
+
+                $.ajax({
+                    url: '/Expert/AddSkill',
+                    type: 'POST',
+                    data: { subHomeServiceId: skillId },
+                    success: function(result) {
+                        if (result.success) {
+                            alert(result.message);
+                            location.reload();
+                        } else {
+                            alert(result.message || "خطا در افزودن مهارت");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error adding skill:", error);
+                        alert("خطا در ارتباط با سرور");
+                    }
+                });
             });
-        });
 
             $(".remove-skill").click(function() {
                 if (confirm("آیا از حذف این مهارت اطمینان دارید؟")) {

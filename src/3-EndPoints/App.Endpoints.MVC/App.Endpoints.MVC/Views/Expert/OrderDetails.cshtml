@@ -58,7 +58,7 @@
                                     @Model.PaymentStatus.GetDisplayName()
                                 </span>
                             </p>
-                            <p><strong>مبلغ نهایی:</strong> @Model.FinalPrice.ToString("N0") ریال</p>
+                            <p><strong>مبلغ نهایی:</strong> @Model.FinalPrice.ToString("N0") تومان</p>
                             <p><strong>تاریخ اجرا:</strong> @Model.ExecutionDate.ToPersianDate()</p>
 
                             @if (Model.Status == RequestStatus.Completed && Model.CompletionDate.HasValue)

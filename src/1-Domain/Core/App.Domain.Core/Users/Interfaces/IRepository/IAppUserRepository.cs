@@ -19,6 +19,8 @@ namespace App.Domain.Core.Users.Interfaces.IRepository
         Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
         Task<bool> ExistsAsync(string email, CancellationToken cancellationToken);
         Task<SignInResult> LoginAsync(string email, string password, bool rememberMe);
+        Task<decimal> GetAdminBalanceAsync(int adminId, CancellationToken cancellationToken);
+        Task<bool> UpdateAdminBalanceAsync(int adminId, decimal newBalance, CancellationToken cancellationToken);
         Task LogoutAsync();
     }
 }

@@ -1,0 +1,54 @@
+2025-03-12 19:52:16.366 +03:30 [INF] API: دریافت تمام دسته‌بندی‌ها (ساده)
+2025-03-12 19:52:16.392 +03:30 [INF] AppService: Getting all categories
+2025-03-12 19:52:16.393 +03:30 [INF] Service: Getting all categories
+2025-03-12 19:52:16.395 +03:30 [INF] Repository (Dapper): Starting Fetching all detailed categories
+2025-03-12 19:52:16.891 +03:30 [INF] Fetched 7 detailed categories
+2025-03-12 19:52:16.899 +03:30 [INF] Repository (Dapper): Completed Fetching all detailed categories
+2025-03-12 20:16:53.487 +03:30 [INF] API: دریافت تمام دسته‌بندی‌ها (ساده)
+2025-03-12 20:16:53.522 +03:30 [INF] AppService: Getting all categories
+2025-03-12 20:16:53.523 +03:30 [INF] Service: Getting all categories
+2025-03-12 20:16:53.527 +03:30 [INF] Repository (Dapper): Starting Fetching all detailed categories
+2025-03-12 20:16:53.893 +03:30 [INF] Fetched 7 detailed categories
+2025-03-12 20:16:53.897 +03:30 [INF] Repository (Dapper): Completed Fetching all detailed categories
+2025-03-12 20:21:54.477 +03:30 [INF] API: دریافت تمام دسته‌بندی‌ها (ساده)
+2025-03-12 20:21:54.500 +03:30 [INF] AppService: Getting all categories
+2025-03-12 20:21:54.501 +03:30 [INF] Service: Getting all categories
+2025-03-12 20:21:54.503 +03:30 [INF] Repository (Dapper): Starting Fetching all detailed categories
+2025-03-12 20:21:54.769 +03:30 [INF] Fetched 7 detailed categories
+2025-03-12 20:21:54.775 +03:30 [INF] Repository (Dapper): Completed Fetching all detailed categories
+2025-03-12 20:24:28.432 +03:30 [INF] API: دریافت تمام دسته‌بندی‌ها (ساده)
+2025-03-12 20:24:28.433 +03:30 [INF] AppService: Getting all categories
+2025-03-12 20:24:28.433 +03:30 [INF] Service: Getting all categories
+2025-03-12 20:24:28.434 +03:30 [INF] Repository (Dapper): Starting Fetching all detailed categories
+2025-03-12 20:24:28.439 +03:30 [INF] Fetched 7 detailed categories
+2025-03-12 20:24:28.439 +03:30 [INF] Repository (Dapper): Completed Fetching all detailed categories
+2025-03-12 21:02:50.850 +03:30 [INF] AppService: Getting all categories
+2025-03-12 21:02:50.879 +03:30 [INF] Service: Getting all categories
+2025-03-12 21:02:50.880 +03:30 [INF] Repository (Dapper): Starting Fetching all detailed categories
+2025-03-12 21:02:51.186 +03:30 [INF] Fetched 7 detailed categories
+2025-03-12 21:02:51.192 +03:30 [INF] Repository (Dapper): Completed Fetching all detailed categories
+2025-03-12 21:02:59.654 +03:30 [INF] AppService: Getting all HomeServices
+2025-03-12 21:02:59.656 +03:30 [INF] Service: Getting all HomeServices
+2025-03-12 21:02:59.657 +03:30 [INF] Repository (Dapper): Starting Fetching all home services
+2025-03-12 21:02:59.673 +03:30 [INF] Fetched 17 home services
+2025-03-12 21:02:59.674 +03:30 [INF] Repository (Dapper): Completed Fetching all home services
+2025-03-12 21:03:14.950 +03:30 [INF] AppService: Fetching all categories with services
+2025-03-12 21:03:14.952 +03:30 [INF] Service: Fetching all categories with services
+2025-03-12 21:03:14.953 +03:30 [INF] Repository (Dapper): Starting Fetching all categories with services
+2025-03-12 21:03:15.006 +03:30 [INF] Repository (Dapper): Completed Fetching all categories with services
+2025-03-12 21:03:30.766 +03:30 [INF] AppService: Fetching sub-home services for HomeServiceId: 1
+2025-03-12 21:03:30.767 +03:30 [INF] Service: Fetching sub-home services for HomeServiceId: 1
+2025-03-12 21:03:30.769 +03:30 [INF] Fetching sub-home services for HomeServiceId: 1
+2025-03-12 21:03:30.774 +03:30 [INF] Found 3 sub-home services for HomeServiceId: 1
+2025-03-12 21:04:09.616 +03:30 [INF] API: دریافت تمام درخواست‌ها
+2025-03-12 21:04:09.619 +03:30 [INF] Getting all requests
+2025-03-12 21:04:09.619 +03:30 [INF] Service: Fetching all requests.
+2025-03-12 21:04:09.629 +03:30 [INF] Fetching all requests.
+2025-03-12 21:04:11.145 +03:30 [INF] Fetched 1 requests.
+2025-03-12 21:04:11.146 +03:30 [INF] Service: Retrieved 1 requests.
+2025-03-12 21:04:25.290 +03:30 [INF] Registering user with email: expert1@gmail.com
+2025-03-12 21:04:25.292 +03:30 [INF] Registering user with email: expert1@gmail.com
+2025-03-12 21:04:25.294 +03:30 [INF] Creating a new user with Email: expert1@gmail.com
+2025-03-12 21:04:25.881 +03:30 [INF] Expert created for AppUserId: 6
+2025-03-12 21:04:25.893 +03:30 [INF] User created successfully with Email: expert1@gmail.com
+2025-03-12 21:04:25.893 +03:30 [INF] Expert with email expert1@gmail.com registered successfully via API.
