@@ -39,5 +39,9 @@ namespace App.Domain.Core.Services.Entities
         public PaymentStatus PaymentStatus { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [Required]
+        public RequestStatus Status { get; set; } = RequestStatus.Pending;
+
+        public DateTime? CompletionDate { get; set; } 
     }
 }

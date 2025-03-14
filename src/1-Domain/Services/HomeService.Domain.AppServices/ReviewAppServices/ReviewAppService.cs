@@ -40,7 +40,7 @@ namespace HomeService.Domain.AppServices.ReviewAppServices
             _logger.Information("Preparing review form for OrderId: {OrderId}, CustomerId: {CustomerId}", orderId, customerId);
 
             var order = await _orderAppService.GetAsync(orderId, cancellationToken);
-            if (order == null || order.CustomerId != customerId || order.PaymentStatus != PaymentStatus.Completed)
+            if (order == null || order.CustomerId != customerId || order.Status != RequestStatus.Completed)
             {
                 _logger.Warning("Order {OrderId} not found, not completed, or does not belong to CustomerId: {CustomerId}", orderId, customerId);
                 return null;
@@ -67,7 +67,7 @@ namespace HomeService.Domain.AppServices.ReviewAppServices
             _logger.Information("Creating review for OrderId: {OrderId}, CustomerId: {CustomerId}", dto.OrderId, customerId);
 
             var order = await _orderAppService.GetAsync(dto.OrderId, cancellationToken);
-            if (order == null || order.CustomerId != customerId || order.PaymentStatus != PaymentStatus.Completed)
+            if (order == null || order.CustomerId != customerId || order.Status != RequestStatus.Completed)
             {
                 _logger.Warning("Order {OrderId} not found, not completed, or does not belong to CustomerId: {CustomerId}", dto.OrderId, customerId);
                 return false;

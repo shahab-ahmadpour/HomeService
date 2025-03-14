@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250313155614_init")]
+    [Migration("20250314070449_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -703,6 +703,9 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -727,6 +730,9 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -1589,8 +1595,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             AccountBalance = 1000m,
-                            ConcurrencyStamp = "e6e38676-7892-48a4-b18a-f12960bcc60d",
-                            CreatedAt = new DateTime(2025, 3, 13, 15, 56, 13, 611, DateTimeKind.Utc).AddTicks(7288),
+                            ConcurrencyStamp = "a8181357-e3be-4f19-b3ed-e54f54788923",
+                            CreatedAt = new DateTime(2025, 3, 14, 7, 4, 48, 981, DateTimeKind.Utc).AddTicks(2812),
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -1600,11 +1606,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBEgRM2p8bf+YxcYdlQmdB9LifVB+dMkSQEQO/lMEfetkHkE605rNqUuO6yt4ZVEPQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPCov8Yit0hMtNHUwG+XKXWtQxMiL0GnLVHz4vPeyRDMzKYl5Kygpak9N02c/X8Czw==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "/images/User/Admin/admin.png",
                             Role = 3,
-                            SecurityStamp = "225b8f4b-e80e-49a3-b001-ded3db6cc112",
+                            SecurityStamp = "d138cf49-88c5-4bd0-b3f0-c7d98fea2e28",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -1613,8 +1619,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             AccountBalance = 2000000m,
-                            ConcurrencyStamp = "cb7dc16f-6282-4176-a47b-a449098a27ce",
-                            CreatedAt = new DateTime(2025, 3, 13, 15, 56, 13, 668, DateTimeKind.Utc).AddTicks(3529),
+                            ConcurrencyStamp = "1f535747-d17b-4355-baa4-22e7aa5e040f",
+                            CreatedAt = new DateTime(2025, 3, 14, 7, 4, 49, 36, DateTimeKind.Utc).AddTicks(3616),
                             Email = "ali@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "علی",
@@ -1624,11 +1630,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ALI@GMAIL.COM",
                             NormalizedUserName = "ALI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA7E3GcHINeG2lfQ+ZupdUeDYhFejOjy/n/4RQcEdQAmOEfJ2OFFpj9ca4DzSndAgw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBCu7n8OkbKLXVzr/5iph5RaFx78czgwXFsBsOmh4GVOS9d8McSt0F2y7Uxp1Cve2Q==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "/images/User/Customer/ali.jpg",
                             Role = 1,
-                            SecurityStamp = "d6122bda-90f6-4137-9451-fa2b4dec37de",
+                            SecurityStamp = "77242f2f-2c6c-45b3-abe2-81df37cf1cbf",
                             TwoFactorEnabled = false,
                             UserName = "ali@gmail.com"
                         },
@@ -1637,8 +1643,8 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             Id = 3,
                             AccessFailedCount = 0,
                             AccountBalance = 2000000m,
-                            ConcurrencyStamp = "0fc2f227-9bf7-4022-b59d-a7269a394aeb",
-                            CreatedAt = new DateTime(2025, 3, 13, 15, 56, 13, 725, DateTimeKind.Utc).AddTicks(3324),
+                            ConcurrencyStamp = "a770c9ce-3bad-407a-b600-fc6ea58b7809",
+                            CreatedAt = new DateTime(2025, 3, 14, 7, 4, 49, 92, DateTimeKind.Utc).AddTicks(160),
                             Email = "sina47@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "سینا",
@@ -1648,11 +1654,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SINA47@GMAIL.COM",
                             NormalizedUserName = "SINA47@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGrXnFjpht72+u5PUZEw66MSVcYqT0bVXhUZOl8RLrVHhlb6ZiHPsH6ll6R+WxtqrA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFqZYSpoSrhH6W7/f4126iEyy8IdJ+W7E3tX49I9Xea0p1ddEkmZQHDas1f3xUOUrQ==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "/images/User/Customer/sina.png",
                             Role = 1,
-                            SecurityStamp = "7d28c521-e4be-4016-8c57-88f725f0110c",
+                            SecurityStamp = "808673af-4468-4954-86aa-2b50c9a2712b",
                             TwoFactorEnabled = false,
                             UserName = "sina47@gmail.com"
                         },
@@ -1660,23 +1666,23 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            AccountBalance = 750m,
-                            ConcurrencyStamp = "d0ea54e2-2a91-471a-b30d-589b84393bd7",
-                            CreatedAt = new DateTime(2025, 3, 13, 15, 56, 13, 782, DateTimeKind.Utc).AddTicks(8899),
+                            AccountBalance = 2000000m,
+                            ConcurrencyStamp = "67a5b496-302b-4632-bd50-5a4fc86360e3",
+                            CreatedAt = new DateTime(2025, 3, 14, 7, 4, 49, 148, DateTimeKind.Utc).AddTicks(9228),
                             Email = "shahin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "شاهین",
-                            IsConfirmed = false,
+                            IsConfirmed = true,
                             IsEnabled = true,
                             LastName = "حسنی",
                             LockoutEnabled = false,
                             NormalizedEmail = "SHAHIN@GMAIL.COM",
                             NormalizedUserName = "SHAHIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELsauotVZjIl5lOZFfsvjQkH6s3qW/e20q+M5wutKMKPtUvyxVyO9NQuZJ61YukkQw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFzEyyX41wtWQugnN7afXMJlNIVyFZuX9HKf9xuqxQFkKMZhHeZJFW/wjAKj/Pm6Zw==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "/images/User/Expert/shahin.png",
                             Role = 2,
-                            SecurityStamp = "f2399a66-0247-405a-ae75-406fac2f762b",
+                            SecurityStamp = "9be3f3e0-1386-4e72-b0cb-c39a8f90a7bf",
                             TwoFactorEnabled = false,
                             UserName = "shahin@gmail.com"
                         },
@@ -1684,9 +1690,9 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
-                            AccountBalance = 100m,
-                            ConcurrencyStamp = "2c7e4531-0b28-4ec0-aca5-b996d79c7158",
-                            CreatedAt = new DateTime(2025, 3, 13, 15, 56, 13, 838, DateTimeKind.Utc).AddTicks(9820),
+                            AccountBalance = 1000000m,
+                            ConcurrencyStamp = "00b93bf1-e884-45ed-8557-53140665ce79",
+                            CreatedAt = new DateTime(2025, 3, 14, 7, 4, 49, 204, DateTimeKind.Utc).AddTicks(2987),
                             Email = "karimi@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "فاطمه",
@@ -1696,11 +1702,11 @@ namespace App.Infrastructure.Db.SqlServer.Ef.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KARIMI@GMAIL.COM",
                             NormalizedUserName = "KARIMI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGAQyr4UUTo1gfF4WeuIQwRJU/tsgfdTAgEccJrQEq6kSdfB+bMRUDQlZN2fe58QmQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIN19PM54+UkXRM0j8GHRvBpqZ6guMws8YVFXMoVRk44t+mmG/t5Xeu/Q6AoAqwSKw==",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "/images/User/Expert/fatemeh.png",
                             Role = 2,
-                            SecurityStamp = "0f4930c9-920f-4c45-abe4-7c0eccf3a019",
+                            SecurityStamp = "645bf510-2958-43eb-9be9-8cb085ad969b",
                             TwoFactorEnabled = false,
                             UserName = "karimi@gmail.com"
                         });

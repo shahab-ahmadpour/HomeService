@@ -123,6 +123,138 @@
                     </div>
                 </div>
             </div>
+
+            <!-- بخش نظرات تایید شده مشتریان -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">
+                            <i class="bi bi-chat-square-text me-2"></i>
+                            نظرات تایید شده مشتریان
+                        </h4>
+                        <a href="@Url.Action("Reviews", "Expert")" class="btn btn-outline-primary btn-sm">
+                            مشاهده همه نظرات تایید شده
+                            <i class="bi bi-arrow-left ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.Reviews != null && ((List<App.Domain.Core.DTO.Reviews.ReviewDto>)ViewBag.Reviews).Any())
+                    {
+                        var reviews = (List<App.Domain.Core.DTO.Reviews.ReviewDto>)ViewBag.Reviews;
+                        var averageRating = ViewBag.AverageRating;
+
+                        <div class="row mb-4">
+                            <div class="col-md-4 text-center">
+                                <div class="p-3 rounded bg-light">
+                                    <h2 class="mb-0 text-primary">@averageRating.ToString("0.0")</h2>
+                                    <div>
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Math.Floor(averageRating))
+                                            {
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                            }
+                                            else if (i - 0.5 <= averageRating)
+                                            {
+                                                <i class="bi bi-star-half text-warning"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-star text-warning"></i>
+                                            }
+                                        }
+                                    </div>
+                                    <p class="text-muted mt-1 mb-0">از مجموع @reviews.Count نظر</p>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="px-3">
+                                    @for (int i = 5; i >= 1; i--)
+                                    {
+                                        var count = reviews.Count(r => r.Rating == i);
+                                        var percentage = reviews.Count > 0 ? (count * 100.0 / reviews.Count) : 0;
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div style="width: 40px">@i <i class="bi bi-star-fill text-warning"></i></div>
+                                            <div class="progress flex-grow-1 mx-2" style="height: 8px;">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: @percentage%"
+                                                     aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <div style="width: 50px">@percentage.ToString("0")%</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <div class="reviews-list">
+                            @foreach (var review in reviews.OrderByDescending(r => r.CreatedAt).Take(3))
+                            {
+                                <div class="review-item p-3 mb-3 border rounded shadow-sm">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <span class="fw-bold">@review.CustomerName</span>
+                                            <span class="text-muted ms-2">@review.CreatedAt.ToString("yyyy/MM/dd")</span>
+                                        </div>
+                                        <div>
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= review.Rating)
+                                                {
+                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="bi bi-star text-secondary"></i>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(review.OrderDescription))
+                                    {
+                                        <div class="bg-light p-2 rounded mb-2">
+                                            <i class="bi bi-tools me-1"></i>
+                                            <span class="text-muted">خدمت: </span>
+                                            <span>@review.OrderDescription</span>
+                                        </div>
+                                    }
+
+                                    <div>
+                                        @if (!string.IsNullOrEmpty(review.Comment))
+                                        {
+                                            <p class="mb-0">@review.Comment</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-muted fst-italic mb-0">نظری ثبت نشده است</p>
+                                        }
+                                    </div>
+                                </div>
+                            }
+
+                            @if (reviews.Count > 3)
+                            {
+                                <div class="text-center mt-2">
+                                    <a href="@Url.Action("Reviews", "Expert")" class="btn btn-outline-primary">
+                                        مشاهده تمام نظرات
+                                        <i class="bi bi-arrow-left ms-1"></i>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-chat-square-text text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-3">هنوز نظر تایید شده‌ای برای شما ثبت نشده است</p>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -1,0 +1,16 @@
+2025-03-14 12:54:57.126 +03:30 [INF] Registering user with email: expert1@gmail.com
+2025-03-14 12:54:57.170 +03:30 [INF] Registering user with email: expert1@gmail.com
+2025-03-14 12:54:57.173 +03:30 [INF] Creating a new user with Email: expert1@gmail.com
+2025-03-14 12:54:59.493 +03:30 [INF] Expert created for AppUserId: 7
+2025-03-14 12:54:59.505 +03:30 [INF] User created successfully with Email: expert1@gmail.com
+2025-03-14 12:54:59.506 +03:30 [INF] Expert with email expert1@gmail.com registered successfully via API.
+2025-03-14 12:55:48.269 +03:30 [INF] AppService: Getting all categories
+2025-03-14 12:55:48.271 +03:30 [INF] Service: Getting all categories
+2025-03-14 12:55:48.273 +03:30 [INF] Repository (Dapper): Starting Fetching all detailed categories
+2025-03-14 12:55:48.433 +03:30 [INF] Fetched 7 detailed categories
+2025-03-14 12:55:48.434 +03:30 [INF] Repository (Dapper): Completed Fetching all detailed categories
+2025-03-14 12:55:53.971 +03:30 [INF] AppService: Getting all HomeServices
+2025-03-14 12:55:53.972 +03:30 [INF] Service: Getting all HomeServices
+2025-03-14 12:55:53.973 +03:30 [INF] Repository (Dapper): Starting Fetching all home services
+2025-03-14 12:55:53.979 +03:30 [INF] Fetched 17 home services
+2025-03-14 12:55:53.980 +03:30 [INF] Repository (Dapper): Completed Fetching all home services

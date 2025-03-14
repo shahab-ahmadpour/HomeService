@@ -1,4 +1,4 @@
-﻿@using App.Domain.Core.Locations
+﻿﻿@using App.Domain.Core.Locations
 @using App.Domain.Core.Skills.Entities
 @using System.Linq
 @model App.Domain.Core.DTO.Users.Experts.EditExpertDto
@@ -184,7 +184,7 @@
             if (initialState) {
                 loadCities(initialState, '@Model.City');
             }
-            
+
             // بارگذاری شهرها با تغییر استان
             $("#stateSelect").change(function() {
                 var provinceName = $(this).val();
@@ -195,7 +195,7 @@
                     $("#citySelect").append('<option value="">-- ابتدا استان را انتخاب کنید --</option>');
                 }
             });
-            
+
             // تابع بارگذاری شهرها
             function loadCities(provinceName, selectedCity) {
                 $.ajax({

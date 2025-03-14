@@ -169,7 +169,13 @@
                                         <tr>
                                             <td>@proposal.Id</td>
                                             <td>@proposal.SubHomeServiceName</td>
-                                            <td>@proposal.ExpertName</td>
+                                            <td>
+                                                @proposal.ExpertName
+                                                <a href="@Url.Action("ExpertProfile", new { expertId = proposal.ExpertId })"
+                                                   class="btn btn-sm btn-outline-secondary ms-1" title="مشاهده پروفایل کارشناس">
+                                                    <i class="bi bi-person-badge"></i>
+                                                </a>
+                                            </td>
                                             <td>@proposal.Price.ToString("N0") تومان</td>
                                             <td>
                                                 <span class="badge @GetProposalStatusBadgeClass(proposal.Status)">
@@ -232,6 +238,7 @@
                                     {
                                         var isCompleted = order.Status == RequestStatus.Completed;
                                         var isPending = order.PaymentStatus == PaymentStatus.Pending;
+                                        var hasReview = Model.Reviews.Any(r => r.OrderId == order.Id);
 
                                         <tr>
                                             <td>@order.Id</td>
@@ -253,13 +260,17 @@
                                                             <i class="bi bi-credit-card"></i> پرداخت
                                                         </a>
                                                     }
-                                                    else
+                                                    else if (isCompleted && !hasReview)
                                                     {
-                                                        <a href="@Url.Action("OrderDetails", new { id = order.Id })"
-                                                           class="btn btn-sm btn-outline-info me-1" title="جزئیات">
-                                                            <i class="bi bi-info-circle"></i>
+                                                        <a href="@Url.Action("CreateReview", new { orderId = order.Id })"
+                                                           class="btn btn-sm btn-outline-primary me-1" title="ثبت نظر">
+                                                            <i class="bi bi-star"></i> ثبت نظر
                                                         </a>
                                                     }
+                                                    <a href="@Url.Action("OrderDetails", new { id = order.Id })"
+                                                       class="btn btn-sm btn-outline-info" title="جزئیات">
+                                                        <i class="bi bi-info-circle"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -270,6 +281,7 @@
                     }
                 </div>
 
+                <!-- سفارش‌های تکمیل شده -->
                 <!-- سفارش‌های تکمیل شده -->
                 <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
                     @if (!Model.CompletedOrders.Any())
@@ -304,7 +316,7 @@
                                             <td>@order.SubHomeServiceName</td>
                                             <td>@order.ExpertName</td>
                                             <td>@(order.CompletionDate?.ToPersianDate() ?? "نامشخص")</td>
-                                            <td>@order.FinalPrice.ToString("N0") ریال</td>
+                                            <td>@order.FinalPrice.ToString("N0") تومان</td>
                                             <td>
                                                 <span class="badge bg-success">تکمیل شده</span>
                                             </td>
@@ -317,7 +329,7 @@
 
                                                     @if (!hasReview)
                                                     {
-                                                        <a href="@Url.Action("CreateReview", new { orderId = order.Id })"
+                                                        <a href="@Url.Action("CreateReview", "Customer", new { orderId = order.Id })"
                                                            class="btn btn-sm btn-outline-primary" title="ثبت نظر">
                                                             <i class="bi bi-star"></i> ثبت نظر
                                                         </a>

@@ -23,6 +23,7 @@
                                 <div class="col-md-6">
                                     <p><strong>نوع سرویس:</strong> @request.SubHomeServiceName</p>
                                     <p><strong>تاریخ اجرا:</strong> @request.ExecutionDate.ToPersianDate()</p>
+                                    <p><strong>مشتری:</strong> @ViewBag.CustomerName</p>
                                 </div>
                                 <div class="col-md-6">
                                     <p><strong>وضعیت:</strong> @request.Status.GetDisplayName()</p>
@@ -39,7 +40,6 @@
                     <form method="post" asp-action="CreateProposal">
                         <input type="hidden" asp-for="RequestId" />
                         <input type="hidden" asp-for="ExpertId" />
-                        <!-- حذف فیلد انتخاب مهارت از اینجا -->
 
                         <div class="mb-3">
                             <label asp-for="Price" class="form-label fw-bold">مبلغ پیشنهادی (تومان)</label>

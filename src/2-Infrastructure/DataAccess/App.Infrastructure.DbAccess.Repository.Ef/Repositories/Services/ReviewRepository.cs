@@ -166,5 +166,10 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                 throw;
             }
         }
+        public async Task<bool> ExistsByOrderIdAsync(int orderId, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Reviews
+                .AnyAsync(r => r.OrderId == orderId, cancellationToken);
+        }
     }
 }

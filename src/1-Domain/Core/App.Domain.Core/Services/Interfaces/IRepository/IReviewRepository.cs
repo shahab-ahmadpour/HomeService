@@ -17,5 +17,7 @@ namespace App.Domain.Core.Services.Interfaces.IRepository
         Task<bool> RejectAsync(int id, CancellationToken cancellationToken);
         Task<List<Review>> GetAllReviewsAsync(CancellationToken cancellationToken = default);
         Task<List<ReviewDto>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken);
+        Task<bool> ExistsByOrderIdAsync(int orderId, CancellationToken cancellationToken = default);
+
     }
 }

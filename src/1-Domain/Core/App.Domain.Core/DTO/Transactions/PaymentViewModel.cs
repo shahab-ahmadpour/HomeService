@@ -12,5 +12,7 @@ namespace App.Domain.Core.DTO.Transactions
         public decimal CurrentBalance { get; set; }
         public decimal AmountToPay { get; set; }
         public string ExpertName { get; set; }
+
+        public bool ReturnToMyOrders { get; set; } = true;
     }
 }

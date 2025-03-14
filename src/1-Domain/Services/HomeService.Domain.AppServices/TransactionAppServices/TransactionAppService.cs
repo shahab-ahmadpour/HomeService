@@ -47,7 +47,7 @@ namespace HomeService.Domain.AppServices.TransactionAppServices
         Serilog.ILogger logger
             )
         {
-            _orderAppService= orderAppService;
+            _orderAppService = orderAppService;
             _customerAppService = customerAppService;
             _expertAppService = expertAppService;
             _userAppService = userAppService;

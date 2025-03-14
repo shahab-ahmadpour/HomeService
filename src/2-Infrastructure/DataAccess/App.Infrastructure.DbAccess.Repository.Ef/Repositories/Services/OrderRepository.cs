@@ -101,6 +101,8 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
 
             order.PaymentStatus = dto.PaymentStatus;
             order.IsActive = dto.IsActive;
+            order.Status = dto.Status;
+            order.CompletionDate = dto.CompletionDate; 
 
             await _dbContext.SaveChangesAsync(cancellationToken);
             _logger.Information("Successfully updated order with ID: {Id}", id);
@@ -141,15 +143,19 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
         public async Task<OrderDto> GetAsync(int id, CancellationToken cancellationToken)
         {
             var order = await _dbContext.Orders
-                    .Include(o => o.Customer)
-                        .ThenInclude(c => c.AppUser)
-                    .Include(o => o.Expert)
-                        .ThenInclude(e => e.AppUser)
-                    .Include(o => o.Request)
-                        .ThenInclude(r => r.SubHomeService)
-                    .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+                .Include(o => o.Customer).ThenInclude(c => c.AppUser)
+                .Include(o => o.Expert).ThenInclude(e => e.AppUser)
+                .Include(o => o.Request).ThenInclude(r => r.SubHomeService)
+                .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
 
-            if (order == null) return null;
+            if (order == null)
+            {
+                _logger.Warning("Order not found in database for Id: {Id}", id);
+                return null;
+            }
+
+            _logger.Information("Order found: Id={Id}, CustomerId={CustomerId}, Status={Status}",
+                order.Id, order.CustomerId, order.Status);
 
             return new OrderDto
             {
@@ -159,10 +165,12 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
                 RequestId = order.RequestId,
                 FinalPrice = order.FinalPrice,
                 PaymentStatus = order.PaymentStatus,
+                Status = order.Status,
                 IsActive = order.IsActive,
                 CreatedAt = order.CreatedAt,
+                CompletionDate = order.CompletionDate,
                 CustomerName = order.Customer?.AppUser?.FirstName + " " + order.Customer?.AppUser?.LastName ?? "نامشخص",
-                SubHomeServiceName = order.Request.SubHomeService.Name,
+                SubHomeServiceName = order.Request?.SubHomeService?.Name ?? "نامشخص",
                 ExpertName = order.Expert?.AppUser?.FirstName + " " + order.Expert?.AppUser?.LastName ?? "نامشخص",
                 RequestDescription = order.Request?.Description ?? "بدون توضیح"
             };
@@ -315,6 +323,32 @@ namespace App.Infrastructure.DbAccess.Repository.Ef.Repositories.Services
             {
                 _logger.Error(ex, "OrderRepository: Failed to fetch orders for ExpertId: {ExpertId}", expertId);
                 return new List<Order>();
+            }
+        }
+        public async Task<Order> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Orders
+                .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+        }
+
+        public async Task<List<Order>> GetActiveOrdersByCustomerIdAsync(int customerId, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Orders
+                .Where(o => o.CustomerId == customerId && o.IsActive)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<bool> UpdateAsync(Order order, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _dbContext.Orders.Update(order);
+                var result = await _dbContext.SaveChangesAsync(cancellationToken);
+                return result > 0;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

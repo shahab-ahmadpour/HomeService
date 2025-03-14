@@ -1,0 +1,300 @@
+﻿@model App.Domain.Core.DTO.Users.Experts.EditExpertDto
+@{
+    ViewData["Title"] = "پروفایل کارشناس";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+
+    var skills = ViewBag.Skills as List<App.Domain.Core.DTO.Skills.SkillDto> ?? new List<App.Domain.Core.DTO.Skills.SkillDto>();
+    var reviews = ViewBag.Reviews as List<App.Domain.Core.DTO.Reviews.ReviewDto> ?? new List<App.Domain.Core.DTO.Reviews.ReviewDto>();
+    var averageRating = ViewBag.AverageRating ?? 0.0;
+    var reviewsCount = ViewBag.ReviewsCount ?? 0;
+}
+
+<div class="container py-4">
+    <!-- بخش نمایش پیام‌ها -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <!-- بخش اطلاعات اصلی و عکس پروفایل -->
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        @if (!string.IsNullOrEmpty(Model?.ProfilePicture))
+                        {
+                            <img src="@Model.ProfilePicture" alt="@Model.FirstName @Model.LastName"
+                                 class="img-fluid rounded-circle profile-img"
+                                 style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #eee;">
+                        }
+                        else
+                        {
+                            <img src="/images/default-avatar.png" alt="تصویر پیش‌فرض"
+                                 class="img-fluid rounded-circle profile-img"
+                                 style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #eee;">
+                        }
+                    </div>
+                    <h3 class="fw-bold">@Model?.FirstName @Model?.LastName</h3>
+                    <p class="text-muted mb-2">کارشناس خدمات منزل</p>
+
+                    <!-- نمایش امتیاز کلی -->
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <div class="me-2">
+                            <span class="badge bg-primary rounded-pill px-2">@averageRating.ToString("0.0")</span>
+                        </div>
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= Math.Floor((double)averageRating))
+                            {
+                                <i class="bi bi-star-fill text-warning"></i>
+                            }
+                            else if (i - 0.5 <= (double)averageRating)
+                            {
+                                <i class="bi bi-star-half text-warning"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-star text-warning"></i>
+                            }
+                        }
+                        <span class="ms-2 text-muted small">(@reviewsCount نظر)</span>
+                    </div>
+
+                    <!-- مشخصات تماس -->
+                    <div class="contact-info mt-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                            <span>@(string.IsNullOrEmpty(Model?.City) ? "ثبت نشده" : $"{Model?.City}، {Model?.State}")</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-telephone-fill text-primary me-2"></i>
+                            <span>@(string.IsNullOrEmpty(Model?.PhoneNumber) ? "ثبت نشده" : Model?.PhoneNumber)</span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(ViewBag.Email as string))
+                        {
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-envelope-fill text-primary me-2"></i>
+                                <span>@ViewBag.Email</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- بخش مهارت‌ها -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-light border-0">
+                    <h5 class="mb-0">
+                        <i class="bi bi-tools me-2"></i>
+                        مهارت‌ها
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @if (skills != null && skills.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var skill in skills)
+                            {
+                                <li class="list-group-item border-0 ps-0">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    @skill.SubHomeServiceName
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center py-3">هیچ مهارتی ثبت نشده است</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- بخش نظرات مشتریان -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-0 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-chat-square-quote me-2"></i>
+                        نظرات تایید شده مشتریان
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @if (reviews != null && reviews.Any())
+                    {
+                        <!-- خلاصه آمار نظرات -->
+                        <div class="rating-summary bg-light p-3 rounded mb-4">
+                            <div class="row align-items-center">
+                                <div class="col-md-3 text-center">
+                                    <div class="display-4 fw-bold text-primary">@averageRating.ToString("0.0")</div>
+                                    <div>
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Math.Floor((double)averageRating))
+                                            {
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                            }
+                                            else if (i - 0.5 <= (double)averageRating)
+                                            {
+                                                <i class="bi bi-star-half text-warning"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-star text-warning"></i>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="text-muted mt-1">از مجموع @reviewsCount نظر</div>
+                                </div>
+                                <div class="col-md-9">
+                                    @for (int i = 5; i >= 1; i--)
+                                    {
+                                        var percentage = reviews.Any() ? (reviews.Count(r => r.Rating == i) * 100.0 / reviews.Count) : 0;
+                                        <div class="d-flex align-items-center mb-1">
+                                            <div class="me-2" style="width: 60px;">@i <i class="bi bi-star-fill text-warning"></i></div>
+                                            <div class="progress" style="height: 8px; flex-grow: 1;">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: @percentage%;"
+                                                     aria-valuenow="@percentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <div class="ms-2" style="width: 50px;">@percentage.ToString("0")%</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- لیست نظرات -->
+                        <div class="reviews-list">
+                            @foreach (var review in reviews.OrderByDescending(r => r.CreatedAt))
+                            {
+                                <div class="review-item p-3 mb-3 border rounded">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="reviewer-info d-flex align-items-center">
+                                            <i class="bi bi-person-circle fs-4 me-2"></i>
+                                            <div>
+                                                <div class="fw-bold">@review.CustomerName</div>
+                                                <div class="text-muted small">@review.CreatedAt.ToString("yyyy/MM/dd")</div>
+                                            </div>
+                                        </div>
+                                        <div class="rating d-flex align-items-center">
+                                            <span class="badge bg-primary rounded-pill me-2">@review.Rating.ToString("0.0")</span>
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= review.Rating)
+                                                {
+                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="bi bi-star text-secondary"></i>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(review.OrderDescription))
+                                    {
+                                        <div class="order-info bg-light p-2 rounded mb-2">
+                                            <i class="bi bi-tools me-1"></i>
+                                            <span class="text-muted">خدمت: </span>
+                                            <span>@review.OrderDescription</span>
+                                        </div>
+                                    }
+
+                                    <div class="review-text">
+                                        @if (!string.IsNullOrEmpty(review.Comment))
+                                        {
+                                            <p class="mb-0">@review.Comment</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-muted fst-italic mb-0">نظری ثبت نشده است</p>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-chat-square-text text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-3">هنوز نظر تایید شده‌ای برای این کارشناس ثبت نشده است</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- دکمه بازگشت -->
+    <div class="text-center mt-4">
+        <a href="@Url.Action("MyOrders", "Customer")" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-right me-1"></i> بازگشت به سفارش‌ها
+        </a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .card {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            padding: 16px;
+        }
+
+        .profile-img {
+            transition: transform 0.3s ease;
+        }
+
+            .profile-img:hover {
+                transform: scale(1.05);
+            }
+
+        .list-group-item {
+            padding: 8px 0;
+        }
+
+        .rating-summary {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .review-item {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .review-item:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            }
+
+        .progress {
+            border-radius: 20px;
+            background-color: #e9ecef;
+        }
+
+        .progress-bar {
+            border-radius: 20px;
+        }
+
+        .badge {
+            padding: 5px 8px;
+        }
+    </style>
+}

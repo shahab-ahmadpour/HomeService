@@ -35,18 +35,21 @@
                         <td>@order.PaymentStatus.GetDisplayName()</td> <!-- همیشه نمایش داده می‌شه -->
                         <td>@order.FinalPrice.ToString("N0") تومان</td>
                         <td>@order.SubHomeServiceName</td>
+                        <td>@order.PaymentStatus.GetDisplayName()</td> <!-- نمایش وضعیت پرداخت -->
+                        <td>@order.FinalPrice.ToString("N0") تومان</td>
+                        <td>@order.SubHomeServiceName</td>
                         <td>
                             @if (order.PaymentStatus == PaymentStatus.Pending)
                             {
                                 <a href="@Url.Action("Payment", "Customer", new { orderId = @order.Id })" class="btn btn-primary btn-sm">پرداخت</a>
                             }
-                            else if (order.PaymentStatus == PaymentStatus.Completed)
+                            else if (order.Status == RequestStatus.Completed)
                             {
                                 <a href="@Url.Action("CreateReview", "Customer", new { orderId = @order.Id })" class="btn btn-success btn-sm">نظرسنجی</a>
                             }
                             else
                             {
-                                <span class="text-muted">در حال پردازش</span> <!-- برای وضعیت‌های دیگه -->
+                                <span class="text-muted">در حال پردازش</span>
                             }
                         </td>
                     </tr>

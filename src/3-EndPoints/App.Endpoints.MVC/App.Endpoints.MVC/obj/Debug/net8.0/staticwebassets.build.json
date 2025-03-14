@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "WMiOkcbzT/Ee2s6j7LxKMNnWnvmQu3swJwpJC9wDaH4=",
+  "Hash": "NYQ2XxS0GSCRpErqKZm/cG6KwTDj6O+Kb065uEYdm0I=",
   "Source": "App.Endpoints.MVC",
   "BasePath": "_content/App.Endpoints.MVC",
   "Mode": "Default",
@@ -46301,6 +46301,27 @@
       "OriginalItemSpec": "wwwroot\\uploads\\16124a77-1a08-4bed-a3b7-c9386439d0be.png"
     },
     {
+      "Identity": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\2003d3e9-9bba-47e5-8793-78a7c26b6383.png",
+      "SourceId": "App.Endpoints.MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\",
+      "BasePath": "_content/App.Endpoints.MVC",
+      "RelativePath": "uploads/2003d3e9-9bba-47e5-8793-78a7c26b6383#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "clb441sfpl",
+      "Integrity": "UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\2003d3e9-9bba-47e5-8793-78a7c26b6383.png"
+    },
+    {
       "Identity": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\243d4cd1-4d33-4a9f-9e87-141ed9f1e8fc.png",
       "SourceId": "App.Endpoints.MVC",
       "SourceType": "Discovered",
@@ -46530,6 +46551,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\8f91e5ef-fa61-4f5d-a948-8abb1c187585.png"
+    },
+    {
+      "Identity": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\a9e31773-6b0c-475d-bcfe-3677afca63f2.png",
+      "SourceId": "App.Endpoints.MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\",
+      "BasePath": "_content/App.Endpoints.MVC",
+      "RelativePath": "uploads/a9e31773-6b0c-475d-bcfe-3677afca63f2#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "clb441sfpl",
+      "Integrity": "UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\a9e31773-6b0c-475d-bcfe-3677afca63f2.png"
     },
     {
       "Identity": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\b6efd706-f959-4423-bbb6-dc79d5b36afc.png",
@@ -227325,6 +227367,88 @@
       ]
     },
     {
+      "Route": "uploads/2003d3e9-9bba-47e5-8793-78a7c26b6383.clb441sfpl.png",
+      "AssetFile": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\2003d3e9-9bba-47e5-8793-78a7c26b6383.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8265"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 14 Mar 2025 08:52:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "clb441sfpl"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/2003d3e9-9bba-47e5-8793-78a7c26b6383.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/2003d3e9-9bba-47e5-8793-78a7c26b6383.png",
+      "AssetFile": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\2003d3e9-9bba-47e5-8793-78a7c26b6383.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8265"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 14 Mar 2025 08:52:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY="
+        }
+      ]
+    },
+    {
       "Route": "uploads/243d4cd1-4d33-4a9f-9e87-141ed9f1e8fc.png",
       "AssetFile": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\243d4cd1-4d33-4a9f-9e87-141ed9f1e8fc.png",
       "Selectors": [],
@@ -228223,6 +228347,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-Lvg/MF6RGg11xhstUx2ibijfeN3dqId8SbGxuLuZh9k="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/a9e31773-6b0c-475d-bcfe-3677afca63f2.clb441sfpl.png",
+      "AssetFile": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\a9e31773-6b0c-475d-bcfe-3677afca63f2.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8265"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 14 Mar 2025 08:52:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "clb441sfpl"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/a9e31773-6b0c-475d-bcfe-3677afca63f2.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/a9e31773-6b0c-475d-bcfe-3677afca63f2.png",
+      "AssetFile": "C:\\Users\\shaha\\source\\repos\\HomeServiceFinalProject\\HomeService\\src\\3-EndPoints\\App.Endpoints.MVC\\App.Endpoints.MVC\\wwwroot\\uploads\\a9e31773-6b0c-475d-bcfe-3677afca63f2.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8265"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 14 Mar 2025 08:52:51 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-UESTa30dGQ2aSP2QShc7/WdLRngTduWsLlF+mnLA1OY="
         }
       ]
     },

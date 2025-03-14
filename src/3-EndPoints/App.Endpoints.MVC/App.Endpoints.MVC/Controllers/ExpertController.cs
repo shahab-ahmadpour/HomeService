@@ -8,6 +8,8 @@ using App.Domain.Core.Locations.Interfaces.IAppService;
 using App.Domain.Core.Services.Interfaces.IAppService;
 using App.Domain.Core.Skills.Interfaces.IAppServices;
 using App.Domain.Core.Users.Interfaces.IAppService;
+using HomeService.Domain.AppServices.CustomerAppServices;
+using HomeService.Domain.AppServices.ReviewAppServices;
 using HomeService.Domain.AppServices.SkillAppServices;
 using HomeService.Domain.AppServices.SubHomeSerAppServices;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +26,8 @@ namespace App.Endpoints.MVC.Controllers
         private readonly IRequestAppService _requestAppService;
         private readonly ISkillAppService _skillAppService;
         private readonly ILocationAppService _locationAppService;
+        private readonly IReviewAppService _reviewAppService;
+        private readonly ICustomerAppService _customerAppService;
         private readonly Serilog.ILogger _logger;
 
         public ExpertController(
@@ -34,6 +38,8 @@ namespace App.Endpoints.MVC.Controllers
             IRequestAppService requestAppService,
             ISkillAppService skillAppService,
             ILocationAppService locationAppService,
+            IReviewAppService reviewAppService,
+            ICustomerAppService customerAppService,
             Serilog.ILogger logger)
         {
             _expertAppService = expertAppService;
@@ -43,6 +49,8 @@ namespace App.Endpoints.MVC.Controllers
             _requestAppService = requestAppService;
             _skillAppService = skillAppService;
             _locationAppService = locationAppService;
+            _reviewAppService = reviewAppService;
+            _customerAppService = customerAppService;
             _logger = logger;
         }
 
@@ -95,8 +103,15 @@ namespace App.Endpoints.MVC.Controllers
             var proposals = await _proposalAppService.GetProposalsByExpertIdAsync(expertId.Value, cancellationToken);
             var orders = await _orderAppService.GetOrdersByExpertIdAsync(expertId.Value, cancellationToken);
 
+            var allReviews = await _reviewAppService.GetAllAsync(cancellationToken);
+            var expertReviews = allReviews.Where(r => r.ExpertId == expertId.Value && r.IsApproved).ToList();
+
+            var averageRating = expertReviews.Any() ? Math.Round(expertReviews.Average(r => r.Rating), 1) : 0;
+
             ViewBag.Proposals = proposals;
             ViewBag.Orders = orders;
+            ViewBag.Reviews = expertReviews;
+            ViewBag.AverageRating = averageRating;
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
 
             _logger.Information("Dashboard loaded successfully for ExpertId: {ExpertId}", expertId.Value);
@@ -368,6 +383,7 @@ namespace App.Endpoints.MVC.Controllers
         }
 
 
+        [HttpGet]
         public async Task<IActionResult> CreateProposal(int requestId, CancellationToken cancellationToken)
         {
             var expertId = await GetExpertIdFromSession(cancellationToken);
@@ -379,45 +395,21 @@ namespace App.Endpoints.MVC.Controllers
             var request = await _requestAppService.GetAsync(requestId, cancellationToken);
             if (request == null)
             {
-                _logger.Warning("Request not found for RequestId: {RequestId}", requestId);
-                TempData["ErrorMessage"] = "درخواست یافت نشد.";
                 return RedirectToAction("AvailableRequests");
             }
 
-            if (request.Status != RequestStatus.Pending)
-            {
-                _logger.Warning("Cannot create proposal for request with status: {Status}", request.Status);
-                TempData["ErrorMessage"] = "امکان ارائه پیشنهاد برای این درخواست وجود ندارد.";
-                return RedirectToAction("AvailableRequests");
-            }
+            var customer = await _customerAppService.GetByCustomerIdAsync(request.CustomerId, cancellationToken);
+            var customerName = $"{customer?.FirstName} {customer?.LastName}" ?? "نامشخص";
 
-            var existingProposals = await _proposalAppService.GetProposalsByRequestIdAsync(requestId, cancellationToken);
-            if (existingProposals != null && existingProposals.Any(p => p.ExpertId == expertId.Value))
-            {
-                _logger.Warning("Expert {ExpertId} has already submitted a proposal for request {RequestId}", expertId.Value, requestId);
-                TempData["ErrorMessage"] = "شما قبلاً برای این درخواست پیشنهاد ارائه کرده‌اید.";
-                return RedirectToAction("AvailableRequests");
-            }
-
-            var expertSkills = await _skillAppService.GetSkillsByExpertIdAndSubHomeServiceIdAsync(expertId.Value, request.SubHomeServiceId, cancellationToken);
-            if (expertSkills == null || !expertSkills.Any())
-            {
-                _logger.Warning("No skills found for ExpertId {ExpertId} and SubHomeServiceId {SubHomeServiceId}", expertId.Value, request.SubHomeServiceId);
-                TempData["ErrorMessage"] = "شما مهارت لازم برای این درخواست را ندارید.";
-                return RedirectToAction("AvailableRequests");
-            }
+            ViewBag.Request = request;
+            ViewBag.CustomerName = customerName;
 
             var model = new CreateProposalDto
             {
-                ExpertId = expertId.Value,
                 RequestId = requestId,
-                ExecutionDate = request.ExecutionDate,
-                SkillId = expertSkills.FirstOrDefault()?.Id ?? 0
+                ExpertId = expertId.Value,
+                ExecutionDate = request.ExecutionDate
             };
-
-            ViewBag.Request = request;
-
-            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
 
             return View(model);
         }
@@ -434,7 +426,11 @@ namespace App.Endpoints.MVC.Controllers
             if (!ModelState.IsValid)
             {
                 var requestInfo = await _requestAppService.GetAsync(model.RequestId, cancellationToken);
+                var customer = await _customerAppService.GetByCustomerIdAsync(requestInfo.CustomerId, cancellationToken);
+                var customerName = $"{customer?.FirstName} {customer?.LastName}" ?? "نامشخص";
+
                 ViewBag.Request = requestInfo;
+                ViewBag.CustomerName = customerName;
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
                 return View(model);
             }
@@ -453,15 +449,13 @@ namespace App.Endpoints.MVC.Controllers
             var result = await _proposalAppService.CreateProposalAsync(model, cancellationToken);
             if (result)
             {
-                _logger.Information("Proposal created successfully for ExpertId: {ExpertId}, RequestId: {RequestId}",
-                    expertId.Value, model.RequestId);
+                _logger.Information("Proposal created successfully for ExpertId: {ExpertId}, RequestId: {RequestId}", expertId.Value, model.RequestId);
                 TempData["SuccessMessage"] = "پیشنهاد شما با موفقیت ثبت شد!";
                 return RedirectToAction("Proposals");
             }
             else
             {
-                _logger.Warning("Failed to create proposal for ExpertId: {ExpertId}, RequestId: {RequestId}",
-                    expertId.Value, model.RequestId);
+                _logger.Warning("Failed to create proposal for ExpertId: {ExpertId}, RequestId: {RequestId}", expertId.Value, model.RequestId);
                 TempData["ErrorMessage"] = "خطا در ثبت پیشنهاد.";
                 return RedirectToAction("AvailableRequests");
             }
@@ -626,6 +620,72 @@ namespace App.Endpoints.MVC.Controllers
                 _logger.Error(ex, "Error removing skill for Expert: {ExpertId}, SubHomeService: {SubHomeServiceId}",
                     expertId.Value, subHomeServiceId);
                 return Json(new { success = false, message = "خطای سیستمی در حذف مهارت." });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewProfile(int expertId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var expertDto = await _expertAppService.GetByIdAsync(expertId, cancellationToken);
+                if (expertDto == null)
+                {
+                    _logger.Warning("Expert not found for ExpertId: {ExpertId}", expertId);
+                    TempData["ErrorMessage"] = "کارشناس مورد نظر یافت نشد.";
+                    return RedirectToAction("Dashboard", "Customer");
+                }
+
+                var skills = await _skillAppService.GetSkillsByExpertIdAsync(expertId, cancellationToken);
+                ViewBag.ExpertSkills = skills;
+
+                return View(expertDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error in ViewProfile for ExpertId: {ExpertId}", expertId);
+                TempData["ErrorMessage"] = "خطا در بارگیری اطلاعات کارشناس.";
+                return RedirectToAction("Dashboard", "Customer");
+            }
+        }
+
+        public async Task<IActionResult> Reviews(CancellationToken cancellationToken)
+        {
+            var expertId = await GetExpertIdFromSession(cancellationToken);
+            if (!expertId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            try
+            {
+                var expertDto = await _expertAppService.GetByIdAsync(expertId.Value, cancellationToken);
+                if (expertDto == null)
+                {
+                    _logger.Warning("Expert not found for ExpertId: {ExpertId}", expertId.Value);
+                    TempData["ErrorMessage"] = "اطلاعات کارشناس یافت نشد.";
+                    return RedirectToAction("Dashboard");
+                }
+
+                var allReviews = await _reviewAppService.GetAllAsync(cancellationToken);
+                var expertReviews = allReviews.Where(r => r.ExpertId == expertId.Value && r.IsApproved).ToList();
+
+                var averageRating = expertReviews.Any() ? Math.Round(expertReviews.Average(r => r.Rating), 1) : 0;
+
+                ViewBag.Expert = expertDto;
+                ViewBag.Reviews = expertReviews;
+                ViewBag.AverageRating = averageRating;
+                ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+
+                _logger.Information("Reviews loaded successfully for ExpertId: {ExpertId}", expertId.Value);
+
+                return View(expertDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error loading reviews for ExpertId: {ExpertId}", expertId.Value);
+                TempData["ErrorMessage"] = "خطا در بارگذاری نظرات.";
+                return RedirectToAction("Dashboard");
             }
         }
 

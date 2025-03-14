@@ -90,8 +90,10 @@ namespace HomeService.Domain.Services.OrderServices
                     SubHomeServiceName = o.Request?.SubHomeService?.Name ?? "نامشخص",
                     FinalPrice = o.FinalPrice,
                     PaymentStatus = o.PaymentStatus,
+                    Status = o.Status,
                     IsActive = o.IsActive,
                     CreatedAt = o.CreatedAt,
+                    CompletionDate = o.CompletionDate,
                     OrderDate = o.CreatedAt
                 }).ToList();
 

@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.DTO.Categories;
 using App.Domain.Core.DTO.City;
 using App.Domain.Core.DTO.HomeServices;
+using App.Domain.Core.DTO.Orders;
 using App.Domain.Core.DTO.Proposals;
 using App.Domain.Core.DTO.Requests;
 using App.Domain.Core.DTO.Reviews;
@@ -11,6 +12,7 @@ using App.Domain.Core.Enums;
 using App.Domain.Core.Locations.Interfaces.IAppService;
 using App.Domain.Core.Services.Entities;
 using App.Domain.Core.Services.Interfaces.IAppService;
+using App.Domain.Core.Skills.Interfaces.IAppServices;
 using App.Domain.Core.Transactions.Interfaces.IAppService;
 using App.Domain.Core.Users.AppServices;
 using App.Domain.Core.Users.Interfaces.IAppService;
@@ -18,7 +20,9 @@ using App.Endpoints.MVC.Models;
 using HomeService.Domain.AppServices.CategoryAppServices;
 using HomeService.Domain.AppServices.HomeServiceAppServices;
 using HomeService.Domain.AppServices.ReviewAppServices;
+using HomeService.Domain.AppServices.SkillAppServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 
@@ -37,7 +41,9 @@ namespace App.Endpoints.MVC.Controllers
         private readonly IUserAppService _userAppService;
         private readonly IExpertAppService _expertAppService;
         private readonly IReviewAppService _reviewAppService;
+        private readonly ISkillAppService _skillAppService;
         private readonly ILocationAppService _locationAppService;
+        private readonly IMemoryCache _memoryCache;
         private readonly Serilog.ILogger _logger;
 
         public CustomerController(
@@ -52,7 +58,9 @@ namespace App.Endpoints.MVC.Controllers
             IUserAppService userAppService,
             IExpertAppService expertAppService,
             IReviewAppService reviewAppService,
+            ISkillAppService skillAppService,
             ILocationAppService locationAppService,
+            IMemoryCache memoryCache,
             Serilog.ILogger logger)
         {
             _customerAppService = customerAppService;
@@ -66,7 +74,9 @@ namespace App.Endpoints.MVC.Controllers
             _userAppService = userAppService;
             _expertAppService = expertAppService;
             _reviewAppService = reviewAppService;
+            _skillAppService = skillAppService;
             _locationAppService = locationAppService;
+            _memoryCache = memoryCache;
             _logger = logger;
         }
 
@@ -497,20 +507,20 @@ namespace App.Endpoints.MVC.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Orders(CancellationToken cancellationToken)
-        {
-            var customerId = await GetCustomerIdFromSession(cancellationToken);
-            if (!customerId.HasValue)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+        //[HttpGet]
+        //public async Task<IActionResult> Orders(CancellationToken cancellationToken)
+        //{
+        //    var customerId = await GetCustomerIdFromSession(cancellationToken);
+        //    if (!customerId.HasValue)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            var orders = await _customerAppService.GetOrdersByCustomerIdAsync(customerId.Value, cancellationToken);
-            _logger.Information("Orders loaded successfully for CustomerId: {CustomerId}, Count: {OrderCount}", customerId.Value, orders.Count);
-            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
-            return View(orders);
-        }
+        //    var orders = await _customerAppService.GetOrdersByCustomerIdAsync(customerId.Value, cancellationToken);
+        //    _logger.Information("Orders loaded successfully for CustomerId: {CustomerId}, Count: {OrderCount}", customerId.Value, orders.Count);
+        //    ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+        //    return View(orders);
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Requests(CancellationToken cancellationToken)
@@ -551,81 +561,6 @@ namespace App.Endpoints.MVC.Controllers
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             return View(proposals);
         }
-
-        //[HttpGet]
-        //public async Task<IActionResult> AcceptProposal(int id, CancellationToken cancellationToken)
-        //{
-        //    var customerId = await GetCustomerIdFromSession(cancellationToken);
-        //    if (!customerId.HasValue)
-        //    {
-        //        return RedirectToAction("Login", "Account");
-        //    }
-
-        //    try
-        //    {
-        //        var proposalDto = await _customerAppService.GetProposalByIdAsync(id, cancellationToken);
-        //        if (proposalDto == null)
-        //        {
-        //            _logger.Warning("Proposal not found for ProposalId: {ProposalId}", id);
-        //            TempData["ErrorMessage"] = "پیشنهاد یافت نشد.";
-        //            return RedirectToAction("Proposals");
-        //        }
-
-        //        var request = await _customerAppService.GetRequestByIdAsync(proposalDto.RequestId, cancellationToken);
-        //        if (request == null || request.CustomerId != customerId.Value)
-        //        {
-        //            _logger.Warning("Proposal {Id} does not belong to CustomerId: {CustomerId}", id, customerId.Value);
-        //            TempData["ErrorMessage"] = "شما دسترسی به این پیشنهاد ندارید.";
-        //            return RedirectToAction("Proposals");
-        //        }
-
-        //        if (proposalDto.Status == ProposalStatus.Pending)
-        //        {
-        //            var success = await _customerAppService.UpdateProposalStatusAsync(id, ProposalStatus.Accepted, cancellationToken);
-        //            if (!success)
-        //            {
-        //                _logger.Warning("Failed to accept proposal {Id} for CustomerId: {CustomerId}", id, customerId.Value);
-        //                TempData["ErrorMessage"] = "خطا در تأیید پیشنهاد.";
-        //                return RedirectToAction("Proposals");
-        //            }
-        //            _logger.Information("Proposal {Id} accepted successfully for CustomerId: {CustomerId}", id, customerId.Value);
-        //        }
-
-        //        var orderId = await _customerAppService.SelectProposalAndCreateOrderAsync(id, customerId.Value, cancellationToken);
-        //        _logger.Information("Order {OrderId} created successfully for ProposalId: {ProposalId}", orderId, id);
-        //        TempData["SuccessMessage"] = "پیشنهاد تأیید و سفارش با موفقیت ایجاد شد!";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Error(ex, "Failed to process AcceptProposal for ProposalId: {ProposalId}", id);
-        //        TempData["ErrorMessage"] = "خطایی در تأیید پیشنهاد یا ایجاد سفارش رخ داد.";
-        //    }
-
-        //    return RedirectToAction("Proposals");
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> RejectProposal(int id, CancellationToken cancellationToken)
-        //{
-        //    var customerId = await GetCustomerIdFromSession(cancellationToken);
-        //    if (!customerId.HasValue)
-        //    {
-        //        return RedirectToAction("Login", "Account");
-        //    }
-
-        //    var result = await _customerAppService.UpdateProposalStatusAsync(id, ProposalStatus.Rejected, cancellationToken);
-        //    if (result)
-        //    {
-        //        _logger.Information("Proposal {Id} rejected successfully for CustomerId: {CustomerId}", id, customerId.Value);
-        //        TempData["SuccessMessage"] = "پیشنهاد با موفقیت رد شد!";
-        //    }
-        //    else
-        //    {
-        //        _logger.Warning("Failed to reject proposal {Id} for CustomerId: {CustomerId}", id, customerId.Value);
-        //        TempData["ErrorMessage"] = "خطا در رد پیشنهاد.";
-        //    }
-        //    return RedirectToAction("Proposals");
-        //}
 
         [HttpPost]
         [Route("SelectProposal/{id}")]
@@ -721,14 +656,14 @@ namespace App.Endpoints.MVC.Controllers
             {
                 _logger.Warning("Order not found for OrderId: {OrderId}", orderId);
                 TempData["ErrorMessage"] = "سفارش یافت نشد.";
-                return RedirectToAction("Orders");
+                return RedirectToAction("MyOrders");
             }
 
             if (order.CustomerId != customerId.Value)
             {
                 _logger.Warning("Order {OrderId} does not belong to CustomerId: {CustomerId}", orderId, customerId.Value);
                 TempData["ErrorMessage"] = "شما دسترسی به این سفارش ندارید.";
-                return RedirectToAction("Orders");
+                return RedirectToAction("MyOrders");
             }
 
             _logger.Information("Order details loaded successfully for OrderId: {OrderId}, CustomerId: {CustomerId}", orderId, customerId.Value);
@@ -758,7 +693,7 @@ namespace App.Endpoints.MVC.Controllers
             if (customerUser == null)
             {
                 _logger.Warning("CustomerUser not found for AppUserId: {AppUserId}", appUserId.Value);
-                return RedirectToAction("Orders");
+                return RedirectToAction("MyOrders");
             }
 
             _logger.Information("Fetched CustomerUser: AppUserId: {Id}, Name: {Name}, Role: {Role}",
@@ -768,7 +703,7 @@ namespace App.Endpoints.MVC.Controllers
             if (order == null)
             {
                 _logger.Warning("Order {OrderId} not found", orderId);
-                return RedirectToAction("Orders");
+                return RedirectToAction("MyOrders");
             }
 
             _logger.Information("Order loaded: OrderId: {OrderId}, CustomerId: {CustomerId}, ExpertId: {ExpertId}", order.Id, order.CustomerId, order.ExpertId);
@@ -776,14 +711,14 @@ namespace App.Endpoints.MVC.Controllers
             if (order.CustomerId != customerId.Value)
             {
                 _logger.Warning("Order {OrderId} does not belong to CustomerId: {CustomerId}", orderId, customerId.Value);
-                return RedirectToAction("Orders");
+                return RedirectToAction("MyOrders");
             }
 
             var expert = await _expertAppService.GetExpertUserByExpertIdAsync(order.ExpertId, cancellationToken);
             if (expert == null)
             {
                 _logger.Warning("Expert user not found for ExpertId: {ExpertId}", order.ExpertId);
-                return RedirectToAction("Orders");
+                return RedirectToAction("MyOrders");
             }
 
             _logger.Information("Fetched Expert: ExpertId: {ExpertId}, Name: {Name}, Role: {Role}",
@@ -803,31 +738,67 @@ namespace App.Endpoints.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> ProcessPayment(int orderId, CancellationToken cancellationToken)
         {
-            _logger.Information("Starting ProcessPayment POST for OrderId: {OrderId}", orderId);
-
             var customerId = await GetCustomerIdFromSession(cancellationToken);
             if (!customerId.HasValue)
             {
-                _logger.Warning("No CustomerId in session for OrderId: {OrderId}", orderId);
                 TempData["ErrorMessage"] = "لطفاً دوباره وارد شوید.";
                 return RedirectToAction("Login", "Account");
             }
 
-            _logger.Information("Processing payment with CustomerId: {CustomerId} for OrderId: {OrderId}", customerId.Value, orderId);
-
-            var success = await _transactionAppService.ProcessPaymentAsync(orderId, customerId.Value, cancellationToken);
-            if (success)
+            try
             {
-                _logger.Information("Payment processed successfully for OrderId: {OrderId}", orderId);
-                TempData["SuccessMessage"] = "پرداخت با موفقیت انجام شد!";
-            }
-            else
-            {
-                _logger.Warning("Payment failed for OrderId: {OrderId}, CustomerId: {CustomerId}", orderId, customerId.Value);
-                TempData["ErrorMessage"] = "پرداخت با مشکل مواجه شد. لطفاً دوباره تلاش کنید.";
-            }
+                var success = await _transactionAppService.ProcessPaymentAsync(orderId, customerId.Value, cancellationToken);
+                if (success)
+                {
+                    await _orderAppService.UpdatePaymentStatusAsync(orderId, PaymentStatus.paid, cancellationToken);
 
-            return RedirectToAction("Orders");
+                    var order = await _orderAppService.GetAsync(orderId, cancellationToken);
+                    if (order != null)
+                    {
+                        var requestInfo = await _requestAppService.GetAsync(order.RequestId, cancellationToken);
+                        if (requestInfo != null)
+                        {
+                            var updateRequestDto = new UpdateRequestDto
+                            {
+                                Status = RequestStatus.Completed,
+                                ExecutionDate = requestInfo.ExecutionDate != DateTime.MinValue ? requestInfo.ExecutionDate : DateTime.Now,
+                                Deadline = requestInfo.Deadline != DateTime.MinValue ? requestInfo.Deadline : DateTime.Now,
+                                EnvironmentImagePath = requestInfo.EnvironmentImagePath
+                            };
+                            await _requestAppService.UpdateAsync(order.RequestId, updateRequestDto, cancellationToken);
+                        }
+
+                        var updateOrderDto = new UpdateOrderDto
+                        {
+                            Id = orderId,
+                            PaymentStatus = PaymentStatus.paid,
+                            Status = RequestStatus.Completed,
+                            IsActive = true,
+                            CompletionDate = DateTime.Now,
+                            CustomerName = order.CustomerName,
+                            ExpertName = order.ExpertName,
+                            RequestDescription = order.RequestDescription
+                        };
+                        await _orderAppService.UpdateAsync(orderId, updateOrderDto, cancellationToken);
+
+                        _memoryCache.Remove($"Orders_Customer_{customerId.Value}");
+                    }
+
+                    TempData["SuccessMessage"] = "پرداخت با موفقیت انجام شد!";
+                    return RedirectToAction("MyOrders");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "پرداخت با مشکل مواجه شد.";
+                    return RedirectToAction("Payment", new { orderId });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Exception during payment processing for OrderId: {OrderId}", orderId);
+                TempData["ErrorMessage"] = "خطا در پردازش پرداخت: " + ex.Message;
+                return RedirectToAction("Payment", new { orderId });
+            }
         }
 
         [HttpGet]
@@ -836,15 +807,19 @@ namespace App.Endpoints.MVC.Controllers
             var customerId = await GetCustomerIdFromSession(cancellationToken);
             if (!customerId.HasValue)
             {
+                _logger.Warning("No customer ID for CreateReview");
                 return RedirectToAction("Login", "Account");
             }
 
+            _logger.Information("Preparing review for OrderId: {OrderId}, CustomerId: {CustomerId}", orderId, customerId.Value);
             var model = await _reviewAppService.PrepareReviewAsync(orderId, customerId.Value, cancellationToken);
             if (model == null)
             {
-                return RedirectToAction("Orders");
+                _logger.Warning("Failed to prepare review model for OrderId: {OrderId}", orderId);
+                return RedirectToAction("MyOrders");
             }
 
+            _logger.Information("Review page loaded for OrderId: {OrderId}", orderId);
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             return View(model);
         }
@@ -860,7 +835,10 @@ namespace App.Endpoints.MVC.Controllers
 
             if (!ModelState.IsValid)
             {
+                _logger.Warning("ModelState invalid for CreateReview. Errors: {@Errors}",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+                ViewBag.ErrorMessage = "لطفاً همه فیلدها را درست پر کنید.";
                 return View(model);
             }
 
@@ -871,10 +849,11 @@ namespace App.Endpoints.MVC.Controllers
             }
             else
             {
-                TempData["ErrorMessage"] = "خطا در ثبت نظر.";
+                _logger.Warning("Failed to create review for OrderId: {OrderId}", model.OrderId);
+                TempData["ErrorMessage"] = "خطا در ثبت نظر. لطفاً دوباره تلاش کنید.";
             }
 
-            return RedirectToAction("Orders");
+            return RedirectToAction("MyOrders");
         }
 
         [HttpGet]
@@ -933,25 +912,26 @@ namespace App.Endpoints.MVC.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var model = new CustomerOrdersViewModel();
-
-            model.Requests = await _requestAppService.GetRequestsByCustomerIdAsync(customerId.Value, cancellationToken);
-
-            model.Proposals = await _customerAppService.GetProposalsByCustomerIdAsync(customerId.Value, cancellationToken);
+            var model = new CustomerOrdersViewModel
+            {
+                Requests = await _requestAppService.GetRequestsByCustomerIdAsync(customerId.Value, cancellationToken),
+                Proposals = await _customerAppService.GetProposalsByCustomerIdAsync(customerId.Value, cancellationToken),
+                Reviews = await _reviewAppService.GetByCustomerIdAsync(customerId.Value, cancellationToken)
+            };
 
             var orders = await _orderAppService.GetByCustomerIdAsync(customerId.Value, cancellationToken);
-
             if (orders != null && orders.Any())
             {
                 model.ActiveOrders = orders.Where(o => o.Status != RequestStatus.Completed && o.IsActive).ToList();
                 model.CompletedOrders = orders.Where(o => o.Status == RequestStatus.Completed && o.IsActive).ToList();
             }
+            else
+            {
+                model.ActiveOrders = new List<OrderDto>();
+                model.CompletedOrders = new List<OrderDto>();
+            }
 
-            model.Reviews = await _reviewAppService.GetByCustomerIdAsync(customerId.Value, cancellationToken);
-
-            _logger.Information("MyOrders loaded successfully for CustomerId: {CustomerId}. Requests: {RequestCount}, Proposals: {ProposalCount}, ActiveOrders: {ActiveOrderCount}, CompletedOrders: {CompletedOrderCount}",
-                customerId.Value, model.Requests.Count, model.Proposals.Count, model.ActiveOrders.Count, model.CompletedOrders.Count);
-
+            _logger.Information("Reviews loaded: {Count}", model.Reviews.Count); 
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             return View(model);
         }
@@ -1213,6 +1193,52 @@ namespace App.Endpoints.MVC.Controllers
 
             return RedirectToAction("Wallet");
         }
+
+        public async Task<IActionResult> ExpertProfile(int expertId, CancellationToken cancellationToken)
+        {
+            var customerId = await GetCustomerIdFromSession(cancellationToken);
+            if (!customerId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            try
+            {
+                var expertDto = await _expertAppService.GetEditExpertProfileAsync(expertId, cancellationToken);
+                if (expertDto == null)
+                {
+                    _logger.Warning("Expert not found for ExpertId: {ExpertId}", expertId);
+                    TempData["ErrorMessage"] = "پروفایل کارشناس یافت نشد.";
+                    return RedirectToAction("MyOrders");
+                }
+
+                var appUserDto = await _userAppService.GetByIdAsync(expertDto.AppUserId, cancellationToken);
+                ViewBag.Email = appUserDto?.Email;
+
+                var skills = await _skillAppService.GetSkillsByExpertIdAsync(expertId, cancellationToken);
+                ViewBag.Skills = skills ?? new List<App.Domain.Core.DTO.Skills.SkillDto>();
+
+                var allReviews = await _reviewAppService.GetAllAsync(cancellationToken);
+                var expertReviews = allReviews.Where(r => r.ExpertId == expertId && r.IsApproved).ToList();
+                ViewBag.Reviews = expertReviews;
+
+                ViewBag.AverageRating = expertReviews.Any() ? Math.Round(expertReviews.Average(r => r.Rating), 1) : 0;
+                ViewBag.ReviewsCount = expertReviews.Count;
+
+                _logger.Information("Expert profile loaded successfully for ExpertId: {ExpertId}, CustomerId: {CustomerId}",
+                    expertId, customerId.Value);
+
+                ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+                return View(expertDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error loading expert profile for ExpertId: {ExpertId}", expertId);
+                TempData["ErrorMessage"] = "خطا در بارگذاری پروفایل کارشناس.";
+                return RedirectToAction("MyOrders");
+            }
+        }
+
         [HttpPost]
         public IActionResult Logout()
         {
@@ -1221,5 +1247,5 @@ namespace App.Endpoints.MVC.Controllers
             return RedirectToAction("Index", "Home");
         }
     }
-}
 
+}
